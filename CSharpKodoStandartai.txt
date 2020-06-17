@@ -4,9 +4,9 @@
 
 Namespaces:  (ĮmonėsPavadinimas.ProduktoPavadinimas.Komponentas)
 	     (ĮmonėsPavadinimas.ProduktoPavadinimas.Modulis.Grupė)	
-             AkademijaIT.PRIS.WEB 
-             AkademijaIT.PRIS.Tests
-             AkademijaIT.PRIS. ...
+             PRIS.WEB 
+             PRIS.Tests
+             PRIS. ...
 
 PascalCasing use for: class, methods, types and constants;
 
