@@ -2,7 +2,8 @@
 
 ----------  C# kodo standartai ----------
 
-Namespaces:  (ĮmonėsPavadinimas.ProduktoPavadinimas.Ypatybė)
+Namespaces:  (ĮmonėsPavadinimas.ProduktoPavadinimas.Komponentas)
+	     (ĮmonėsPavadinimas.ProduktoPavadinimas.Modulis.Grupė)	
              AkademijaIT.PRIS.WEB 
              AkademijaIT.PRIS.Tests
              AkademijaIT.PRIS. ...
@@ -46,5 +47,27 @@ Delegates: (PascalCasing) Suffix all event handlers with Handler; suffix everyth
            public delegate void ImageChangedHandler();
            public delegate string StringMethodDelegate();
            
+Avoid using Abbreviations.Exceptions: Id, Xml, Ftp, Uri
+	    UserGroup usrGrp
+
+Don't use Underscores '_' in identifiers. 
+	    public string user_Name
+Exception: you can prefix private static variables with an underscore
+	    private DateTime _registrationDate
+
+Use type 'var' for local variable declarations
+	    var users = new Dictionary();
+Exception: primitive types (int, string, double, etc) use predefined names.				
+	    bool isCompleted;
+
+Enums: use singular names
+       public enum Course
+	{
+	     .Net programuotojai
+	}
+
+     : don't use suffix 'enum' with Enum names
+       public enum CourseEnum
+
 ----------  C# kodo standartai ----------
 ----------------  Pabaiga ----------------
