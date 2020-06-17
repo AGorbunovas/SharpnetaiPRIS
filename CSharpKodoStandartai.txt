@@ -4,9 +4,9 @@
 
 Namespaces:  (ĮmonėsPavadinimas.ProduktoPavadinimas.Komponentas)
 	     (ĮmonėsPavadinimas.ProduktoPavadinimas.Modulis.Grupė)	
-             AkademijaIT.PRIS.WEB 
-             AkademijaIT.PRIS.Tests
-             AkademijaIT.PRIS. ...
+             PRIS.WEB 
+             PRIS.Tests
+             PRIS. ...
 
 PascalCasing use for: class, methods, types and constants;
 
@@ -31,10 +31,7 @@ Methods with return values: (PascalCasing,  The name should reflect the return v
          
 Variables: (camelCase)
            string password
-           int score
-           
-Private member variables: (camelCase use 'm_' prefix)
-                          private string m_fileName
+           int score           
                           
 Interfaces: (PascalCasing) use 'I' prefix
             ICourse
