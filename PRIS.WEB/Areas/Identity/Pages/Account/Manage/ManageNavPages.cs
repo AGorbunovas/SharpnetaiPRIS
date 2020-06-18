@@ -22,7 +22,7 @@ namespace PRIS.WEB.Areas.Identity.Pages.Account.Manage
 
         public static string PersonalData => "PersonalData";
 
-        public static string TwoFactorAuthentication => "TwoFactorAuthentication";
+        //public static string TwoFactorAuthentication => "TwoFactorAuthentication";
 
         public static string IndexNavClass(ViewContext viewContext) => PageNavClass(viewContext, Index);
 
@@ -34,7 +34,7 @@ namespace PRIS.WEB.Areas.Identity.Pages.Account.Manage
 
         public static string DeletePersonalDataNavClass(ViewContext viewContext) => PageNavClass(viewContext, DeletePersonalData);
 
-        public static string ExternalLoginsNavClass(ViewContext viewContext) => PageNavClass(viewContext, ExternalLogins);
+       //public static string ExternalLoginsNavClass(ViewContext viewContext) => PageNavClass(viewContext, ExternalLogins);
 
         public static string PersonalDataNavClass(ViewContext viewContext) => PageNavClass(viewContext, PersonalData);
 
