@@ -45,7 +45,7 @@ namespace PRIS.WEB.Areas.Identity.Pages.Account.Manage
         {
             [Required]
             [EmailAddress]
-            [Display(Name = "New email")]
+            [Display(Name = "Naujas elektroninis paštas")]
             public string NewEmail { get; set; }
         }
 
@@ -67,7 +67,7 @@ namespace PRIS.WEB.Areas.Identity.Pages.Account.Manage
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
-                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                return NotFound($"Nepavyksta įkelti vartotojo, kurio ID '{_userManager.GetUserId(User)}'.");
             }
 
             await LoadAsync(user);
@@ -79,7 +79,7 @@ namespace PRIS.WEB.Areas.Identity.Pages.Account.Manage
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
-                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                return NotFound($"Nepavyksta įkelti vartotojo, kurio ID '{_userManager.GetUserId(User)}'.");
             }
 
             if (!ModelState.IsValid)
@@ -100,14 +100,14 @@ namespace PRIS.WEB.Areas.Identity.Pages.Account.Manage
                     protocol: Request.Scheme);
                 await _emailSender.SendEmailAsync(
                     Input.NewEmail,
-                    "Confirm your email",
-                    $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                    "Patvirtinti elektroninį paštą",
+                    $"Norėdami patvirtinti savo paskyrą <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>spauskite čia</a>.");
 
-                StatusMessage = "Confirmation link to change email sent. Please check your email.";
+                StatusMessage = "Pakeista sėkmingai. Į elektroninį paštą jums išsiųstas elektroninio pašto keitimo patvirtinimas.";
                 return RedirectToPage();
             }
 
-            StatusMessage = "Your email is unchanged.";
+            StatusMessage = "Jūsų elektroninis paštas nepakeistas.";
             return RedirectToPage();
         }
 
@@ -116,7 +116,7 @@ namespace PRIS.WEB.Areas.Identity.Pages.Account.Manage
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
-                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                return NotFound($"Nepavyksta įkelti vartotojo, kurio ID '{_userManager.GetUserId(User)}'.");
             }
 
             if (!ModelState.IsValid)
@@ -136,10 +136,10 @@ namespace PRIS.WEB.Areas.Identity.Pages.Account.Manage
                 protocol: Request.Scheme);
             await _emailSender.SendEmailAsync(
                 email,
-                "Confirm your email",
-                $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                "Patvirtinkite elektroninį paštą",
+                $"Norėdami patvirtinti savo elektroninį paštą <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>spauskite čia</a>.");
 
-            StatusMessage = "Verification email sent. Please check your email.";
+            StatusMessage = "Patikrinkite savo paštą. Išsiųstas laišas su patvirtinimu.";
             return RedirectToPage();
         }
     }

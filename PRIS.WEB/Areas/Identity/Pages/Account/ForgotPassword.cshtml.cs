@@ -58,7 +58,7 @@ namespace PRIS.WEB.Areas.Identity.Pages.Account
 
                 await _emailSender.SendEmailAsync(
                     Input.Email,
-                    "Reset Password",
+                    "Atnaujinti slaptažodį",
                     $"Norėdami atnaujinti savo slaptažodį <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>spauskite čia</a>.");
 
                 return RedirectToPage("./ForgotPasswordConfirmation");
