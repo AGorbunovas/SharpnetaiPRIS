@@ -20,11 +20,11 @@
                     <a class="nav-link  text-light float-right" asp-area="Identity" asp-page="/Account/Register">REGISTRUOTI VARTOTOJĄ</a>
                 </li>
                 <li class="nav-item float-left">
-                    <a class="nav-link text-light" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Sveiki, @User.Identity.Name!</a>
+                    <a class="nav-link text-light" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage"><strong>Sveiki, @User.Identity.Name!</strong></a>
                 </li>
                 <li class="nav-item float-left">
                     <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-                        <button type="submit" class="nav-link btn btn-link" style="color: mediumpurple">ATSIJUNGTI</button>
+                        <button type="submit" class="nav-link btn btn-link" style="color: #d4858d"> <strong>ATSIJUNGTI</strong></button>
                     </form>
                 </li>
             </ul>
