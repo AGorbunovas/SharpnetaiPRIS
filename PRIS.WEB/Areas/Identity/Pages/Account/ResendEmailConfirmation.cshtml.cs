@@ -49,7 +49,8 @@ namespace PRIS.WEB.Areas.Identity.Pages.Account
             var user = await _userManager.FindByEmailAsync(Input.Email);
             if (user == null)
             {
-                ModelState.AddModelError(string.Empty, "Verification email sent. Please check your email.");
+                ModelState.AddModelError(string.Empty, "Jums išsiųstas paskyros patvirtinimas į elektroninį paštą.");
+                //ModelState.AddModelError(string.Empty, "Verification email sent. Please check your email.");
                 return Page();
             }
 
@@ -63,10 +64,10 @@ namespace PRIS.WEB.Areas.Identity.Pages.Account
                 protocol: Request.Scheme);
             await _emailSender.SendEmailAsync(
                 Input.Email,
-                "Confirm your email",
-                $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                "Patvirtinkite savo elektroninį paštą",
+                $"Norėdami patvirtinti savo paskyrą <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>spauskite čia</a>.");
 
-            ModelState.AddModelError(string.Empty, "Verification email sent. Please check your email.");
+            ModelState.AddModelError(string.Empty, "Jums išsiųstas paskyros patvirtinimas į elektroninį paštą.");
             return Page();
         }
     }

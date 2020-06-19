@@ -31,14 +31,14 @@ namespace PRIS.WEB.Areas.Identity.Pages.Account.Manage
         public class InputModel
         {
             [Required]
-            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+            [StringLength(100, ErrorMessage = "{0} turi būti ne trumpesnis nei {2} simboliai ir ne ilgesnis nei {1} simbolių.", MinimumLength = 6)]
             [DataType(DataType.Password)]
-            [Display(Name = "New password")]
+            [Display(Name = "Naujas slaptažodis")]
             public string NewPassword { get; set; }
 
             [DataType(DataType.Password)]
-            [Display(Name = "Confirm new password")]
-            [Compare("NewPassword", ErrorMessage = "The new password and confirmation password do not match.")]
+            [Display(Name = "Patvirtinti naują slaptažodį")]
+            [Compare("NewPassword", ErrorMessage = "Slaptažodžiai nesutampa.")]
             public string ConfirmPassword { get; set; }
         }
 
@@ -47,7 +47,7 @@ namespace PRIS.WEB.Areas.Identity.Pages.Account.Manage
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
-                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                return NotFound($"Nepavyksta įkelti vartotojo su ID '{_userManager.GetUserId(User)}'.");
             }
 
             var hasPassword = await _userManager.HasPasswordAsync(user);
@@ -70,7 +70,7 @@ namespace PRIS.WEB.Areas.Identity.Pages.Account.Manage
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
-                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                return NotFound($"Nepavyksta įkelti vartotojo su ID '{_userManager.GetUserId(User)}'.");
             }
 
             var addPasswordResult = await _userManager.AddPasswordAsync(user, Input.NewPassword);
@@ -84,7 +84,7 @@ namespace PRIS.WEB.Areas.Identity.Pages.Account.Manage
             }
 
             await _signInManager.RefreshSignInAsync(user);
-            StatusMessage = "Your password has been set.";
+            StatusMessage = "Jūsų slaptažodis išsaugotas sėkmingai.";
 
             return RedirectToPage();
         }

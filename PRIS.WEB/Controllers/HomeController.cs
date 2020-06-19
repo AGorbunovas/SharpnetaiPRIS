@@ -30,6 +30,16 @@ namespace PRIS.WEB.Controllers
             return View();
         }
 
+        public IActionResult Kursai()
+        {
+            return View();
+        }
+
+        public IActionResult Kandidatai() 
+        {
+            return View();
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
