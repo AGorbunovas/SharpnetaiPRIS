@@ -10,7 +10,7 @@ using PRIS.WEB.Models;
 
 namespace PRIS.WEB.Controllers
 {
-    //[Authorize]
+    [Authorize]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
