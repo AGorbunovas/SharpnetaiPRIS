@@ -39,7 +39,7 @@ namespace PRIS.WEB.Areas.Identity.Pages.Account.Manage
             public string OldPassword { get; set; }
 
             [Required]
-            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+            [StringLength(100, ErrorMessage = "{0} turi būti ne trumpesnis nei {2} simboliai ir ne ilgesnis nei {1} simbolių.", MinimumLength = 6)]
             [DataType(DataType.Password)]
             [Display(Name = "Naujas slaptažodis")]
             public string NewPassword { get; set; }

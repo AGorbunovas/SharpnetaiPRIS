@@ -45,12 +45,12 @@ namespace PRIS.WEB.Areas.Identity.Pages.Account
 
         public class InputModel
         {
-            [Required]
-            [EmailAddress]
+            [Required(ErrorMessage = "Įveskite elektroninį paštą")]
+            [EmailAddress(ErrorMessage = "Įveskite teisingą elektroninį paštą")]
             [Display(Name = "Elektroninis paštas")]
             public string Email { get; set; }
 
-            [Required]
+            [Required(ErrorMessage = "Įveskite slaptažodį")]
             [StringLength(100, ErrorMessage = "{0} turi būti bent {2} simbolių ir ne ilgesnis nei {1} simbolių.", MinimumLength = 6)]
             [DataType(DataType.Password)]
             [Display(Name = "Slaptažodis")]
@@ -78,7 +78,7 @@ namespace PRIS.WEB.Areas.Identity.Pages.Account
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
-                    _logger.LogInformation("Vartotojas sukūrė naują paskyrą su slaptažodžiu.");
+                    _logger.LogInformation("User created a new account with password.");
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
@@ -88,12 +88,12 @@ namespace PRIS.WEB.Areas.Identity.Pages.Account
                         values: new { area = "Identity", userId = user.Id, code = code, returnUrl = returnUrl },
                         protocol: Request.Scheme);
 
-                    await _emailSender.SendEmailAsync(Input.Email, "Patvirtinti elektroninį paštą",
-                        $"Norėdami patvirtinti paskyros sukūrimą, <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>spauskite čia</a>.");
+                    await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
+                        $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {
-                        return RedirectToPage("Paskyros patvirtinimas", new { email = Input.Email, returnUrl = returnUrl });
+                        return RedirectToPage("RegisterConfirmation", new { email = Input.Email, returnUrl = returnUrl });
                     }
                     else
                     {

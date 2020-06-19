@@ -6,36 +6,34 @@
         @if (SignInManager.IsSignedIn(User))
         {
 
-            <ul class="navbar-nav row">
+            <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Index">PRADŽIA</a>
+                    <a class="nav-link text-light float-right" asp-area="" asp-controller="Home" asp-action="Index">PRADŽIA</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Kursai">KURSAI</a>
+                    <a class="nav-link text-light float-right" asp-area="" asp-controller="Home" asp-action="Kursai">KURSAI</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Kandidatai">KANDIDATAI</a>
+                    <a class="nav-link text-light float-right" asp-area="" asp-controller="Home" asp-action="Kandidatai">KANDIDATAI</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link  text-light" asp-area="Identity" asp-page="/Account/Register">REGISTRUOTI VARTOTOJĄ</a>
+                    <a class="nav-link  text-light float-right" asp-area="Identity" asp-page="/Account/Register">REGISTRUOTI VARTOTOJĄ</a>
                 </li>
-            </ul>
-            <ul class="navbar-nav row">
-                <li class="nav-item">
-                    <a class="nav-link text-light" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage"><br>Sveiki, @User.Identity.Name!</a>
+                <li class="nav-item float-left">
+                    <a class="nav-link text-light" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Sveiki, @User.Identity.Name!</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item float-left">
                     <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-                        <button type="submit" class="nav-link btn btn-link" style="color: mediumpurple"><br>ATSIJUNGTI</button>
+                        <button type="submit" class="nav-link btn btn-link" style="color: mediumpurple">ATSIJUNGTI</button>
                     </form>
                 </li>
             </ul>
         }
         else
         {
-            @*<li class="nav-item">
+            <li class="nav-item">
                 <a class="nav-link  text-light" asp-area="Identity" asp-page="/Account/Register">REGISTRUOTI VARTOTOJĄ</a>
-            </li>*@
+            </li>
             @*<li class="nav-item">
                 <a class="nav-link text-light" asp-area="Identity" asp-page="/Account/Login">PRISIJUNGTI</a>
             </li>*@

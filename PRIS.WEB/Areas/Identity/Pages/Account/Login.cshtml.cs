@@ -42,11 +42,11 @@ namespace PRIS.WEB.Areas.Identity.Pages.Account
 
         public class InputModel
         {
-            [Required]
-            [EmailAddress]
+            [Required(ErrorMessage = "Įveskite elektroninį paštą.")]
+            [EmailAddress(ErrorMessage ="Netinkamas elektroninio pašto formatas.")]
             public string Email { get; set; }
 
-            [Required]
+            [Required(ErrorMessage = "Įveskite saptažodį.")]
             [DataType(DataType.Password)]
             public string Password { get; set; }
 
