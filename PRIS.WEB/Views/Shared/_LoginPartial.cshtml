@@ -2,40 +2,43 @@
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
 
-    <div class="navbar-nav">
-        @if (SignInManager.IsSignedIn(User))
-        {
+<div class="navbar-nav">
+    @if (SignInManager.IsSignedIn(User))
+    {
 
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link text-light float-right" asp-area="" asp-controller="Home" asp-action="Index">PRADŽIA</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-light float-right" asp-area="" asp-controller="Home" asp-action="Kursai">KURSAI</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-light float-right" asp-area="" asp-controller="Home" asp-action="Kandidatai">KANDIDATAI</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link  text-light float-right" asp-area="Identity" asp-page="/Account/Register">REGISTRUOTI VARTOTOJĄ</a>
-                </li>
-                <li class="nav-item float-left">
-                    <a class="nav-link text-light" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage"><strong>Sveiki, @User.Identity.Name!</strong></a>
-                </li>
-                <li class="nav-item float-left">
-                    <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-                        <button type="submit" class="nav-link btn btn-link" style="color: #d4858d"> <strong>ATSIJUNGTI</strong></button>
-                    </form>
-                </li>
-            </ul>
-        }
-        else
-        {
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link text-light float-right" asp-area="" asp-controller="Home" asp-action="Index">PRADŽIA</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-light float-right" asp-area="" asp-controller="Home" asp-action="Kursai">KURSAI</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-light float-right" asp-area="" asp-controller="Home" asp-action="Kandidatai">KANDIDATAI</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link  text-light float-right" asp-area="Identity" asp-page="/Account/Register">REGISTRUOTI VARTOTOJĄ</a>
+            </li>
+            <li class="nav-item float-left">
+                <a class="nav-link text-light" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage"><strong>Sveiki, @User.Identity.Name!</strong></a>
+            </li>
+            <li class="nav-item float-left">
+                <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                    <button type="submit" class="nav-link btn btn-link" style="color: #d4858d"> <strong>ATSIJUNGTI</strong></button>
+                </form>
+            </li>
+        </ul>
+    }
+    else
+    {
+        <ul class="navbar-nav">
             <li class="nav-item">
                 <a class="nav-link  text-light" asp-area="Identity" asp-page="/Account/Register">REGISTRUOTI VARTOTOJĄ</a>
             </li>
             @*<li class="nav-item">
-                <a class="nav-link text-light" asp-area="Identity" asp-page="/Account/Login">PRISIJUNGTI</a>
-            </li>*@
-        }
-    </div>
+                    <a class="nav-link text-light" asp-area="Identity" asp-page="/Account/Login">PRISIJUNGTI</a>
+                </li>*@
+        </ul>
+
+    }
+</div>
