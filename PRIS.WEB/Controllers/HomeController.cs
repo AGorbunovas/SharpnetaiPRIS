@@ -25,12 +25,12 @@ namespace PRIS.WEB.Controllers
             return View();
         }
 
-        public IActionResult Privacy()
+        public IActionResult Kursai()
         {
             return View();
         }
 
-        public IActionResult Kursai()
+        public IActionResult Test()
         {
             return View();
         }
