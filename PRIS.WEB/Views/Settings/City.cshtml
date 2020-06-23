@@ -1,33 +1,39 @@
-﻿@model PRIS.WEB.Models.City
+﻿@model PRIS.WEB.Models.City;
 
 @{
     ViewData["Title"] = "City";
+    Layout = "~/Views/Shared/_LayoutNavSectionForSettings.cshtml";
 }
 
-<div class="row justify-content-center">
-    <div class="col-md-4">
+
+
+<div class="row justify-content-left">
+    <div class="col-md-6">
         <h5>Miestai, kuriuose vykdomos Akademija.IT mokymo programos</h5>
         <section>
-            <form id="" method="">
+            <form asp-controller="Settings" asp-action="Add" method="post">
                 <div class="form-group">
-                    <label for="name">Naujas miestas</label>
-                    <input for="name" class="form-control" />
+                    <label asp-for="CityName">Naujas miestas</label>
+                    <input asp-for="CityName" class="form-control" />
+                    <span asp-validation-for="CityName"></span>
                 </div>
 
                 <div class="form-group">
-                    <button type="submit" class="btn btn-outline-dark">Pridėti</button>
+                    <button type="submit" class="btn btn-outline-dark" value="Add city">Pridėti</button>
                 </div>
 
                 <table class="table">
                     <tr>
                         <th scope="col">Pažymėti</th>
-                        <th>Miestas</th>
+                        <th scope="col">Miestas</th>
                     </tr>
                     <tr>
-                        <td scope="col"><input type="checkbox" name="name" value="" /></td>
+                       
+                        <td scope="col"><input type="checkbox" name="CityId" value="" /></td>
+                        <td scope="col" for="CityName"></td>
                     </tr>
                 </table>
-                <button type="submit" class="btn btn-outline-dark">Trinti pažymėtus</button>
+                <button type="submit" class="btn btn-outline-dark" value="Delete city">Trinti pažymėtus</button>
             </form>
         </section>
     </div>

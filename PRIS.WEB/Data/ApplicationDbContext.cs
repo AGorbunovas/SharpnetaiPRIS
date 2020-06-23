@@ -17,6 +17,8 @@ namespace PRIS.WEB.Data
             : base(options)
         {
         }
+
+        public DbSet<PRIS.WEB.Models.City> City { get; set; }
         
     }
 }

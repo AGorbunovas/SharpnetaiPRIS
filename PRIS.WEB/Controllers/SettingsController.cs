@@ -8,6 +8,12 @@ namespace PRIS.WEB.Controllers
 {
     public class SettingsController : Controller
     {
+
+        public IActionResult Settings() 
+        {
+            return View();
+        }
+        
         public IActionResult City()
         {
             return View();
@@ -18,7 +24,7 @@ namespace PRIS.WEB.Controllers
             return View();
         }
         
-        public IActionResult TestResultSetting()
+        public IActionResult TestResultSettings() 
         {
             return View();
         }

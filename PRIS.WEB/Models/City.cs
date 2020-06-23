@@ -14,10 +14,5 @@ namespace PRIS.WEB.Models
         {
 
         }
-
-        public void Add()
-        {
-
-        }
     }
 }
