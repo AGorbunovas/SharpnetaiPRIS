@@ -14,5 +14,6 @@ namespace PRIS.WEB.Models
         public DateTime DateOfTest { get; set; }
         [Required]
         public String City { get; set; }
+        public int TestId { get; set; }
     }
 }
