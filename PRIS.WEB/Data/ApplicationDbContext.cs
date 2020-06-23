@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using PRIS.WEB.Models;
 
@@ -18,7 +15,7 @@ namespace PRIS.WEB.Data
         {
         }
 
-        public DbSet<PRIS.WEB.Models.City> City { get; set; }
-        
+        public DbSet<City> City { get; set; }
+
     }
 }

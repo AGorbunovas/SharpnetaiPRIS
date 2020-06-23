@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using PRIS.WEB.Data;
 using PRIS.WEB.Models;
+using System.Threading.Tasks;
 
 namespace PRIS.WEB.Controllers
 {
@@ -23,11 +20,11 @@ namespace PRIS.WEB.Controllers
             _context = context;
         }
 
-        public IActionResult Settings() 
+        public IActionResult Settings()
         {
             return View();
         }
-        
+
         public IActionResult City()
         {
             return View();
@@ -53,7 +50,7 @@ namespace PRIS.WEB.Controllers
         }
         #endregion
 
-        public IActionResult TestResultSettings() 
+        public IActionResult TestResultSettings()
         {
             return View();
         }
