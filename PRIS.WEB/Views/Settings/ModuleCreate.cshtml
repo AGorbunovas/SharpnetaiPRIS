@@ -1,0 +1,29 @@
+﻿@model PRIS.WEB.Models.Module
+
+@{
+    ViewData["Title"] = "Test";
+    Layout = "~/Views/Shared/_LayoutNavSectionForSettings.cshtml";
+}
+
+<h4>Mokymo programos sukūrimas</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="ModuleCreate">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="ModuleName" class="control-label">Mokymo programa</label>
+                    <input type="text" asp-for="ModuleName" class="form-control" />
+                    <span asp-validation-for="ModuleName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Sukurti" class="btn btn-primary" />
+                </div>
+            </form>
+</div>
+</div>
+
+<div>
+    <a asp-action="Module">Grįžti į sąrašą</a>
+</div>
+
