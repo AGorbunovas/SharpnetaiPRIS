@@ -1,6 +1,43 @@
-﻿@model PRIS.WEB.Models.City;
+﻿@model IEnumerable<PRIS.WEB.Models.City>
 
 @{
+    ViewData["Title"] = "City";
+    Layout = "~/Views/Shared/_LayoutNavSectionForSettings.cshtml";
+}
+
+<h1>City</h1>
+
+<button type="submit" class="btn btn-outline-dark" data-toggle="ajax-modal" data-target="#addEmployee" data-url="@Url.Action("Create")">Pridėti</button>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.CityName)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model) 
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CityName)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+
+
+@*@{
     ViewData["Title"] = "City";
     Layout = "~/Views/Shared/_LayoutNavSectionForSettings.cshtml";
 }
@@ -28,7 +65,7 @@
                         <th scope="col">Miestas</th>
                     </tr>
                     <tr>
-                       
+
                         <td scope="col"><input type="checkbox" name="CityId" value="" /></td>
                         <td scope="col" for="CityName"></td>
                     </tr>
@@ -37,4 +74,4 @@
             </form>
         </section>
     </div>
-</div>
+</div>*@
