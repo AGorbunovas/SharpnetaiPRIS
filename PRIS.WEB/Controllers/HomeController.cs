@@ -35,6 +35,12 @@ namespace PRIS.WEB.Controllers
             return View();
         }
 
+        [HttpPost]
+        public IActionResult Test(Test test)
+        {
+            return View();
+        }
+
         public IActionResult Kandidatai() 
         {
             return View();

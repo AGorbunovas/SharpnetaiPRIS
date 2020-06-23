@@ -2,7 +2,7 @@
 
 @{
     ViewData["Title"] = "Test";
-    Layout = "~/Views/Shared/_LayoutWithNavSection.cshtml";
+    Layout = "~/Views/Shared/_LayoutWithNavSectionForTestView.cshtml";
 }
 
 
@@ -12,6 +12,12 @@
             <label asp-for="DateOfTest"></label>
             <input asp-for="DateOfTest" class="form-control" />
             <span asp-validation-for="DateOfTest" class="text-danger"></span>
+        </fieldset>
+
+        <fieldset class="form-group">
+            <label asp-for="City"></label>
+            <input asp-for="City" class="form-control" />
+            <span asp-validation-for="City" class="text-danger"></span>
         </fieldset>
 
         <input id="submitApplication" type="submit" value="Sukurti nauja testą" class="btn btn-primary" />
