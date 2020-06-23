@@ -30,7 +30,7 @@ namespace PRIS.WEB.Controllers
             return View();
         }
 
-        public IActionResult Kursai()
+        public IActionResult City()  
         {
             return View();
         }
