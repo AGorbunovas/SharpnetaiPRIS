@@ -10,7 +10,7 @@ namespace PRIS.WEB.Data
     public class ApplicationDbContext : IdentityDbContext
     {
 
-        DbSet<Test> Test;
+        public DbSet<Test> Test { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
