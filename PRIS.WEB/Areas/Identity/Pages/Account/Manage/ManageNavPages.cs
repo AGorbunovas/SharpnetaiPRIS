@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
 
 namespace PRIS.WEB.Areas.Identity.Pages.Account.Manage
 {
@@ -34,7 +31,7 @@ namespace PRIS.WEB.Areas.Identity.Pages.Account.Manage
 
         public static string DeletePersonalDataNavClass(ViewContext viewContext) => PageNavClass(viewContext, DeletePersonalData);
 
-       //public static string ExternalLoginsNavClass(ViewContext viewContext) => PageNavClass(viewContext, ExternalLogins);
+        //public static string ExternalLoginsNavClass(ViewContext viewContext) => PageNavClass(viewContext, ExternalLogins);
 
         public static string PersonalDataNavClass(ViewContext viewContext) => PageNavClass(viewContext, PersonalData);
 

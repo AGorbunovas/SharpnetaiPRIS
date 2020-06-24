@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using PRIS.WEB.Models;
+using System.Diagnostics;
 
 namespace PRIS.WEB.Controllers
 {
@@ -36,12 +32,12 @@ namespace PRIS.WEB.Controllers
             return View();
         }
 
-        public IActionResult Kandidatai() 
+        public IActionResult Kandidatai()
         {
             return View();
         }
-        
-        public IActionResult Settings()     
+
+        public IActionResult Settings()
         {
             return View();
         }
