@@ -57,5 +57,15 @@ namespace PRIS.WEB.Controllers
 
             return View(data);
         }
+
+        public IActionResult Delete(int id)
+        {
+            var data = _context.Test.Where(x => x.TestId == id).SingleOrDefault();
+            _context.Remove(data);
+            _context.SaveChanges();
+
+            return RedirectToAction("List");
+        }
+
     }
 }
