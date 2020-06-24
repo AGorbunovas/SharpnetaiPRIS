@@ -31,9 +31,9 @@ namespace PRIS.WEB.Controllers
         }
 
         [HttpPost]
-        public IActionResult Test(AddTestViewModel viewModel)
+        public IActionResult Test(AddTestViewModel model)
         {
-            var check = _context.Test.Any(x => x.City == viewModel.City && x.DateOfTest == viewModel.DateOfTest);
+            var check = _context.Test.Any(x => x.City == model.City && x.DateOfTest == model.DateOfTest);
 
             if(check)
             {
@@ -42,7 +42,7 @@ namespace PRIS.WEB.Controllers
 
             if (ModelState.IsValid)
             {
-                var newRecord = new Test() { City = viewModel.City, DateOfTest = viewModel.DateOfTest };
+                var newRecord = new Test() { City = model.City, DateOfTest = model.DateOfTest };
                 _context.Test.Add(newRecord);
                 _context.SaveChanges();
 
