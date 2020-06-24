@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using PRIS.WEB.Data;
 using PRIS.WEB.Models;
 using System.Linq;
@@ -30,6 +31,14 @@ namespace PRIS.WEB.Controllers
         [HttpPost]
         public IActionResult Test(Test test)
         {
+            var check = _context.Test.Any(x => x.City == test.City && x.DateOfTest == test.DateOfTest);
+
+            if(check)
+            {
+                ModelState.AddModelError(string.Empty, "Toks testas jau yra sukurtas");
+                var test1 = ModelState.IsValid;
+            }
+
             if (ModelState.IsValid)
             {
                 _context.Test.Add(test);
@@ -38,7 +47,15 @@ namespace PRIS.WEB.Controllers
                 return RedirectToAction("List");
             }
 
-            return View();
+            var data = _context.City.Select(x => new SelectListItem()
+            {
+                Value = x.CityName,
+                Text = x.CityName
+            }).ToList();
+
+            var model = new Test() { Cities = data };
+
+            return View(model);
         }
 
         public IActionResult List()
