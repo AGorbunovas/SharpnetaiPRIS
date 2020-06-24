@@ -10,21 +10,23 @@ namespace PRIS.WEB.Controllers
     public class TestController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private Test model;
 
         public TestController(ApplicationDbContext context)
         {
             _context = context;
-        }
-
-        public IActionResult Test()
-        {
+            //To do
             var data = _context.City.Select(x => new SelectListItem()
             {
                 Value = x.CityName,
                 Text = x.CityName
             }).ToList();
 
-            var model = new Test() { Cities = data };
+            model = new Test() { Cities = data };
+        }
+
+        public IActionResult Test()
+        {
             return View(model);
         }
 
@@ -36,7 +38,6 @@ namespace PRIS.WEB.Controllers
             if(check)
             {
                 ModelState.AddModelError(string.Empty, "Toks testas jau yra sukurtas");
-                var test1 = ModelState.IsValid;
             }
 
             if (ModelState.IsValid)
@@ -46,14 +47,6 @@ namespace PRIS.WEB.Controllers
 
                 return RedirectToAction("List");
             }
-
-            var data = _context.City.Select(x => new SelectListItem()
-            {
-                Value = x.CityName,
-                Text = x.CityName
-            }).ToList();
-
-            var model = new Test() { Cities = data };
 
             return View(model);
         }
