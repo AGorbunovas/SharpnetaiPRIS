@@ -35,14 +35,13 @@ namespace PRIS.WEB.Controllers
         }
 
         [HttpGet]
-        public IActionResult CityCreate() 
+        public IActionResult CityModalPartial()  
         {
-            //City city = new City();
-            return PartialView("CityModalPartial");
+            return View();
         }
 
         [HttpPost]
-        public IActionResult CityCreate(City city)
+        public IActionResult CityModalPartial(City city) 
         {
             _context.Cities.Add(city);
             _context.SaveChanges();

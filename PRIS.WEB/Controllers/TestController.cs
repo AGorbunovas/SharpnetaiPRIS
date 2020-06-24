@@ -16,7 +16,7 @@ namespace PRIS.WEB.Controllers
         {
             _context = context;
             //To do
-            var data = _context.City.Select(x => new SelectListItem()
+            var data = _context.Cities.Select(x => new SelectListItem()
             {
                 Value = x.CityName,
                 Text = x.CityName

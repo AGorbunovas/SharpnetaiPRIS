@@ -1,10 +1,28 @@
-﻿@model PRIS.WEB.Models.City
+﻿@model PRIS.WEB.Models.City;
 
 @{
-    ViewData["Title"] = "City";
+    ViewData["Title"] = "CityModalPartial";
+    Layout = "~/Views/Shared/_LayoutWithNavSectionForTestView.cshtml";
 }
 
-<div class="modal fade" id="addCity">
+
+    <form asp-controller="Settings" asp-action="CityModalPartial" method="post">
+        <div class="form-group">
+            <label asp-for="CityName">Naujas miestas</label>
+            <input asp-for="CityName" class="form-control" />
+            <span asp-validation-for="CityName"></span>
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-outline-dark" value="Prideti nauja miesta">Pridėti</button>
+        </div>
+    </form>
+
+
+
+
+
+@* Pop-up langas duomenu ivedimui. Naudojimui atkomentuoti ir JS failiuka. *@
+@*<div class="modal fade" id="addCity">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -23,10 +41,10 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Uždaryti</button>
-                <button type="submit" class="btn btn-outline-dark" data-save="modal" >Saugoti</button>
+                <button type="submit" class="btn btn-outline-dark" data-save="modal" value="Prideti nauja miesta">Saugoti</button>
             </div>
         </div>
 
     </div>
 
-</div>
+</div>*@

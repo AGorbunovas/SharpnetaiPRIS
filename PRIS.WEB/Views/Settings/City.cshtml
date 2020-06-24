@@ -7,16 +7,19 @@
 
 <h5>Miestai, kuriuose vykdomos Akademija.IT mokymo programos</h5>
 <br />
-<div id="PlaceHolderHere"></div>
+<p>
+    <a asp-action="CityModalPartial">Pridėti miestą</a>
+</p>
+@* Zemiau uzkomentuoti elementai naudojami noritnt aktyvuoti Pop-up forma *@
+@*<div id="PlaceHolderHere"></div>
 <button type="button" class="btn btn-outline-dark" data-toggle="ajax-modal" data-target="#addCity" data-url="@Url.Action("CityCreate")">Pridėti</button>
-@*<button type="submit" class="btn btn-outline-dark" data-toggle="ajax-modal" data-target="#deleteCity" data-url="@Url.Action("Delete")">Trinti</button>*@
+<button type="submit" class="btn btn-outline-dark" data-toggle="ajax-modal" data-target="#deleteCity" data-url="@Url.Action("Delete")">Trinti</button>*@
 <br />
 <table class="table">
     <thead>
         <tr>
             <th scope="col">
                 Miesto pavadinimas
-                @*@Html.DisplayNameFor(model => model.CityName)*@
             </th>
             <th></th>
         </tr>
