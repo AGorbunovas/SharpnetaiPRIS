@@ -5,28 +5,32 @@
     Layout = "~/Views/Shared/_LayoutNavSectionForSettings.cshtml";
 }
 
-<h1>City</h1>
-
-<button type="submit" class="btn btn-outline-dark" data-toggle="ajax-modal" data-target="#addEmployee" data-url="@Url.Action("Create")">Pridėti</button>
+<h5>Miestai, kuriuose vykdomos Akademija.IT mokymo programos</h5>
+<br />
+<div id="PlaceHolderHere"></div>
+<button type="button" class="btn btn-outline-dark" data-toggle="ajax-modal" data-target="#addCity" data-url="@Url.Action("CityCreate")">Pridėti</button>
+@*<button type="submit" class="btn btn-outline-dark" data-toggle="ajax-modal" data-target="#deleteCity" data-url="@Url.Action("Delete")">Trinti</button>*@
+<br />
 <table class="table">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.CityName)
+            <th scope="col">
+                Miesto pavadinimas
+                @*@Html.DisplayNameFor(model => model.CityName)*@
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model) 
+        @foreach (var item in Model)
         {
             <tr>
                 <td>
                     @Html.DisplayFor(modelItem => item.CityName)
                 </td>
                 <td>
-                    @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                    @*@Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |*@
                     @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
                 </td>
             </tr>
@@ -38,40 +42,38 @@
 
 
 @*@{
-    ViewData["Title"] = "City";
-    Layout = "~/Views/Shared/_LayoutNavSectionForSettings.cshtml";
-}
+        ViewData["Title"] = "City";
+        Layout = "~/Views/Shared/_LayoutNavSectionForSettings.cshtml";
+    }
 
+    <div class="row justify-content-left">
+        <div class="col-md-6">
+            <h5>Miestai, kuriuose vykdomos Akademija.IT mokymo programos</h5>
+            <section>
+                <form asp-controller="Settings" asp-action="Add" method="post">
+                    <div class="form-group">
+                        <label asp-for="CityName">Naujas miestas</label>
+                        <input asp-for="CityName" class="form-control" />
+                        <span asp-validation-for="CityName"></span>
+                    </div>
 
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-outline-dark" value="Add city">Pridėti</button>
+                    </div>
 
-<div class="row justify-content-left">
-    <div class="col-md-6">
-        <h5>Miestai, kuriuose vykdomos Akademija.IT mokymo programos</h5>
-        <section>
-            <form asp-controller="Settings" asp-action="Add" method="post">
-                <div class="form-group">
-                    <label asp-for="CityName">Naujas miestas</label>
-                    <input asp-for="CityName" class="form-control" />
-                    <span asp-validation-for="CityName"></span>
-                </div>
+                    <table class="table">
+                        <tr>
+                            <th scope="col">Pažymėti</th>
+                            <th scope="col">Miestas</th>
+                        </tr>
+                        <tr>
 
-                <div class="form-group">
-                    <button type="submit" class="btn btn-outline-dark" value="Add city">Pridėti</button>
-                </div>
-
-                <table class="table">
-                    <tr>
-                        <th scope="col">Pažymėti</th>
-                        <th scope="col">Miestas</th>
-                    </tr>
-                    <tr>
-
-                        <td scope="col"><input type="checkbox" name="CityId" value="" /></td>
-                        <td scope="col" for="CityName"></td>
-                    </tr>
-                </table>
-                <button type="submit" class="btn btn-outline-dark" value="Delete city">Trinti pažymėtus</button>
-            </form>
-        </section>
-    </div>
-</div>*@
+                            <td scope="col"><input type="checkbox" name="CityId" value="" /></td>
+                            <td scope="col" for="CityName"></td>
+                        </tr>
+                    </table>
+                    <button type="submit" class="btn btn-outline-dark" value="Delete city">Trinti pažymėtus</button>
+                </form>
+            </section>
+        </div>
+    </div>*@

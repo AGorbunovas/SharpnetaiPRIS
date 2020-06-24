@@ -13,12 +13,14 @@ namespace PRIS.WEB.Data
         public DbSet<Test> Test { get; set; }
         public DbSet<Module> Modules { get; set; }
 
+        public DbSet<City> Cities { get; set; } 
+
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
         }
 
-        public DbSet<PRIS.WEB.Models.City> City { get; set; }
+        
         
     }
 }

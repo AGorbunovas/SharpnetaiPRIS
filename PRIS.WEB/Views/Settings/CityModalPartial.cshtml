@@ -1,0 +1,32 @@
+﻿@model PRIS.WEB.Models.City
+
+@{
+    ViewData["Title"] = "City";
+}
+
+<div class="modal fade" id="addCity">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="addCityLabel">Pridėkite naują miestą</h4>
+                <button type="button" class="close btn btn-outline-dark" data-dismiss="modal"></button>
+                <span>x</span>
+            </div>
+            <div class="modal-body">
+                <form action="Create" method="post">
+                    <div class="form-group">
+                        <label asp-for="CityName">Miesto pavadinimas</label>
+                        <input asp-for="CityName" class="form-control" />
+                        <span asp-validation-for="CityName" class="text-danger"></span>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Uždaryti</button>
+                <button type="submit" class="btn btn-outline-dark" data-save="modal" >Saugoti</button>
+            </div>
+        </div>
+
+    </div>
+
+</div>

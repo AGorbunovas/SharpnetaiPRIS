@@ -27,21 +27,28 @@ namespace PRIS.WEB.Controllers
         {
             return View();
         }
-        
-        public IActionResult City() 
+
+        #region City/Create
+        public IActionResult City()
         {
-            return View();
+            return View(_context.Cities.ToList());
         }
 
+        [HttpGet]
+        public IActionResult CityCreate() 
+        {
+            //City city = new City();
+            return PartialView("CityModalPartial");
+        }
 
         [HttpPost]
-        public IActionResult City(City city)  
+        public IActionResult CityCreate(City city)
         {
-            _context.City.Add(city);
+            _context.Cities.Add(city);
             _context.SaveChanges();
-
-            return View();
+            return RedirectToAction("City");
         }
+        #endregion
 
         #region Module/Create
         public async Task<IActionResult> Module()

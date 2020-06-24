@@ -10,8 +10,8 @@ using PRIS.WEB.Data;
 namespace PRIS.WEB.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200623101849_CreateCityTable")]
-    partial class CreateCityTable
+    [Migration("20200624105730__CreateCitiesTable")]
+    partial class _CreateCitiesTable
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -229,11 +229,27 @@ namespace PRIS.WEB.Data.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("CityName")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("CityId");
 
-                    b.ToTable("City");
+                    b.ToTable("Cities");
+                });
+
+            modelBuilder.Entity("PRIS.WEB.Models.Module", b =>
+                {
+                    b.Property<int>("ModuleID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ModuleName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ModuleID");
+
+                    b.ToTable("Modules");
                 });
 
             modelBuilder.Entity("PRIS.WEB.Models.Test", b =>
