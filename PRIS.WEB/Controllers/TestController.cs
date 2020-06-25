@@ -33,21 +33,25 @@ namespace PRIS.WEB.Controllers
         [HttpPost]
         public IActionResult Test(AddTestViewModel model)
         {
-            var check = _context.Test.Any(x => x.City == model.City && x.DateOfTest == model.DateOfTest);
+            var check = _context.Test.Any(x => x.City.CityName == model.CityName && x.DateOfTest == model.DateOfTest);
 
-            if(check)
+            if (check)
             {
                 ModelState.AddModelError(string.Empty, "Toks testas jau yra sukurtas");
             }
-
             if (ModelState.IsValid)
             {
-                var newRecord = new Test() { City = model.City, DateOfTest = model.DateOfTest };
+                var city = _context.Cities.FirstOrDefault(x => x.CityName == model.CityName);
+                var newRecord = new Test() { City = city, DateOfTest = model.DateOfTest };
                 _context.Test.Add(newRecord);
                 _context.SaveChanges();
 
                 return RedirectToAction("List");
             }
+
+            var errors = ModelState.Select(x => x.Value.Errors)
+                        .Where(y => y.Count > 0)
+                        .ToList();
 
             return View(viewModel);
         }
