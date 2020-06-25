@@ -8,7 +8,7 @@ namespace PRIS.WEB.Models
 {
     public class City
     {
-        [Required]
+        [Required(ErrorMessage ="Įveskite miesto pavadinimą")]
         public string CityName { get; set; }
         public int CityId { get; set; }
     }

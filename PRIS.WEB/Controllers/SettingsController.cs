@@ -4,10 +4,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using PRIS.WEB.Data;
+using PRIS.WEB.Data.Migrations;
 using PRIS.WEB.Models;
+using Module = PRIS.WEB.Models.Module;
 
 namespace PRIS.WEB.Controllers
 {
@@ -43,8 +46,31 @@ namespace PRIS.WEB.Controllers
         [HttpPost]
         public IActionResult CityModalPartial(City city) 
         {
-            _context.Cities.Add(city);
+            var check = _context.Cities.Any(x => x.CityName == city.CityName);
+
+            if (check)
+            {
+                ModelState.AddModelError("Error message", "Toks miestas jau yra sukurtas");
+                return View();
+            }
+
+            else if (ModelState.IsValid)
+            {
+                _context.Cities.Add(city);
+                _context.SaveChanges();
+
+                return RedirectToAction("City");
+            }
+            return View();
+        }
+
+        public IActionResult CityDelete(int id) 
+        {
+            //TODO - patikrinti, ar miestui priskirtas testas
+            var data = _context.Cities.SingleOrDefault(x => x.CityId == id);
+            _context.Remove(data);
             _context.SaveChanges();
+
             return RedirectToAction("City");
         }
         #endregion
