@@ -1,4 +1,4 @@
-﻿@model IEnumerable<PRIS.WEB.Models.Test>
+﻿@model PRIS.WEB.ViewModels.TestViewModels.AddTestViewModel
 
 @{
     ViewData["Title"] = "List";
@@ -21,7 +21,7 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+@foreach (var item in Model.ListOfTests) {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.DateOfTest)

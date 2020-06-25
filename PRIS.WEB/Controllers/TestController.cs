@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using PRIS.WEB.Data;
 using PRIS.WEB.Models;
+using PRIS.WEB.ViewModels.TestViewModels;
 using System.Linq;
 
 namespace PRIS.WEB.Controllers
@@ -10,7 +11,7 @@ namespace PRIS.WEB.Controllers
     public class TestController : Controller
     {
         private readonly ApplicationDbContext _context;
-        private Test model;
+        private AddTestViewModel viewModel;
 
         public TestController(ApplicationDbContext context)
         {
@@ -21,19 +22,18 @@ namespace PRIS.WEB.Controllers
                 Value = x.CityName,
                 Text = x.CityName
             }).ToList();
-
-            model = new Test() { Cities = data };
+            viewModel = new AddTestViewModel() { Cities = data };
         }
 
         public IActionResult Test()
         {
-            return View(model);
+            return View(viewModel);
         }
 
         [HttpPost]
-        public IActionResult Test(Test test)
+        public IActionResult Test(AddTestViewModel model)
         {
-            var check = _context.Test.Any(x => x.City == test.City && x.DateOfTest == test.DateOfTest);
+            var check = _context.Test.Any(x => x.City == model.City && x.DateOfTest == model.DateOfTest);
 
             if(check)
             {
@@ -42,18 +42,20 @@ namespace PRIS.WEB.Controllers
 
             if (ModelState.IsValid)
             {
-                _context.Test.Add(test);
+                var newRecord = new Test() { City = model.City, DateOfTest = model.DateOfTest };
+                _context.Test.Add(newRecord);
                 _context.SaveChanges();
 
                 return RedirectToAction("List");
             }
 
-            return View(model);
+            return View(viewModel);
         }
 
         public IActionResult List()
         {
-            var data = _context.Test.OrderByDescending(x => x.DateOfTest).ToList();
+            AddTestViewModel data = new AddTestViewModel();
+            data.ListOfTests = _context.Test.OrderByDescending(x => x.DateOfTest).ToList();
 
             return View(data);
         }
