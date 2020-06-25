@@ -54,8 +54,13 @@ namespace PRIS.WEB.Controllers
 
         public IActionResult List()
         {
-            AddTestViewModel data = new AddTestViewModel();
-            data.ListOfTests = _context.Test.OrderByDescending(x => x.DateOfTest).ToList();
+             var data = _context.Test.Select(x =>
+             new AddTestViewModel()
+             {
+                 DateOfTest = x.DateOfTest,
+                 City = x.City
+             }).OrderByDescending(x => x.DateOfTest)
+               .ToList();
 
             return View(data);
         }
@@ -68,6 +73,5 @@ namespace PRIS.WEB.Controllers
 
             return RedirectToAction("List");
         }
-
     }
 }

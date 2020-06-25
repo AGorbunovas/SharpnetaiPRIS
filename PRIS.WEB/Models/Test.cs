@@ -8,7 +8,6 @@ namespace PRIS.WEB.Models
 {
     public class Test
     {
-        [DataType(DataType.Date)]
         public DateTime? DateOfTest { get; set; }
         public String City { get; set; }
         public int TestId { get; set; }
