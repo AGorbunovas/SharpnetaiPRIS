@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using PRIS.WEB.Data;
-using PRIS.WEB.Data.Migrations;
 using PRIS.WEB.Models;
 using Module = PRIS.WEB.Models.Module;
 
@@ -50,7 +46,7 @@ namespace PRIS.WEB.Controllers
 
             if (check)
             {
-                ModelState.AddModelError("Error message", "Toks miestas jau yra sukurtas");
+                ModelState.AddModelError(string.Empty, "Toks miestas jau yra sukurtas");
                 return View();
             }
 
