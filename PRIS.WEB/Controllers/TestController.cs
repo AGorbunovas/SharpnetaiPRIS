@@ -16,7 +16,7 @@ namespace PRIS.WEB.Controllers
         public TestController(ApplicationDbContext context)
         {
             _context = context;
-            //To do
+            //To do refactor
             var data = _context.Cities.Select(x => new SelectListItem()
             {
                 Value = x.CityName,
