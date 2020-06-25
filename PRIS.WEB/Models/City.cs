@@ -10,6 +10,6 @@ namespace PRIS.WEB.Models
     {
         [Required(ErrorMessage ="Įveskite miesto pavadinimą")]
         public string CityName { get; set; }
-        public int CityId { get; set; }
+        public int CityId { get; set; }        
     }
 }
