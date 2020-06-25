@@ -76,6 +76,7 @@ namespace PRIS.WEB.Controllers
         #endregion
 
         #region Module/Create
+
         public async Task<IActionResult> Module()
         {
             return View(await _context.Modules.ToListAsync());
@@ -93,7 +94,55 @@ namespace PRIS.WEB.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction("Module");
         }
-        #endregion
+
+        #endregion Module/Create
+
+        #region Module/Delete
+
+        public async Task<IActionResult> ModuleDelete(int? id, bool? saveChangesError = false)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var module = await _context.Modules
+                                       .AsNoTracking()
+                                       .FirstOrDefaultAsync(module => module.ModuleID == id);
+            if (module == null)
+            {
+                return NotFound();
+            }
+            if (saveChangesError.GetValueOrDefault())
+            {
+                ViewData["ErrorMessage"] = "Delete failed. Try again, and if the problem persists " +
+            "see your system administrator.";
+            }
+            return View(module);
+        }
+
+        [HttpPost, ActionName("ModuleDelete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ModuleDeleteConfirmed(int id)
+        {
+            var module = await _context.Modules.FindAsync(id);
+            if (module == null)
+            {
+                return RedirectToAction("Module");
+            }
+            try
+            {
+                _context.Modules.Remove(module);
+                await _context.SaveChangesAsync();
+
+                return RedirectToAction("Module");
+            }
+            catch (DbUpdateException /* ex */)
+            {
+                return RedirectToAction("ModuleDelete", new { id = id, saveChangesError = true });
+            }
+        }
+
+        #endregion Module/Delete
 
         public IActionResult TestResultSettings() 
         {
