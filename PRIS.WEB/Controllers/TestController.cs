@@ -62,7 +62,8 @@ namespace PRIS.WEB.Controllers
              new AddTestViewModel()
              {
                  DateOfTest = x.DateOfTest,
-                 City = x.City
+                 City = x.City,
+                 TestId = x.TestId
              }).OrderByDescending(x => x.DateOfTest)
                .ToList();
 
@@ -71,9 +72,12 @@ namespace PRIS.WEB.Controllers
 
         public IActionResult Delete(int id)
         {
-            var data = _context.Test.Where(x => x.TestId == id).SingleOrDefault();
-            _context.Remove(data);
-            _context.SaveChanges();
+            var data = _context.Test.SingleOrDefault(x => x.TestId == id);
+            if (data != null)
+            {
+                _context.Remove(data);
+                _context.SaveChanges();
+            }
 
             return RedirectToAction("List");
         }
