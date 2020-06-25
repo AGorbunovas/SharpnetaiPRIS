@@ -18,6 +18,7 @@
 
         <fieldset class="form-group">
             <select asp-for="CityName" asp-items="Model.Cities" class="form-control"></select>
+            <span asp-validation-for="CityName" class="text-danger"></span>
         </fieldset>
 
         <input id="submitApplication" type="submit" value="Sukurti nauja testą" class="btn btn-primary" />
