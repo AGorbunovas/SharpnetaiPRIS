@@ -3,9 +3,11 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Logging;
 using PRIS.WEB.Data;
 using PRIS.WEB.Models;
+using PRIS.WEB.ViewModels;
 using Module = PRIS.WEB.Models.Module;
 
 namespace PRIS.WEB.Controllers
@@ -40,7 +42,7 @@ namespace PRIS.WEB.Controllers
         }
 
         [HttpPost]
-        public IActionResult CityModalPartial(City city) 
+        public IActionResult CityModalPartial(AddCityViewModel city) 
         {
             var check = _context.Cities.Any(x => x.CityName == city.CityName);
 
@@ -50,9 +52,10 @@ namespace PRIS.WEB.Controllers
                 return View();
             }
 
-            else if (ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                _context.Cities.Add(city);
+                var newRecord = new City() { CityName = city.CityName};
+                _context.Cities.Add(newRecord);
                 _context.SaveChanges();
 
                 return RedirectToAction("City");
@@ -91,10 +94,43 @@ namespace PRIS.WEB.Controllers
         }
         #endregion
 
-        public IActionResult TestResultSettings() 
+        #region TestResultSettings/Create
+
+        public IActionResult TestResultLimits_View()  
+        {
+            return View(/*_context.TestResultLimits.ToList()*/);
+        }
+
+        [HttpGet]
+        public IActionResult TestResultLimits_Create()
         {
             return View();
         }
+
+        [HttpPost]
+        public IActionResult TestResultLimits_Create(AddTestResultSettingsViewModel limits) 
+        {
+            var check = _context.TestResultLimits.Any(x => x.ResultSettingsId == limits.ResultSettingsId);
+
+            if (check)
+            {
+                ModelState.AddModelError(string.Empty, "Toks miestas jau yra sukurtas");
+                return View();
+            }
+
+            if (ModelState.IsValid)
+            {
+                var newRecord = new TestResultSettings() { ResultSettingsId = limits.ResultSettingsId, Task1 = limits.Task1, Task2 = limits.Task2, Task3 = limits.Task3, Task4 = limits.Task4, Task5 = limits.Task5, Task6 = limits.Task6, Task7 = limits.Task7, Task8 = limits.Task8, Task9 = limits.Task9, Task10 = limits.Task10, Task11 = limits.Task11, Task12 = limits.Task12, Task13 = limits.Task13, Task14 = limits.Task14 };
+                _context.TestResultLimits.Add(newRecord);
+                _context.SaveChanges();
+
+                return RedirectToAction("TestResultLimits_View");
+            }
+            return View();
+        }
+
+
+        #endregion
 
     }
 }
