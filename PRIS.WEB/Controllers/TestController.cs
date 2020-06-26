@@ -16,7 +16,7 @@ namespace PRIS.WEB.Controllers
         public TestController(ApplicationDbContext context)
         {
             _context = context;
-            //To do
+            //To do refactor
             var data = _context.Cities.Select(x => new SelectListItem()
             {
                 Value = x.CityName,
@@ -33,21 +33,25 @@ namespace PRIS.WEB.Controllers
         [HttpPost]
         public IActionResult Test(AddTestViewModel model)
         {
-            var check = _context.Test.Any(x => x.City == model.City && x.DateOfTest == model.DateOfTest);
+            var check = _context.Test.Any(x => x.City.CityName == model.CityName && x.DateOfTest == model.DateOfTest);
 
-            if(check)
+            if (check)
             {
                 ModelState.AddModelError(string.Empty, "Toks testas jau yra sukurtas");
             }
-
             if (ModelState.IsValid)
             {
-                var newRecord = new Test() { City = model.City, DateOfTest = model.DateOfTest };
+                var city = _context.Cities.FirstOrDefault(x => x.CityName == model.CityName);
+                var newRecord = new Test() { City = city, DateOfTest = model.DateOfTest };
                 _context.Test.Add(newRecord);
                 _context.SaveChanges();
 
                 return RedirectToAction("List");
             }
+
+            var errors = ModelState.Select(x => x.Value.Errors)
+                        .Where(y => y.Count > 0)
+                        .ToList();
 
             return View(viewModel);
         }
@@ -58,7 +62,8 @@ namespace PRIS.WEB.Controllers
              new AddTestViewModel()
              {
                  DateOfTest = x.DateOfTest,
-                 City = x.City
+                 City = x.City,
+                 TestId = x.TestId
              }).OrderByDescending(x => x.DateOfTest)
                .ToList();
 
@@ -67,9 +72,12 @@ namespace PRIS.WEB.Controllers
 
         public IActionResult Delete(int id)
         {
-            var data = _context.Test.Where(x => x.TestId == id).SingleOrDefault();
-            _context.Remove(data);
-            _context.SaveChanges();
+            var data = _context.Test.SingleOrDefault(x => x.TestId == id);
+            if (data != null)
+            {
+                _context.Remove(data);
+                _context.SaveChanges();
+            }
 
             return RedirectToAction("List");
         }

@@ -12,7 +12,6 @@ namespace PRIS.WEB.Data
 
         public DbSet<Test> Test { get; set; }
         public DbSet<Module> Modules { get; set; }
-
         public DbSet<City> Cities { get; set; } 
         public DbSet<TestResultSettings> TestResultLimits { get; set; }  
 
@@ -21,7 +20,14 @@ namespace PRIS.WEB.Data
         {
         }
 
-        
-        
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<Test>().ToTable("Test");
+            modelBuilder.Entity<Module>().ToTable("Module");
+            modelBuilder.Entity<City>().ToTable("City");         
+        }
+
+
     }
 }

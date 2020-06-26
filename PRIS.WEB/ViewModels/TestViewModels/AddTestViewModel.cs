@@ -12,10 +12,14 @@ namespace PRIS.WEB.ViewModels.TestViewModels
         [Display(Name = "Testo data")]
         [Required(ErrorMessage = "Įveskite datą")]
         public DateTime? DateOfTest { get; set; }
+
         [Display(Name = "Miestas")]
-        [Required(ErrorMessage = "Įveskite miestą")]
-        public String City { get; set; }
+        public City City { get; set; }
+        
         public List<SelectListItem> Cities { get; set; }
+
+        [Required(ErrorMessage = "Įveskite miestą")]
+        public string CityName { get; set; }
         public int TestId { get; set; }
         public List<Test> ListOfTests { get; set; }
     }

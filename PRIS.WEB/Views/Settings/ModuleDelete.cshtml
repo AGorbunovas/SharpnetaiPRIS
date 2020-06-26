@@ -1,0 +1,26 @@
+﻿@model PRIS.WEB.Models.Module
+
+@{
+    ViewData["Title"] = "ModuleDelete";
+    Layout = "~/Views/Shared/_LayoutNavSectionForSettings.cshtml";
+}
+
+<p class="text-danger">@ViewData["ErrorMessage"]</p>
+<h3>Ar tikrai norite ištrinti šį įrašą?</h3>
+<div>
+    <h4>Mokymo programa</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ModuleName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ModuleName)
+        </dd>
+    </dl>
+
+    <form asp-action="ModuleDelete">
+        <input type="submit" value="Pašalinti" class="btn btn-danger" /> |
+        <a asp-action="Module">Grįžti į sąrašą</a>
+    </form>
+</div>

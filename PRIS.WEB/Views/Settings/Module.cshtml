@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<PRIS.WEB.Models.Module>
 
 @{
-    ViewData["Title"] = "Test";
+    ViewData["Title"] = "Module";
     Layout = "~/Views/Shared/_LayoutNavSectionForSettings.cshtml";
 }
 
@@ -13,7 +13,6 @@
         <tr>
             <th>
             <th scope="col">Mokymo programa</th>
-            @*@Html.DisplayNameFor(model => model.ModuleName)*@
             </th>
             <th></th>
         </tr>
@@ -21,14 +20,14 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>                
+            <tr>
                 <td>
                     @Html.DisplayFor(modelItem => item.ModuleName)
                 </td>
                 <td>
-                    @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                    @*@Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |*@
+
+                    <a asp-action="ModuleDelete" asp-route-id="@item.ModuleID">Trinti</a>
                 </td>
             </tr>
         }

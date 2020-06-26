@@ -9,7 +9,9 @@ namespace PRIS.WEB.Models
     public class Test
     {
         public DateTime? DateOfTest { get; set; }
-        public String City { get; set; }
         public int TestId { get; set; }
+
+        public int CityId { get; set; }
+        public City City { get; set; }
     }
 }

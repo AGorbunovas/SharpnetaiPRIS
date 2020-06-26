@@ -27,7 +27,7 @@
                 @Html.DisplayFor(modelItem => item.DateOfTest)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.City)
+                @Html.DisplayFor(modelItem => item.City.CityName)
             </td>
             <td>
                 <a asp-action="Delete" asp-route-id="@item.TestId">Trinti</a>
