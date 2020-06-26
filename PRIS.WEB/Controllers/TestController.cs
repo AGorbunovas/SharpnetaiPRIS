@@ -28,8 +28,8 @@ namespace PRIS.WEB.Controllers
         [HttpPost]
         public IActionResult Test(AddTestViewModel model)
         {
-            var isUnique = _context.Test.Any(x => x.City.CityName == model.CityName && x.DateOfTest == model.DateOfTest);
-            if (isUnique)
+            var isNotUnique = _context.Test.Any(x => x.City.CityName == model.CityName && x.DateOfTest == model.DateOfTest);
+            if (isNotUnique)
             {
                 ModelState.AddModelError(string.Empty, "Toks testas jau yra sukurtas");
             }

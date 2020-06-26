@@ -20,6 +20,5 @@ namespace PRIS.WEB.ViewModels.TestViewModels
         [Required(ErrorMessage = "Įveskite miestą")]
         public string CityName { get; set; }
         public int TestId { get; set; }
-        public List<Test> ListOfTests { get; set; }
     }
 }
