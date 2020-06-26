@@ -8,7 +8,7 @@ namespace PRIS.WEB.Models
 {
     public class Test
     {
-        public DateTime? DateOfTest { get; set; }
+        public DateTime DateOfTest { get; set; }
         public int TestId { get; set; }
 
         public int CityId { get; set; }
