@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using PRIS.WEB.Data;
 using PRIS.WEB.Models;
 using PRIS.WEB.ViewModels.TestViewModels;
+using System;
 using System.Linq;
 
 namespace PRIS.WEB.Controllers
@@ -33,12 +34,18 @@ namespace PRIS.WEB.Controllers
         [HttpPost]
         public IActionResult Test(AddTestViewModel model)
         {
-            var check = _context.Test.Any(x => x.City.CityName == model.CityName && x.DateOfTest == model.DateOfTest);
-
-            if (check)
+            var isUnique = _context.Test.Any(x => x.City.CityName == model.CityName && x.DateOfTest == model.DateOfTest);
+            if (isUnique)
             {
                 ModelState.AddModelError(string.Empty, "Toks testas jau yra sukurtas");
             }
+
+            var dateCheckInteger = DateTime.Today.CompareTo(model.DateOfTest.Value.Date);
+            if(dateCheckInteger == 1)
+            {
+                ModelState.AddModelError(string.Empty, "Data negali būti ankstesnė negu šiandiena");
+            }
+
             if (ModelState.IsValid)
             {
                 var city = _context.Cities.FirstOrDefault(x => x.CityName == model.CityName);
