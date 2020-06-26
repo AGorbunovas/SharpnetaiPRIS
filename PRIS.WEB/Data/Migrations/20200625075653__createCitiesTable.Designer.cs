@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PRIS.WEB.Data;
 
-namespace PRIS.WEB.Data.Migrations
+namespace PRIS.WEB.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200624105730__CreateCitiesTable")]
-    partial class _CreateCitiesTable
+    [Migration("20200625075653__createCitiesTable")]
+    partial class _createCitiesTable
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -228,11 +228,15 @@ namespace PRIS.WEB.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int?>("CityId1")
+                        .HasColumnType("int");
+
                     b.Property<string>("CityName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("CityId");
+
+                    b.HasIndex("CityId1");
 
                     b.ToTable("Cities");
                 });
@@ -260,10 +264,9 @@ namespace PRIS.WEB.Data.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("City")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("DateOfTest")
+                    b.Property<DateTime?>("DateOfTest")
                         .HasColumnType("datetime2");
 
                     b.HasKey("TestId");
@@ -320,6 +323,13 @@ namespace PRIS.WEB.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("PRIS.WEB.Models.City", b =>
+                {
+                    b.HasOne("PRIS.WEB.Models.City", null)
+                        .WithMany("Cities")
+                        .HasForeignKey("CityId1");
                 });
 #pragma warning restore 612, 618
         }

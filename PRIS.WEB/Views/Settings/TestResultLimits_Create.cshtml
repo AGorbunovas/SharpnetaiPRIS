@@ -1,0 +1,101 @@
+﻿@model PRIS.WEB.Models.TestResultSettings 
+
+@{
+    ViewData["Title"] = "TestResultLimits_Create";
+    Layout = "~/Views/Shared/_LayoutNavSectionForSettings.cshtml";
+}
+
+<h4>Redaguoti testo užduočių balų rėžius</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-controller="Settings" asp-action="TestResultLimits_Create">
+            <div class="form-row">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="ResultSettingsId" class="control-label"></label>
+                    <input asp-for="ResultSettingsId" class="form-control" />
+                    <span asp-validation-for="ResultSettingsId" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Task1" class="control-label"></label>
+                    <input asp-for="Task1" class="form-control" />
+                    <span asp-validation-for="Task1" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Task2" class="control-label"></label>
+                    <input asp-for="Task2" class="form-control" />
+                    <span asp-validation-for="Task2" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Task3" class="control-label"></label>
+                    <input asp-for="Task3" class="form-control" />
+                    <span asp-validation-for="Task3" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Task4" class="control-label"></label>
+                    <input asp-for="Task4" class="form-control" />
+                    <span asp-validation-for="Task4" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Task5" class="control-label"></label>
+                    <input asp-for="Task5" class="form-control" />
+                    <span asp-validation-for="Task5" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Task6" class="control-label"></label>
+                    <input asp-for="Task6" class="form-control" />
+                    <span asp-validation-for="Task6" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Task7" class="control-label"></label>
+                    <input asp-for="Task7" class="form-control" />
+                    <span asp-validation-for="Task7" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Task8" class="control-label"></label>
+                    <input asp-for="Task8" class="form-control" />
+                    <span asp-validation-for="Task8" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Task9" class="control-label"></label>
+                    <input asp-for="Task9" class="form-control" />
+                    <span asp-validation-for="Task9" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Task10" class="control-label"></label>
+                    <input asp-for="Task10" class="form-control" />
+                    <span asp-validation-for="Task10" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Task11" class="control-label"></label>
+                    <input asp-for="Task11" class="form-control" />
+                    <span asp-validation-for="Task11" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Task12" class="control-label"></label>
+                    <input asp-for="Task12" class="form-control" />
+                    <span asp-validation-for="Task12" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Task13" class="control-label"></label>
+                    <input asp-for="Task13" class="form-control" />
+                    <span asp-validation-for="Task13" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Task14" class="control-label"></label>
+                    <input asp-for="Task14" class="form-control" />
+                    <span asp-validation-for="Task14" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-outline-dark" />
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="TestResultLimits_View">Atgal į sąrašą</a>
+</div>
+
