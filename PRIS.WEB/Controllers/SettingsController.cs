@@ -1,10 +1,13 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using PRIS.WEB.Data;
 using PRIS.WEB.Models;
 using PRIS.WEB.ViewModels;
@@ -17,6 +20,7 @@ namespace PRIS.WEB.Controllers
     {
         private readonly ILogger<SettingsController> _logger;
         private readonly ApplicationDbContext _context;
+        private object _viewData;
 
         public SettingsController(ILogger<SettingsController> logger, ApplicationDbContext context)
         {
@@ -24,9 +28,9 @@ namespace PRIS.WEB.Controllers
             _context = context;
         }
 
-        public IActionResult Settings() 
+        public IActionResult Settings()
         {
-            return View();
+            return RedirectToAction("City");
         }
 
         #region City/Create
@@ -36,13 +40,13 @@ namespace PRIS.WEB.Controllers
         }
 
         [HttpGet]
-        public IActionResult CityModalPartial()  
+        public IActionResult CityModalPartial()
         {
             return View();
         }
 
         [HttpPost]
-        public IActionResult CityModalPartial(AddCityViewModel city) 
+        public IActionResult CityModalPartial(AddCityViewModel city)
         {
             var check = _context.Cities.Any(x => x.CityName == city.CityName);
 
@@ -54,22 +58,38 @@ namespace PRIS.WEB.Controllers
 
             if (ModelState.IsValid)
             {
-                var newRecord = new City() { CityName = city.CityName};
-                _context.Cities.Add(newRecord);
-                _context.SaveChanges();
-
+                var newRecord = new City() { CityName = city.CityName };
+                if (newRecord != null)
+                {
+                    _context.Cities.Add(newRecord);
+                    _context.SaveChanges();
+                }
                 return RedirectToAction("City");
             }
             return View();
         }
 
-        public IActionResult CityDelete(int id) 
-        {
-            //TODO - patikrinti, ar miestui priskirtas testas
-            var data = _context.Cities.SingleOrDefault(x => x.CityId == id);
-            _context.Remove(data);
-            _context.SaveChanges();
 
+        public IActionResult CityDelete(int id)
+        {
+            var testConnected = _context.Test.Any(x => x.City.CityId == id);
+
+            if (testConnected)
+            {
+                ViewData["ErrorMessage"] = "Miesto trinti negalima - jam jau yra priskirtas testas.";
+                //ModelState.AddModelError(string.Empty, "Miesto trinti negalima - jam jau yra priskirtas testas.");
+                return View();
+            }
+            else if (ModelState.IsValid)
+            {
+                var data = _context.Cities.SingleOrDefault(x => x.CityId == id);
+                if (data != null)
+                {
+                    _context.Remove(data);
+                    _context.SaveChanges();
+                }
+                return RedirectToAction("City");
+            }
             return RedirectToAction("City");
         }
         #endregion
@@ -145,7 +165,7 @@ namespace PRIS.WEB.Controllers
 
         #region TestResultSettings/Create
 
-        public IActionResult TestResultLimits_View()  
+        public IActionResult TestResultLimits_View()
         {
             return View(/*_context.TestResultLimits.ToList()*/);
         }
@@ -157,7 +177,7 @@ namespace PRIS.WEB.Controllers
         }
 
         [HttpPost]
-        public IActionResult TestResultLimits_Create(AddTestResultSettingsViewModel limits) 
+        public IActionResult TestResultLimits_Create(AddTestResultSettingsViewModel limits)
         {
             var check = _context.TestResultLimits.Any(x => x.ResultSettingsId == limits.ResultSettingsId);
 

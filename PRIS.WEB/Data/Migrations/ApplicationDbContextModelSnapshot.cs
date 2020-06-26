@@ -226,11 +226,15 @@ namespace PRIS.WEB.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int?>("CityId1")
+                        .HasColumnType("int");
+
                     b.Property<string>("CityName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("CityId");
+
+                    b.HasIndex("CityId1");
 
                     b.ToTable("City");
                 });
@@ -268,6 +272,60 @@ namespace PRIS.WEB.Data.Migrations
                     b.HasIndex("CityId");
 
                     b.ToTable("Test");
+                });
+
+            modelBuilder.Entity("PRIS.WEB.Models.TestResultSettings", b =>
+                {
+                    b.Property<int>("ResultSettingsId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("Task1")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Task10")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Task11")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Task12")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Task13")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Task14")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Task2")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Task3")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Task4")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Task5")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Task6")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Task7")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Task8")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Task9")
+                        .HasColumnType("int");
+
+                    b.HasKey("ResultSettingsId");
+
+                    b.ToTable("TestResultLimits");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -319,6 +377,13 @@ namespace PRIS.WEB.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("PRIS.WEB.Models.City", b =>
+                {
+                    b.HasOne("PRIS.WEB.Models.City", null)
+                        .WithMany("Cities")
+                        .HasForeignKey("CityId1");
                 });
 
             modelBuilder.Entity("PRIS.WEB.Models.Test", b =>

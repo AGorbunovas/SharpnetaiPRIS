@@ -34,7 +34,7 @@
                             @Html.DisplayFor(modelItem => item.CityName)
                         </td>
                         <td>
-                            @Html.ActionLink("Trinti", "CityDelete", new { id=item.CityId})
+                            <a asp-action="CityDelete" asp-route-id="@item.CityId">Trinti</a>
                         </td>
                     </tr>
                 }
