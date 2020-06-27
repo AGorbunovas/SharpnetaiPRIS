@@ -4,8 +4,11 @@ using Moq;
 using PRIS.WEB.Controllers;
 using PRIS.WEB.Data;
 using PRIS.WEB.Models;
+using PRIS.WEB.ViewModels.TestViewModels;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Linq;
 using System.Text;
 using Xunit;
 
@@ -13,27 +16,41 @@ namespace PRIS.Test.Controller
 {
     public class TestControllerShould
     {
-        [Fact]
-        public void ReturnViewForTest()
+        private ApplicationDbContext _context;
+        private TestController _sut;
+
+        public TestControllerShould()
         {
-            var sut = new TestController(GetContextWithData());
-
-            IActionResult result = sut.Test();
-
-            Assert.IsType<ViewResult>(result);
+            _context = InMemoryApplicationDbContext.GetInMemoryApplicationDbContext();
+            _sut = new TestController(_context);
         }
 
-        private ApplicationDbContext GetContextWithData()
+        [Fact]
+        public void ReturnViewForTestAction()
         {
-            var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-                .UseInMemoryDatabase(Guid.NewGuid().ToString())
-                .Options;
+            // act
+            IActionResult result = _sut.Test();
 
-            var context = new ApplicationDbContext(options);
+            // assert
+            ViewResult viewResult = Assert.IsType<ViewResult>(result);
+            Assert.Equal("Test", viewResult.ViewName);
+        }
 
-            context.Cities.Add(new City { CityName = "Vilnius" });
+        [Fact]
+        public void AddNewValidTestRecordToDb()
+        {
+            //arrange
+            City city = new City { CityName = "Vilnius" };
+            _context.Cities.Add(city);
+            _context.SaveChanges();
+            var viewModel = new AddTestViewModel{ CityName = "Vilnius", DateOfTest = DateTime.Today};
 
-            return context;
+            //act
+            IActionResult result = _sut.Test(viewModel);
+
+            //assert
+            var actual = _context.Test.FirstOrDefault(x => x.City == city);
+            Assert.Equal("Vilnius", actual.City.CityName);
         }
 
     }
