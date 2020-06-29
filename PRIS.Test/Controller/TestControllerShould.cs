@@ -43,14 +43,67 @@ namespace PRIS.Test.Controller
             City city = new City { CityName = "Vilnius" };
             _context.Cities.Add(city);
             _context.SaveChanges();
-            var viewModel = new AddTestViewModel{ CityName = "Vilnius", DateOfTest = DateTime.Today};
+            var viewModel = new AddTestViewModel { CityName = "Vilnius", DateOfTest = DateTime.Today };
 
             //act
             IActionResult result = _sut.Test(viewModel);
 
             //assert
-            var actual = _context.Test.FirstOrDefault(x => x.City == city);
+            var actual = _context.Test.FirstOrDefault(x => x.TestId == 1);
             Assert.Equal("Vilnius", actual.City.CityName);
+        }
+
+        [Fact]
+        public void NotAddInvalidTestRecordToDb()
+        {
+            //arrange
+            var viewModel = new AddTestViewModel();
+
+            //act
+            IActionResult result = _sut.Test(viewModel);
+
+            //assert
+            ViewResult viewResult = Assert.IsType<ViewResult>(result);
+            var isModelStateValid = viewResult.ViewData.ModelState.IsValid;
+            Assert.False(isModelStateValid);
+            var testCount = _context.Test.Count();
+            Assert.Equal(0, testCount);
+        }
+
+        [Fact]
+        public void NotAddTestRecordIfDublicated()
+        {
+            // arrange
+            City city = new City { CityName = "Vilnius" };
+            _context.Cities.Add(city);
+            _context.SaveChanges();
+            var viewModel = new AddTestViewModel { CityName = "Vilnius", DateOfTest = DateTime.Today };
+
+            //act
+            _sut.Test(viewModel);
+            _sut.Test(viewModel);
+
+            //assert
+            var testCount = _context.Test.Count();
+            Assert.Equal(1, testCount);
+        }
+
+
+        [Fact]
+        public void NotAddTestRecordIfDateOfTestIsYesterday()
+        {
+            // arrange
+            City city = new City { CityName = "Vilnius" };
+            _context.Cities.Add(city);
+            _context.SaveChanges();
+            var viewModel = new AddTestViewModel { CityName = "Vilnius", DateOfTest = DateTime.Today.AddDays(-1) };
+
+            //act
+            _sut.Test(viewModel);
+
+            //assert
+            var testCount = _context.Test.Count();
+            Assert.Equal(0, testCount);
         }
 
     }

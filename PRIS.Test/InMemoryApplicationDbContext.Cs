@@ -12,7 +12,7 @@ namespace PRIS.Test
         {
             //read more: https://gunnarpeipman.com/aspnet-core-ef-inmemory-database/
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-                .UseInMemoryDatabase("InMemoryDb")
+                .UseInMemoryDatabase(Guid.NewGuid().ToString())
                 .Options;
 
             var context = new ApplicationDbContext(options);
