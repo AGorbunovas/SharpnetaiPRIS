@@ -55,6 +55,9 @@
             <th>
                 10
             </th>
+            <th>
+                Pridėjimo data
+            </th>
         </tr>
     </thead>
     <tbody>
@@ -93,9 +96,12 @@
                 @Html.DisplayFor(modelItem => item.Task10)
             </td>
             <td>
+                @Html.DisplayFor(modelItem => item.DateLimitSet)
+            </td>
+            <td>
                 @*@Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })*@
+            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })*@
             </td>
         </tr>
 }

@@ -13,7 +13,6 @@ namespace PRIS.WEB.Data
         public DbSet<Test> Test { get; set; }
         public DbSet<Module> Modules { get; set; }
         public DbSet<City> Cities { get; set; } 
-        public DbSet<TestResultSettings> TestResultLimits { get; set; }
         public DbSet<Candidate> Candidates { get; set; }
         public DbSet<CandidateModule> CandidateModules { get; set; }
         public DbSet<TaskGroup> TaskGroups { get; set; }
@@ -35,8 +34,7 @@ namespace PRIS.WEB.Data
             modelBuilder.Entity<TaskGroup>().ToTable("TaskGroup");
 
             modelBuilder.Entity<CandidateModule>()
-                .HasKey(candidateModule => new { candidateModule.CandidateID, candidateModule.ModuleID });
-            modelBuilder.Entity<City>().ToTable("City");         
+                .HasKey(candidateModule => new { candidateModule.CandidateID, candidateModule.ModuleID });      
             modelBuilder.Entity<ResultLimits>().ToTable("ResultLimits");         
         }
 
