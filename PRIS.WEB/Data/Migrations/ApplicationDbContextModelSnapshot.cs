@@ -254,49 +254,20 @@ namespace PRIS.WEB.Data.Migrations
                     b.ToTable("Module");
                 });
 
-            modelBuilder.Entity("PRIS.WEB.Models.Test", b =>
+            modelBuilder.Entity("PRIS.WEB.Models.ResultLimits", b =>
                 {
-                    b.Property<int>("TestId")
+                    b.Property<int>("ResultLimitsId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("CityId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("DateOfTest")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("TestId");
-
-                    b.HasIndex("CityId");
-
-                    b.ToTable("Test");
-                });
-
-            modelBuilder.Entity("PRIS.WEB.Models.TestResultSettings", b =>
-                {
-                    b.Property<int>("ResultSettingsId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<string>("DateLimitSet")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Task1")
                         .HasColumnType("int");
 
                     b.Property<int>("Task10")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Task11")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Task12")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Task13")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Task14")
                         .HasColumnType("int");
 
                     b.Property<int>("Task2")
@@ -323,9 +294,29 @@ namespace PRIS.WEB.Data.Migrations
                     b.Property<int>("Task9")
                         .HasColumnType("int");
 
-                    b.HasKey("ResultSettingsId");
+                    b.HasKey("ResultLimitsId");
 
-                    b.ToTable("TestResultLimits");
+                    b.ToTable("ResultLimits");
+                });
+
+            modelBuilder.Entity("PRIS.WEB.Models.Test", b =>
+                {
+                    b.Property<int>("TestId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("CityId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("DateOfTest")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("TestId");
+
+                    b.HasIndex("CityId");
+
+                    b.ToTable("Test");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

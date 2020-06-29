@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -20,7 +21,6 @@ namespace PRIS.WEB.Controllers
     {
         private readonly ILogger<SettingsController> _logger;
         private readonly ApplicationDbContext _context;
-        private object _viewData;
 
         public SettingsController(ILogger<SettingsController> logger, ApplicationDbContext context)
         {
@@ -33,7 +33,7 @@ namespace PRIS.WEB.Controllers
             return RedirectToAction("City");
         }
 
-        #region City/Create
+        #region City/Create/Delete
         public IActionResult City()
         {
             return View(_context.Cities.ToList());
@@ -68,8 +68,6 @@ namespace PRIS.WEB.Controllers
             }
             return View();
         }
-
-
         public IActionResult CityDelete(int id)
         {
             var testConnected = _context.Test.Any(x => x.City.CityId == id);
@@ -77,7 +75,6 @@ namespace PRIS.WEB.Controllers
             if (testConnected)
             {
                 ViewData["ErrorMessage"] = "Miesto trinti negalima - jam jau yra priskirtas testas.";
-                //ModelState.AddModelError(string.Empty, "Miesto trinti negalima - jam jau yra priskirtas testas.");
                 return View();
             }
             else if (ModelState.IsValid)
@@ -163,39 +160,38 @@ namespace PRIS.WEB.Controllers
 
         #endregion Module/Delete
 
-        #region TestResultSettings/Create
+        #region ResultLimits/Create
 
-        public IActionResult TestResultLimits_View()
+        public IActionResult ResultLimits_View()
         {
-            return View(/*_context.TestResultLimits.ToList()*/);
+            return View(_context.ResultLimits.ToList());
         }
 
         [HttpGet]
-        public IActionResult TestResultLimits_Create()
+        public IActionResult ResultLimits_Create()
         {
             return View();
         }
 
         [HttpPost]
-        public IActionResult TestResultLimits_Create(AddTestResultSettingsViewModel limits)
+        public IActionResult ResultLimits_Create(AddResultLimitsViewModel limits)
         {
-            var check = _context.TestResultLimits.Any(x => x.ResultSettingsId == limits.ResultSettingsId);
-
-            if (check)
-            {
-                ModelState.AddModelError(string.Empty, "Toks miestas jau yra sukurtas");
-                return View();
-            }
 
             if (ModelState.IsValid)
             {
-                var newRecord = new TestResultSettings() { ResultSettingsId = limits.ResultSettingsId, Task1 = limits.Task1, Task2 = limits.Task2, Task3 = limits.Task3, Task4 = limits.Task4, Task5 = limits.Task5, Task6 = limits.Task6, Task7 = limits.Task7, Task8 = limits.Task8, Task9 = limits.Task9, Task10 = limits.Task10, Task11 = limits.Task11, Task12 = limits.Task12, Task13 = limits.Task13, Task14 = limits.Task14 };
-                _context.TestResultLimits.Add(newRecord);
+                string timeStamp = GetTimestamp(DateTime.Now.Date);
+                var newRecord = new ResultLimits() { ResultLimitsId = limits.ResultLimitsId, DateLimitSet = timeStamp, Task1 = limits.Task1, Task2 = limits.Task2, Task3 = limits.Task3, Task4 = limits.Task4, Task5 = limits.Task5, Task6 = limits.Task6, Task7 = limits.Task7, Task8 = limits.Task8, Task9 = limits.Task9, Task10 = limits.Task10};
+                _context.ResultLimits.Add(newRecord);
                 _context.SaveChanges();
 
-                return RedirectToAction("TestResultLimits_View");
+                return RedirectToAction("ResultLimits_View");
             }
             return View();
+        }
+
+        private string GetTimestamp(DateTime date)
+        {
+            return date.ToString();
         }
 
 

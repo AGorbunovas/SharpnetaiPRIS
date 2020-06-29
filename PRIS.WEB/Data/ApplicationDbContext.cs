@@ -13,7 +13,7 @@ namespace PRIS.WEB.Data
         public DbSet<Test> Test { get; set; }
         public DbSet<Module> Modules { get; set; }
         public DbSet<City> Cities { get; set; } 
-        public DbSet<TestResultSettings> TestResultLimits { get; set; }  
+        public DbSet<ResultLimits> ResultLimits { get; set; }  
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -26,6 +26,7 @@ namespace PRIS.WEB.Data
             modelBuilder.Entity<Test>().ToTable("Test");
             modelBuilder.Entity<Module>().ToTable("Module");
             modelBuilder.Entity<City>().ToTable("City");         
+            modelBuilder.Entity<ResultLimits>().ToTable("ResultLimits");         
         }
 
 
