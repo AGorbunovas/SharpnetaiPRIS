@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PRIS.WEB.Data;
 
-namespace PRIS.WEB.Migrations
+namespace PRIS.WEB.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200625092345__createTestResultLimitsTable")]
-    partial class _createTestResultLimitsTable
+    [Migration("20200629091258__createResultLimitsTable")]
+    partial class _createResultLimitsTable
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -238,7 +238,7 @@ namespace PRIS.WEB.Migrations
 
                     b.HasIndex("CityId1");
 
-                    b.ToTable("Cities");
+                    b.ToTable("City");
                 });
 
             modelBuilder.Entity("PRIS.WEB.Models.Module", b =>
@@ -253,50 +253,23 @@ namespace PRIS.WEB.Migrations
 
                     b.HasKey("ModuleID");
 
-                    b.ToTable("Modules");
+                    b.ToTable("Module");
                 });
 
-            modelBuilder.Entity("PRIS.WEB.Models.Test", b =>
+            modelBuilder.Entity("PRIS.WEB.Models.ResultLimits", b =>
                 {
-                    b.Property<int>("TestId")
+                    b.Property<int>("ResultLimitsId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("City")
+                    b.Property<string>("DateLimitSet")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("DateOfTest")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("TestId");
-
-                    b.ToTable("Test");
-                });
-
-            modelBuilder.Entity("PRIS.WEB.Models.TestResultSettings", b =>
-                {
-                    b.Property<int>("ResultSettingsId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("Task1")
                         .HasColumnType("int");
 
                     b.Property<int>("Task10")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Task11")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Task12")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Task13")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Task14")
                         .HasColumnType("int");
 
                     b.Property<int>("Task2")
@@ -323,9 +296,29 @@ namespace PRIS.WEB.Migrations
                     b.Property<int>("Task9")
                         .HasColumnType("int");
 
-                    b.HasKey("ResultSettingsId");
+                    b.HasKey("ResultLimitsId");
 
-                    b.ToTable("TestResultLimits");
+                    b.ToTable("ResultLimits");
+                });
+
+            modelBuilder.Entity("PRIS.WEB.Models.Test", b =>
+                {
+                    b.Property<int>("TestId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("CityId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("DateOfTest")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("TestId");
+
+                    b.HasIndex("CityId");
+
+                    b.ToTable("Test");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -384,6 +377,15 @@ namespace PRIS.WEB.Migrations
                     b.HasOne("PRIS.WEB.Models.City", null)
                         .WithMany("Cities")
                         .HasForeignKey("CityId1");
+                });
+
+            modelBuilder.Entity("PRIS.WEB.Models.Test", b =>
+                {
+                    b.HasOne("PRIS.WEB.Models.City", "City")
+                        .WithMany()
+                        .HasForeignKey("CityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

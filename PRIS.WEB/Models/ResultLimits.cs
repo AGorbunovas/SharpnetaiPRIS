@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 
 namespace PRIS.WEB.Models
 {
-    public class TestResultSettings
+    public class ResultLimits
     {
         [Key]
-        public int ResultSettingsId { get; set; }   
+        public int ResultLimitsId { get; set; }
+        public string DateLimitSet { get; set; }
         public int Task1 { get; set; }
         public int Task2 { get; set; }
         public int Task3 { get; set; }
@@ -20,9 +21,5 @@ namespace PRIS.WEB.Models
         public int Task8 { get; set; }
         public int Task9 { get; set; }
         public int Task10 { get; set; }
-        public int Task11 { get; set; }
-        public int Task12 { get; set; }
-        public int Task13 { get; set; }
-        public int Task14 { get; set; } 
     }
 }

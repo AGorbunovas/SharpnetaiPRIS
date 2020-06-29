@@ -48,35 +48,35 @@ namespace PRIS.WEB.Data
             }
             context.SaveChanges();
 
-            //var candidates = new Candidate[]
-            //{
-            //    new Candidate{FirstName = "Andriejus", LastName = "Gorbunovas", Email = "agqa@yahoo.com", PhoneNumber = 868651435}
-            //};
-            //foreach (Candidate candidate in candidates)
-            //{
-            //    context.Candidates.Add(candidate);
-            //}
-            //context.SaveChanges();
+            var candidates = new Candidate[]
+            {
+                new Candidate{FirstName = "Vardas", LastName = "Pavardenis", Email = "vardas@meilas.com", PhoneNumber = 860012345}
+            };
+            foreach (Candidate candidate in candidates)
+            {
+                context.Candidates.Add(candidate);
+            }
+            context.SaveChanges();
 
-            //var candidateModules = new CandidateModule[]
-            //{
-            //    new CandidateModule{CandidateID=1,ModuleID=1}
-            //};
-            //foreach (CandidateModule candidateModule in candidateModules)
-            //{
-            //    context.CandidateModules.Add(candidateModule);
-            //}
-            //context.SaveChanges();
+            var candidateModules = new CandidateModule[]
+            {
+                new CandidateModule{CandidateID=1,ModuleID=1}
+            };
+            foreach (CandidateModule candidateModule in candidateModules)
+            {
+                context.CandidateModules.Add(candidateModule);
+            }
+            context.SaveChanges();
 
-            //var taskGroups = new TaskGroup[]
-            //{
-            //    new TaskGroup{TaskGroupName="Loginės užduotys"}
-            //};
-            //foreach (TaskGroup taskGroup in taskGroups)
-            //{
-            //    context.TaskGroups.Add(taskGroup);
-            //}
-            //context.SaveChanges();
+            var taskGroups = new TaskGroup[]
+            {
+                new TaskGroup{TaskGroupName="Loginės užduotys"}
+            };
+            foreach (TaskGroup taskGroup in taskGroups)
+            {
+                context.TaskGroups.Add(taskGroup);
+            }
+            context.SaveChanges();
         }
     }
 }

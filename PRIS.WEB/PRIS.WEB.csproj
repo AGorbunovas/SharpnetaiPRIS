@@ -12,6 +12,10 @@
     <Compile Remove="Data\Migrations\20200625113958_OnModelCreating.Designer.cs" />
     <Compile Remove="Data\Migrations\20200626061825__addCitiesTable.cs" />
     <Compile Remove="Data\Migrations\20200626061825__addCitiesTable.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200629060512__createResultLimitsTable.cs" />
+    <Compile Remove="Data\Migrations\20200629060512__createResultLimitsTable.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200629061058__createResultLimitsTable.cs" />
+    <Compile Remove="Data\Migrations\20200629061058__createResultLimitsTable.Designer.cs" />
   </ItemGroup>
 
 

@@ -1,7 +1,7 @@
-﻿@model IEnumerable<PRIS.WEB.Models.TestResultSettings>  
+﻿@model IEnumerable<PRIS.WEB.Models.ResultLimits>  
 
 @{
-    ViewData["Title"] = "TestResultLimits_View";
+    ViewData["Title"] = "ResultLimits_View";
     Layout = "~/Views/Shared/_LayoutNavSectionForSettings.cshtml";
 }
 
@@ -10,64 +10,57 @@
     <br />
 
 <p>
-    <a asp-action="TestResultLimits_Create">Redaguoti balų rėžius</a>
+    <a asp-action="ResultLimits_Create">Redaguoti balų rėžius</a>
 </p>
-<table class="table">
+
+<table class="table table-bordered table-responsive-lg">
     <thead>
         <tr>
-            <th scope="col">
-                @Html.DisplayNameFor(model => model.ResultSettingsId)
-            </th>
-            <th scope="col">
-                @Html.DisplayNameFor(model => model.Task1)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Task2)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Task3)
+            <th rowspan="1" colspan="1"></th>
+            <th rowspan="1" colspan="3" class="text-center">Kompiuterinės sistemos</th>
+            <th rowspan="1" colspan="3" class="text-center">Logikos pagrindai</th>
+            <th rowspan="1" colspan="4" class="text-center">Programavimo pagrindai</th>
+        </tr>
+        <tr>
+            <th class="text-center">
+                Užduoties nr.
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Task4)
+                1
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Task5)
+                2
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Task6)
+                3
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Task7)
+                4
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Task8)
+                5
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Task9)
+                6
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Task10)
+                7
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Task11)
+                8
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Task12)
+                9
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Task13)
+                10
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Task14)
-            </th>
-            <th></th>
         </tr>
     </thead>
     <tbody>
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.ResultSettingsId)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Task1)
@@ -98,18 +91,6 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Task10)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Task11)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Task12)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Task13)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Task14)
             </td>
             <td>
                 @*@Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
