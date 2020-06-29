@@ -22,7 +22,7 @@ namespace PRIS.WEB.Controllers
         {
             AddTestViewModel viewModel = GetViewModelWithCityList();
 
-            return View(viewModel);
+            return View("Test", viewModel);
         }
 
         [HttpPost]

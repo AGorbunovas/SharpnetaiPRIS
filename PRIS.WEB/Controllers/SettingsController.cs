@@ -12,7 +12,7 @@ using Newtonsoft.Json;
 using PRIS.WEB.Data;
 using PRIS.WEB.Models;
 using PRIS.WEB.ViewModels;
-using Module = PRIS.WEB.Models.Module;
+using PRIS.WEB.ViewModels.ModuleViewModels;
 
 namespace PRIS.WEB.Controllers
 {
@@ -91,40 +91,57 @@ namespace PRIS.WEB.Controllers
         }
         #endregion
 
-        #region Module/Create
-
-        public async Task<IActionResult> Module()
+        #region Module
+        public IActionResult Module()
         {
-            return View(await _context.Modules.ToListAsync());
+            return View(_context.Modules.ToList());
         }
+        #endregion
 
+        #region Module/Create
         public IActionResult ModuleCreate()
         {
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> ModuleCreate(Module module)
+        public IActionResult ModuleCreate(AddModuleViewModel module)
         {
-            _context.Modules.Add(module);
-            await _context.SaveChangesAsync();
-            return RedirectToAction("Module");
+            var check = _context.Modules.Any(m => m.ModuleName == module.ModuleName);
+
+            if (check)
+            {
+                ModelState.AddModelError(string.Empty, "Tokia mokymų programa jau yra sukurta");
+                return View();
+            }
+
+            if (ModelState.IsValid)
+            {
+                var newModule = new Module() { ModuleName = module.ModuleName };
+                if (newModule != null)
+                {
+                    _context.Modules.Add(newModule);
+                    _context.SaveChanges();
+                }
+                return RedirectToAction("Module");
+            }
+            return View();
         }
 
         #endregion Module/Create
 
         #region Module/Delete
 
-        public async Task<IActionResult> ModuleDelete(int? id, bool? saveChangesError = false)
+        public IActionResult ModuleDelete(int? id, bool? saveChangesError = false)
         {
             if (id == null)
             {
                 return NotFound();
             }
-            var module = await _context.Modules
-                                       .AsNoTracking()
-                                       .FirstOrDefaultAsync(module => module.ModuleID == id);
-            if (module == null)
+            var moduleData = _context.Modules
+                .SingleOrDefault(module => module.ModuleID == id);
+
+            if (moduleData == null)
             {
                 return NotFound();
             }
@@ -133,21 +150,22 @@ namespace PRIS.WEB.Controllers
                 ViewData["ErrorMessage"] = "Delete failed. Try again, and if the problem persists " +
             "see your system administrator.";
             }
-            return View(module);
+            return View(moduleData);
         }
 
         [HttpPost, ActionName("ModuleDelete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ModuleDeleteConfirmed(int id)
+
+        public async Task<IActionResult> ModuleDeleteConfirmed(int? id)
         {
-            var module = await _context.Modules.FindAsync(id);
-            if (module == null)
+            var moduleData = await _context.Modules.FindAsync(id);
+            if (moduleData == null)
             {
                 return RedirectToAction("Module");
             }
             try
             {
-                _context.Modules.Remove(module);
+                _context.Modules.Remove(moduleData);
                 await _context.SaveChangesAsync();
 
                 return RedirectToAction("Module");
