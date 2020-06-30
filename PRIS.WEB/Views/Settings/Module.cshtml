@@ -5,29 +5,36 @@
     Layout = "~/Views/Shared/_LayoutNavSectionForSettings.cshtml";
 }
 
-<p>
-    <a asp-action="ModuleCreate">Sukurti</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-            <th scope="col">Mokymo programa</th>
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ModuleName)
-                </td>
-                <td>
-                    <a asp-action="ModuleDelete" asp-route-id="@item.ModuleID">Trinti</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+<h5>Akademija.IT mokymo programos</h5>
+<br />
+<div class="row">
+    <div class="col-md-6">
+        <p>
+            <a asp-action="ModuleCreate" class="btn btn-outline-dark" role="button">Sukurti</a>
+            @*<a asp-action="ModuleCreate">Sukurti</a>*@
+        </p>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">
+                        Mokymo programa
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ModuleName)
+                        </td>
+                        <td>
+                            <a asp-action="ModuleDelete" asp-route-id="@item.ModuleID" class="btn btn-sm btn-outline-danger" role="button">Trinti</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

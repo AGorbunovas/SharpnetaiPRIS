@@ -10,7 +10,7 @@
 <div class="row">
     <div class="col-md-6">
         <p>
-            <a asp-action="CityModalPartial">Pridėti miestą</a>
+            <a asp-action="CityModalPartial" class="btn btn-outline-dark" role="button">Sukurti</a>
         </p>
         @* Zemiau uzkomentuoti elementai naudojami noritnt aktyvuoti Pop-up forma *@
         @*<div id="PlaceHolderHere"></div>
@@ -34,7 +34,7 @@
                             @Html.DisplayFor(modelItem => item.CityName)
                         </td>
                         <td>
-                            <a asp-action="CityDelete" asp-route-id="@item.CityId">Trinti</a>
+                            <a asp-action="CityDelete" asp-route-id="@item.CityId" class="btn btn-sm btn-outline-danger" role="button">Trinti</a>
                         </td>
                     </tr>
                 }
