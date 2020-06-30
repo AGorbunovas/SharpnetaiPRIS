@@ -1,13 +1,13 @@
-﻿@model IEnumerable<PRIS.WEB.Models.ResultLimits>  
+﻿@model IEnumerable<PRIS.WEB.Models.ResultLimits>
 
 @{
     ViewData["Title"] = "ResultLimits_View";
     Layout = "~/Views/Shared/_LayoutNavSectionForSettings.cshtml";
 }
 
-    <h4>Čia galite redaguoti testo užduočių balų rėžius</h4>
-    <hr />
-    <br />
+<h4>Čia galite redaguoti testo užduočių balų rėžius</h4>
+<hr />
+<br />
 
 <p>
     <a asp-action="ResultLimits_Create">Redaguoti balų rėžius</a>
@@ -55,49 +55,55 @@
             <th>
                 10
             </th>
+            <th class="text-center">
+                Pridėjimo data
+            </th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Task1)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Task2)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Task3)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Task4)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Task5)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Task6)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Task7)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Task8)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Task9)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Task10)
-            </td>
-            <td>
-                @*@Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })*@
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    Maksimalus balas
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Task1)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Task2)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Task3)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Task4)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Task5)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Task6)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Task7)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Task8)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Task9)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Task10)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateLimitSet)
+                </td>
+                <td>
+                    <a asp-action="LimitsDelete" asp-route-id="@item.ResultLimitsId">Trinti</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

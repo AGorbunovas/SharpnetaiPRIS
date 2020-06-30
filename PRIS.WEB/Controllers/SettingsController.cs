@@ -197,11 +197,13 @@ namespace PRIS.WEB.Controllers
 
             if (ModelState.IsValid)
             {
-                string timeStamp = GetTimestamp(DateTime.Now.Date);
-                var newRecord = new ResultLimits() { ResultLimitsId = limits.ResultLimitsId, DateLimitSet = timeStamp, Task1 = limits.Task1, Task2 = limits.Task2, Task3 = limits.Task3, Task4 = limits.Task4, Task5 = limits.Task5, Task6 = limits.Task6, Task7 = limits.Task7, Task8 = limits.Task8, Task9 = limits.Task9, Task10 = limits.Task10};
-                _context.ResultLimits.Add(newRecord);
-                _context.SaveChanges();
-
+                string timeStamp = GetTimestamp(DateTime.Now);
+                var newRecord = new ResultLimits() { ResultLimitsId = limits.ResultLimitsId, DateLimitSet = timeStamp, Task1 = limits.Task1, Task2 = limits.Task2, Task3 = limits.Task3, Task4 = limits.Task4, Task5 = limits.Task5, Task6 = limits.Task6, Task7 = limits.Task7, Task8 = limits.Task8, Task9 = limits.Task9, Task10 = limits.Task10 };
+                if (newRecord != null)
+                {
+                    _context.ResultLimits.Add(newRecord);
+                    _context.SaveChanges();
+                }
                 return RedirectToAction("ResultLimits_View");
             }
             return View();
@@ -209,10 +211,14 @@ namespace PRIS.WEB.Controllers
 
         private string GetTimestamp(DateTime date)
         {
-            return date.ToString();
+            return date.Date.ToString("yyyy/MM/dd");
         }
 
-
+        public IActionResult LimitsDelete(int id)
+        {
+            //TODO
+            return RedirectToAction("ResultLimits_View");
+        }
         #endregion
 
     }
