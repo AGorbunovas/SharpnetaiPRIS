@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "City";
+    ViewData["ActivePage"] = PRIS.WEB.Views.Shared.ManageCollumnNavPages.City;
     Layout = "~/Views/Shared/_LayoutNavSectionForSettings.cshtml";
 }
 
@@ -14,8 +15,8 @@
         </p>
         @* Zemiau uzkomentuoti elementai naudojami noritnt aktyvuoti Pop-up forma *@
         @*<div id="PlaceHolderHere"></div>
-        <button type="button" class="btn btn-outline-dark" data-toggle="ajax-modal" data-target="#addCity" data-url="@Url.Action("CityCreate")">Pridėti</button>
-        <button type="submit" class="btn btn-outline-dark" data-toggle="ajax-modal" data-target="#deleteCity" data-url="@Url.Action("Delete")">Trinti</button>*@
+            <button type="button" class="btn btn-outline-dark" data-toggle="ajax-modal" data-target="#addCity" data-url="@Url.Action("CityCreate")">Pridėti</button>
+            <button type="submit" class="btn btn-outline-dark" data-toggle="ajax-modal" data-target="#deleteCity" data-url="@Url.Action("Delete")">Trinti</button>*@
         <br />
         <table class="table">
             <thead>
@@ -42,10 +43,6 @@
         </table>
     </div>
 </div>
-
-
-
-
 
 @*@{
         ViewData["Title"] = "City";

@@ -147,8 +147,8 @@ namespace PRIS.WEB.Controllers
             }
             if (saveChangesError.GetValueOrDefault())
             {
-                ViewData["ErrorMessage"] = "Delete failed. Try again, and if the problem persists " +
-            "see your system administrator.";
+                ViewData["ErrorMessage"] = "Mokymo programos neįmanoma ištrinti." +
+            "Kreipkitės į sistemos administratorių.";
             }
             return View(moduleData);
         }

@@ -4,22 +4,22 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-    <div>
-        <h4>Čia galite modifikuoti priėmimo sistemos nustatymus</h4>
-        <hr />
-        <div class="row">
-            <div class="col-md-3">
-                <ul class="nav nav-pills flex-column">
-                    <li class="nav-item"><a class="nav-link" asp-controller="Settings" asp-action="City" id="cities">Miestai</a></li>
-                    <li class="nav-item"><a class="nav-link" asp-controller="Settings" asp-action="Module" id="modules">Mokymo programos</a></li>
-                    <li class="nav-item"><a class="nav-link" asp-controller="Settings" asp-action="ResultLimits_View" id="limits">Testo balų nustatymai</a></li>
-                </ul>
-            </div>
-            <div class="col-md-9">
-                @RenderBody()
-            </div>
+<div>
+    <h5>Čia galite modifikuoti priėmimo sistemos nustatymus</h5>
+    <hr />
+    <div class="row">
+        <div class="col-md-3">
+            <ul class="nav nav-pills flex-column">
+                <li class="nav-item"><a class="nav-link @PRIS.WEB.Views.Shared.ManageCollumnNavPages.CityNavClass(ViewContext)" id="cities" href="/Settings/City">Miestai</a></li>
+                <li class="nav-item"><a class="nav-link @PRIS.WEB.Views.Shared.ManageCollumnNavPages.ModuleNavClass(ViewContext)" id="modules" href="/Settings/Module">Mokymo programos</a></li>
+                <li class="nav-item"><a class="nav-link @PRIS.WEB.Views.Shared.ManageCollumnNavPages.ResultLimits_ViewNavClass(ViewContext)" id="resultLimits" href="/Settings/ResultLimits_View">Testo balų nustatymai</a></li>
+            </ul>
+        </div>
+        <div class="col-md-9">
+            @RenderBody()
         </div>
     </div>
+</div>
 
 
 @section Scripts {
