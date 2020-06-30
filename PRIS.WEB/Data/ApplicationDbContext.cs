@@ -32,12 +32,10 @@ namespace PRIS.WEB.Data
             modelBuilder.Entity<Candidate>().ToTable("Candidate");
             modelBuilder.Entity<CandidateModule>().ToTable("CandidateModule");
             modelBuilder.Entity<TaskGroup>().ToTable("TaskGroup");
+            modelBuilder.Entity<ResultLimits>().ToTable("ResultLimits");
 
             modelBuilder.Entity<CandidateModule>()
-                .HasKey(candidateModule => new { candidateModule.CandidateID, candidateModule.ModuleID });      
-            modelBuilder.Entity<ResultLimits>().ToTable("ResultLimits");         
+                .HasKey(candidateModule => new { candidateModule.CandidateID, candidateModule.ModuleID });
         }
-
-
     }
 }
