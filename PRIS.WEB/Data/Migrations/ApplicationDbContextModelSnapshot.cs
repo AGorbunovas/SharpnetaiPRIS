@@ -219,6 +219,54 @@ namespace PRIS.WEB.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("PRIS.WEB.Models.Candidate", b =>
+                {
+                    b.Property<int>("CandidateID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Comment")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Gender")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("PhoneNumber")
+                        .HasColumnType("int");
+
+                    b.HasKey("CandidateID");
+
+                    b.ToTable("Candidate");
+                });
+
+            modelBuilder.Entity("PRIS.WEB.Models.CandidateModule", b =>
+                {
+                    b.Property<int>("CandidateID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ModuleID")
+                        .HasColumnType("int");
+
+                    b.HasKey("CandidateID", "ModuleID");
+
+                    b.HasIndex("ModuleID");
+
+                    b.ToTable("CandidateModule");
+                });
+
             modelBuilder.Entity("PRIS.WEB.Models.City", b =>
                 {
                     b.Property<int>("CityId")
@@ -247,6 +295,7 @@ namespace PRIS.WEB.Data.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("ModuleName")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ModuleID");
@@ -264,39 +313,55 @@ namespace PRIS.WEB.Data.Migrations
                     b.Property<string>("DateLimitSet")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Task1")
-                        .HasColumnType("int");
+                    b.Property<float?>("Task1")
+                        .HasColumnType("real");
 
-                    b.Property<int>("Task10")
-                        .HasColumnType("int");
+                    b.Property<float>("Task10")
+                        .HasColumnType("real");
 
-                    b.Property<int>("Task2")
-                        .HasColumnType("int");
+                    b.Property<float>("Task2")
+                        .HasColumnType("real");
 
-                    b.Property<int>("Task3")
-                        .HasColumnType("int");
+                    b.Property<float>("Task3")
+                        .HasColumnType("real");
 
-                    b.Property<int>("Task4")
-                        .HasColumnType("int");
+                    b.Property<float>("Task4")
+                        .HasColumnType("real");
 
-                    b.Property<int>("Task5")
-                        .HasColumnType("int");
+                    b.Property<float>("Task5")
+                        .HasColumnType("real");
 
-                    b.Property<int>("Task6")
-                        .HasColumnType("int");
+                    b.Property<float>("Task6")
+                        .HasColumnType("real");
 
-                    b.Property<int>("Task7")
-                        .HasColumnType("int");
+                    b.Property<float>("Task7")
+                        .HasColumnType("real");
 
-                    b.Property<int>("Task8")
-                        .HasColumnType("int");
+                    b.Property<float>("Task8")
+                        .HasColumnType("real");
 
-                    b.Property<int>("Task9")
-                        .HasColumnType("int");
+                    b.Property<float>("Task9")
+                        .HasColumnType("real");
 
                     b.HasKey("ResultLimitsId");
 
                     b.ToTable("ResultLimits");
+                });
+
+            modelBuilder.Entity("PRIS.WEB.Models.TaskGroup", b =>
+                {
+                    b.Property<int>("TaskGroupID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("TaskGroupName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("TaskGroupID");
+
+                    b.ToTable("TaskGroup");
                 });
 
             modelBuilder.Entity("PRIS.WEB.Models.Test", b =>
@@ -366,6 +431,21 @@ namespace PRIS.WEB.Data.Migrations
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("PRIS.WEB.Models.CandidateModule", b =>
+                {
+                    b.HasOne("PRIS.WEB.Models.Candidate", "Candidate")
+                        .WithMany("CandidateModules")
+                        .HasForeignKey("CandidateID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("PRIS.WEB.Models.Module", "Module")
+                        .WithMany()
+                        .HasForeignKey("ModuleID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
