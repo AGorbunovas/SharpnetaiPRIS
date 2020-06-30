@@ -5,31 +5,31 @@
     Layout = "~/Views/Shared/_LayoutNavSectionForSettings.cshtml";
 }
 
-<h4>Redaguoti testo užduočių balų rėžius</h4>
+<h5>Redaguoti testo užduočių balų rėžius</h5>
 <hr />
 <div class="row">
     <div>
         <form class="form" asp-controller="Settings" asp-action="ResultLimits_Create">
-            <div class="form-row">
+            <div class="form-row mx-0">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group">
                     <label asp-for="ResultLimitsId" class="control-label">Nustatykite užduoties balų rėžius įvesties langeliuose ties kiekvienos užduoties numeriu.</label>
                     <span asp-validation-for="ResultLimitsId" class="text-danger"></span>
                 </div>
-                <div class="row mx-0">
+                <div class="row">
                     <div class="form-group col-2">
                         <label asp-for="Task1" class="control-label">Nr. 1</label>
-                        <input asp-for="Task1" class="form-control" type="number" step="0.5" min="0.5" max="5" />
+                        <input asp-for="Task1" class="form-control" type="number" step="0.5" min="0" max="5" />
                         <span asp-validation-for="Task1" class="text-danger"></span>
                     </div>
                     <div class="form-group col-2">
                         <label asp-for="Task2" class="control-label">Nr. 2</label>
-                        <input asp-for="Task2" class="form-control" type="number" step="0.5" min="0.5" max="5" />
+                        <input asp-for="Task2" class="form-control" type="number" step="0.5" min="0" max="5" />
                         <span asp-validation-for="Task2" class="text-danger"></span>
                     </div>
                     <div class="form-group col-2">
                         <label asp-for="Task3" class="control-label">Nr. 3</label>
-                        <input asp-for="Task3" class="form-control" type="number" step="0.5" min="0.5" max="5" />
+                        <input asp-for="Task3" class="form-control" type="number" step="0.5" min="0" max="5" />
                         <span asp-validation-for="Task3" class="text-danger"></span>
                     </div>
                     <div class="form-group col-2">
@@ -43,7 +43,7 @@
                         <span asp-validation-for="Task5" class="text-danger"></span>
                     </div>
                 </div>
-                <div class="row mx-0">
+                <div class="row">
                     <div class="form-group col-2">
                         <label asp-for="Task6" class="control-label">Nr. 6</label>
                         <input asp-for="Task6" class="form-control" type="number" step="0.5" min="0.5" max="5" />
@@ -71,15 +71,17 @@
                     </div>
                 </div>
             </div>
+            <div class="row">
+                <div class="form-group col-2">
+                    <label asp-for="ResultSumMax" class="control-label">Bendras testo balas</label>
+                    <input asp-for="ResultSumMax" class="form-control" type="number" min="10" max="20" />
+                    <span asp-validation-for="ResultSumMax" class="text-danger"></span>
+                </div>
+            </div>
             <div class="form-group">
                 <button type="submit" value="Create" class="btn btn-outline-dark">Išsaugoti</button>
             </div>
-            
         </form>
     </div>
-</div>
-
-<div>
-    <a class="row" asp-action="ResultLimits_View">Atgal į sąrašą</a>
 </div>
 

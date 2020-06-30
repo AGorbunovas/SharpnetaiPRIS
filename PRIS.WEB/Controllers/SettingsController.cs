@@ -195,10 +195,17 @@ namespace PRIS.WEB.Controllers
         public IActionResult ResultLimits_Create(AddResultLimitsViewModel limits)
         {
 
+            //TODO rezultatu limitai susije su testo sablonu
+
+            var sumTestResults = limits.Task1 + limits.Task2 + limits.Task3 + limits.Task4 + limits.Task5 + limits.Task6 + limits.Task7 + limits.Task8 + limits.Task9 + limits.Task10;
+            if (sumTestResults != limits.ResultSumMax) 
+            {
+                ModelState.AddModelError(string.Empty, "Testo balų suma turi atitikti bendrą testo balą. Pasitikrinkite įvestis, jų sumą ir bendrą testo balą.");
+            }
             if (ModelState.IsValid)
             {
                 string timeStamp = GetTimestamp(DateTime.Now);
-                var newRecord = new ResultLimits() { ResultLimitsId = limits.ResultLimitsId, DateLimitSet = timeStamp, Task1 = limits.Task1, Task2 = limits.Task2, Task3 = limits.Task3, Task4 = limits.Task4, Task5 = limits.Task5, Task6 = limits.Task6, Task7 = limits.Task7, Task8 = limits.Task8, Task9 = limits.Task9, Task10 = limits.Task10 };
+                var newRecord = new ResultLimits() { ResultLimitsId = limits.ResultLimitsId, DateLimitSet = timeStamp, Task1 = limits.Task1, Task2 = limits.Task2, Task3 = limits.Task3, Task4 = limits.Task4, Task5 = limits.Task5, Task6 = limits.Task6, Task7 = limits.Task7, Task8 = limits.Task8, Task9 = limits.Task9, Task10 = limits.Task10, ResultSumMax = limits.ResultSumMax };
                 if (newRecord != null)
                 {
                     _context.ResultLimits.Add(newRecord);
@@ -214,11 +221,20 @@ namespace PRIS.WEB.Controllers
             return date.Date.ToString("yyyy/MM/dd");
         }
 
-        public IActionResult LimitsDelete(int id)
-        {
-            //TODO
-            return RedirectToAction("ResultLimits_View");
-        }
+        //public IActionResult LimitsDelete(int id)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        var data = _context.ResultLimits.SingleOrDefault(x => x.ResultLimitsId == id);
+        //        if (data != null)
+        //        {
+        //            _context.Remove(data);
+        //            _context.SaveChanges();
+        //        }
+        //        return RedirectToAction("ResultLimits_View");
+        //    }
+        //    return RedirectToAction("ResultLimits_View");
+        //}
         #endregion
 
     }

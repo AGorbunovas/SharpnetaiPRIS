@@ -10,7 +10,7 @@
 <br />
 
 <p>
-    <a asp-action="ResultLimits_Create">Redaguoti balų rėžius</a>
+    <a asp-action="ResultLimits_Create" class="btn btn-outline-dark" role="button">Pridėti balų rėžius</a>
 </p>
 
 <table class="table table-bordered table-responsive-lg">
@@ -20,6 +20,8 @@
             <th rowspan="1" colspan="3" class="text-center">Kompiuterinės sistemos</th>
             <th rowspan="1" colspan="3" class="text-center">Logikos pagrindai</th>
             <th rowspan="1" colspan="4" class="text-center">Programavimo pagrindai</th>
+            <th rowspan="1" colspan="1"></th>
+            <th rowspan="1" colspan="1"></th>
         </tr>
         <tr>
             <th class="text-center">
@@ -55,18 +57,15 @@
             <th>
                 10
             </th>
-            <th class="text-center">
-                Pridėjimo data
-            </th>
+            <th class="text-center">Bendras testo balas</th>
+            <th class="text-center">Pridėjimo data</th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
         {
             <tr>
-                <td>
-                    Maksimalus balas
-                </td>
+                <td></td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Task1)
                 </td>
@@ -98,11 +97,14 @@
                     @Html.DisplayFor(modelItem => item.Task10)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.DateLimitSet)
+                    @Html.DisplayFor(modelItem => item.ResultSumMax)
                 </td>
                 <td>
-                    <a asp-action="LimitsDelete" asp-route-id="@item.ResultLimitsId">Trinti</a>
+                    @Html.DisplayFor(modelItem => item.DateLimitSet)
                 </td>
+                @*<td>
+                    <a asp-action="LimitsDelete" asp-route-id="@item.ResultLimitsId">Trinti</a>
+                </td>*@
             </tr>
         }
     </tbody>
