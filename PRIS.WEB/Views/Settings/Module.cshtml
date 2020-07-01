@@ -2,16 +2,17 @@
 
 @{
     ViewData["Title"] = "Module";
+    ViewData["ActivePage"] = PRIS.WEB.Views.Shared.ManageCollumnNavPages.Module;
     Layout = "~/Views/Shared/_LayoutNavSectionForSettings.cshtml";
 }
 
 <h5>Akademija.IT mokymo programos</h5>
+<hr />
 <br />
 <div class="row">
     <div class="col-md-6">
         <p>
             <a asp-action="ModuleCreate" class="btn btn-outline-dark" role="button">Sukurti</a>
-            @*<a asp-action="ModuleCreate">Sukurti</a>*@
         </p>
         <table class="table">
             <thead>

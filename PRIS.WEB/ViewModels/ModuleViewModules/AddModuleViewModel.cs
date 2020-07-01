@@ -13,7 +13,7 @@ namespace PRIS.WEB.ViewModels.ModuleViewModels
 
         [Display(Name = "Mokymų programa")]
         [Required(ErrorMessage = "Įvedimo laukas negali būti tuščias")]
-        [StringLength(50, ErrorMessage = "Įvedamų simbolių skaičius turi būti tarp {2} ir {1} simbolių", MinimumLength = 4)]
+        [StringLength(50, ErrorMessage = "Mokymo programos pavadinimas turi būti bent iš {2} simbolių, bet ne ilgesnis nei {1} simbolių", MinimumLength = 4)]
         public string ModuleName { get; set; }
 
         public IList<Module> Modules { get; set; }
