@@ -15,7 +15,7 @@ namespace PRIS.WEB.ViewModels
         public string DateLimitSet { get; set; }
 
         [Required(ErrorMessage = "Pasirinkite reikšmę")]
-        //[RegularExpression(@"^(5 |\d)(\.(5){1})?", ErrorMessage = "Pasirinkite reikšmę nuo 0.5 iki 5.")]
+        [RegularExpression(@"^(5 |\d)(\.(5){1})?", ErrorMessage = "Pasirinkite reikšmę nuo 0.5 iki 5.")]
         public decimal? Task1 { get; set; }
 
         [Required(ErrorMessage = "Pasirinkite reikšmę")]
@@ -53,6 +53,7 @@ namespace PRIS.WEB.ViewModels
         public decimal? Task10 { get; set; }
 
         [Required(ErrorMessage = "Pasirinkite bendrą testo balo reikšmę")]
+        [Range(10, 20, ErrorMessage = "Pasirinkite reikšmę nuo 10 iki 20.")]  
         public decimal? ResultSumMax { get; set; }
         public IList<ResultLimits> ResultLimits { get; set; } 
     }

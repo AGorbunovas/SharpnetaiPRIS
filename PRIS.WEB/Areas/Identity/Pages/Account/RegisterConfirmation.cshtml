@@ -1,22 +1,27 @@
 ﻿@page
 @model RegisterConfirmationModel
 @{
-        ViewData["Title"] = "Registracija patvirtinta";
-    }
+    ViewData["Title"] = "Registracija patvirtinta";
+}
 
-    <h1>@ViewData["Title"]</h1>
-    @{
-        if (@Model.DisplayConfirmAccountLink)
-        {
-    <p>
-        @*This app does not currently have a real email sender registered, see <a href="https://aka.ms/aspaccountconf">these docs</a> for how to configure a real email sender.
-        Normally this would be emailed:*@ <a id="confirm-link" href="@Model.EmailConfirmationUrl">Norėdami patvirtinti savo paskyrą spauskite čia</a>
-    </p>
+<div class="row justify-content-center">
+    <div class="col-4">
+
+        <h4>@ViewData["Title"]</h4>
+        @{
+            if (@Model.DisplayConfirmAccountLink)
+            {
+                <p>
+                    @*This app does not currently have a real email sender registered, see <a href="https://aka.ms/aspaccountconf">these docs</a> for how to configure a real email sender.
+                        Normally this would be emailed:*@ <a id="confirm-link" href="@Model.EmailConfirmationUrl">Norėdami patvirtinti savo paskyrą spauskite čia</a>
+                </p>
+            }
+            else
+            {
+                <p>
+                    Registracijos patvirtinimui jums išsiuntėme elektroninį laišką. Sekite veiksmus nurodytus jame.
+                </p>
+            }
         }
-        else
-        {
-<p>
-    Registracijos patvirtinimui jums išsiuntėme elektroninį laišką. Sekite veiksmus nurodytus jame.
-</p>
-        }
-    }
+    </div>
+</div>
