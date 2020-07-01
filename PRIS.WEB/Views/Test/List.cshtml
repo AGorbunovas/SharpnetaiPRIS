@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "List";
+    ViewData["ActivePage"] = PRIS.WEB.Views.Shared.ManageCollumnNavPages.List;
     Layout = "~/Views/Shared/_LayoutWithNavSectionForTestView.cshtml";
 }
 
@@ -18,18 +19,19 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.DateOfTest)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.City.CityName)
-            </td>
-            <td>
-                <a asp-action="Delete" asp-route-id="@item.TestId">Trinti</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateOfTest)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.City.CityName)
+                </td>
+                <td>
+                    <a asp-action="Delete" asp-route-id="@item.TestId" class="btn btn-sm btn-outline-danger" role="button">Trinti</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

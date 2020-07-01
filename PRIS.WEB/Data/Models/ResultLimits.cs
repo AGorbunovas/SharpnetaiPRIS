@@ -11,15 +11,16 @@ namespace PRIS.WEB.Models
         [Key]
         public int ResultLimitsId { get; set; }
         public string DateLimitSet { get; set; }
-        public int Task1 { get; set; }
-        public int Task2 { get; set; }
-        public int Task3 { get; set; }
-        public int Task4 { get; set; }
-        public int Task5 { get; set; }
-        public int Task6 { get; set; }
-        public int Task7 { get; set; }
-        public int Task8 { get; set; }
-        public int Task9 { get; set; }
-        public int Task10 { get; set; }
+        public decimal? Task1 { get; set; }
+        public decimal? Task2 { get; set; }
+        public decimal? Task3 { get; set; }
+        public decimal? Task4 { get; set; }
+        public decimal? Task5 { get; set; }
+        public decimal? Task6 { get; set; }
+        public decimal? Task7 { get; set; }
+        public decimal? Task8 { get; set; }
+        public decimal? Task9 { get; set; }
+        public decimal? Task10 { get; set; }
+        public decimal? ResultSumMax { get; set; }
     }
 }

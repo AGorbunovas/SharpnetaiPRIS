@@ -147,8 +147,8 @@ namespace PRIS.WEB.Controllers
             }
             if (saveChangesError.GetValueOrDefault())
             {
-                ViewData["ErrorMessage"] = "Delete failed. Try again, and if the problem persists " +
-            "see your system administrator.";
+                ViewData["ErrorMessage"] = "Mokymo programos neįmanoma ištrinti." +
+            "Kreipkitės į sistemos administratorių.";
             }
             return View(moduleData);
         }
@@ -195,24 +195,52 @@ namespace PRIS.WEB.Controllers
         public IActionResult ResultLimits_Create(AddResultLimitsViewModel limits)
         {
 
+            //TODO rezultatu limitai susije su testo sablonu
+
+            var sumTestResults = limits.Task1 + limits.Task2 + limits.Task3 + limits.Task4 + limits.Task5 + limits.Task6 + limits.Task7 + limits.Task8 + limits.Task9 + limits.Task10;
+            if (sumTestResults != limits.ResultSumMax) 
+            {
+                ModelState.AddModelError(string.Empty, "Testo balų suma turi atitikti bendrą testo balą. Pasitikrinkite įvestis, jų sumą ir bendrą testo balą.");
+            }
             if (ModelState.IsValid)
             {
-                string timeStamp = GetTimestamp(DateTime.Now.Date);
-                var newRecord = new ResultLimits() { ResultLimitsId = limits.ResultLimitsId, DateLimitSet = timeStamp, Task1 = limits.Task1, Task2 = limits.Task2, Task3 = limits.Task3, Task4 = limits.Task4, Task5 = limits.Task5, Task6 = limits.Task6, Task7 = limits.Task7, Task8 = limits.Task8, Task9 = limits.Task9, Task10 = limits.Task10};
-                _context.ResultLimits.Add(newRecord);
-                _context.SaveChanges();
-
+                string timeStamp = GetTimestamp(DateTime.Now);
+                var newRecord = new ResultLimits() { ResultLimitsId = limits.ResultLimitsId, DateLimitSet = timeStamp, Task1 = limits.Task1, Task2 = limits.Task2, Task3 = limits.Task3, Task4 = limits.Task4, Task5 = limits.Task5, Task6 = limits.Task6, Task7 = limits.Task7, Task8 = limits.Task8, Task9 = limits.Task9, Task10 = limits.Task10, ResultSumMax = limits.ResultSumMax };
+                if (newRecord != null)
+                {
+                    _context.ResultLimits.Add(newRecord);
+                    _context.SaveChanges();
+                } else
+                {
+                    ModelState.AddModelError(string.Empty, "Įveskite teisingus duomenis.");
+                }
                 return RedirectToAction("ResultLimits_View");
+            } else
+            {
+                ModelState.AddModelError(string.Empty, "Pasitikrinkite, ar įvedėte visus duomenis.");
             }
             return View();
         }
 
         private string GetTimestamp(DateTime date)
         {
-            return date.ToString();
+            return date.Date.ToString("yyyy/MM/dd");
         }
 
-
+        //public IActionResult LimitsDelete(int id)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        var data = _context.ResultLimits.SingleOrDefault(x => x.ResultLimitsId == id);
+        //        if (data != null)
+        //        {
+        //            _context.Remove(data);
+        //            _context.SaveChanges();
+        //        }
+        //        return RedirectToAction("ResultLimits_View");
+        //    }
+        //    return RedirectToAction("ResultLimits_View");
+        //}
         #endregion
 
     }

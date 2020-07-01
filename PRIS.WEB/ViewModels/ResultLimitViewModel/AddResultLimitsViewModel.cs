@@ -3,6 +3,7 @@ using PRIS.WEB.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -14,44 +15,48 @@ namespace PRIS.WEB.ViewModels
         public string DateLimitSet { get; set; }
 
         [Required(ErrorMessage = "Pasirinkite reikšmę")]
-        [Range(1, 5, ErrorMessage = "Pasirinkite reikšmę nuo 1 iki 5.")]
-        public int Task1 { get; set; }
+        [Range(0.5, 5, ErrorMessage = "Pasirinkite reikšmę nuo 0.5 iki 5.")]
+        public decimal? Task1 { get; set; }
 
         [Required(ErrorMessage = "Pasirinkite reikšmę")]
-        [Range(1, 5, ErrorMessage = "Pasirinkite reikšmę nuo 1 iki 5.")]
-        public int Task2 { get; set; }
+        [Range(0.5, 5, ErrorMessage = "Pasirinkite reikšmę nuo 0.5 iki 5.")]
+        public decimal? Task2 { get; set; }
 
         [Required(ErrorMessage = "Pasirinkite reikšmę")]
-        [Range(1, 5, ErrorMessage = "Pasirinkite reikšmę nuo 1 iki 5.")]
-        public int Task3 { get; set; }
+        [Range(0.5, 5, ErrorMessage = "Pasirinkite reikšmę nuo 0.5 iki 5.")]
+        public decimal? Task3 { get; set; }
 
         [Required(ErrorMessage = "Pasirinkite reikšmę")]
-        [Range(1, 5, ErrorMessage = "Pasirinkite reikšmę nuo 1 iki 5.")]
-        public int Task4 { get; set; }
+        [Range(0.5, 5, ErrorMessage = "Pasirinkite reikšmę nuo 0.5 iki 5.")]
+        public decimal? Task4 { get; set; }
 
         [Required(ErrorMessage = "Pasirinkite reikšmę")]
-        [Range(1, 5, ErrorMessage = "Pasirinkite reikšmę nuo 1 iki 5.")]
-        public int Task5 { get; set; }
+        [Range(0.5, 5, ErrorMessage = "Pasirinkite reikšmę nuo 0.5 iki 5.")]
+        public decimal? Task5 { get; set; }
 
         [Required(ErrorMessage = "Pasirinkite reikšmę")]
-        [Range(1, 5, ErrorMessage = "Pasirinkite reikšmę nuo 1 iki 5.")]
-        public int Task6 { get; set; }
+        [Range(0.5, 5, ErrorMessage = "Pasirinkite reikšmę nuo 0.5 iki 5.")]
+        public decimal? Task6 { get; set; }
 
         [Required(ErrorMessage = "Pasirinkite reikšmę")]
-        [Range(1, 5, ErrorMessage = "Pasirinkite reikšmę nuo 1 iki 5.")]
-        public int Task7 { get; set; }
+        [Range(0.5, 5, ErrorMessage = "Pasirinkite reikšmę nuo 0.5 iki 5.")]
+        public decimal? Task7 { get; set; }
 
         [Required(ErrorMessage = "Pasirinkite reikšmę")]
-        [Range(1, 5, ErrorMessage = "Pasirinkite reikšmę nuo 1 iki 5.")]
-        public int Task8 { get; set; }
+        [Range(0.5, 5, ErrorMessage = "Pasirinkite reikšmę nuo 0.5 iki 5.")]
+        public decimal? Task8 { get; set; }
 
         [Required(ErrorMessage = "Pasirinkite reikšmę")]
-        [Range(1, 5, ErrorMessage = "Pasirinkite reikšmę nuo 1 iki 5.")]
-        public int Task9 { get; set; }
+        [Range(0.5, 5, ErrorMessage = "Pasirinkite reikšmę nuo 0.5 iki 5.")]
+        public decimal? Task9 { get; set; }
 
         [Required(ErrorMessage = "Pasirinkite reikšmę")]
-        [Range(1, 5, ErrorMessage = "Pasirinkite reikšmę nuo 1 iki 5.")]
-        public int Task10 { get; set; }
+        [Range(0.5, 5, ErrorMessage = "Pasirinkite reikšmę nuo 0.5 iki 5.")]
+        public decimal? Task10 { get; set; }
+
+        [Required(ErrorMessage = "Pasirinkite bendrą testo balo reikšmę")]
+        [Range(10, 20, ErrorMessage = "Pasirinkite reikšmę nuo 10 iki 20.")]  
+        public decimal? ResultSumMax { get; set; }
         public IList<ResultLimits> ResultLimits { get; set; } 
     }
 }

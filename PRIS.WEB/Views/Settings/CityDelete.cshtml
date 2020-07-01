@@ -3,8 +3,9 @@
 
 @{
     ViewData["Title"] = "CityDelete";
+    ViewData["ActivePage"] = PRIS.WEB.Views.Shared.ManageCollumnNavPages.City;
     Layout = "~/Views/Shared/_LayoutNavSectionForSettings.cshtml";
 }
 
-    <h6 class="text-danger">@ViewData["ErrorMessage"]</h6>
+    <h5 class="text-danger">@ViewData["ErrorMessage"]</h5>
     <p><a asp-action="City">Grįžti į miestų sąrašą</a></p>
