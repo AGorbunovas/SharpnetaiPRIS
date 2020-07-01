@@ -27,5 +27,8 @@ namespace PRIS.WEB.Models
         public string Comment { get; set; }
 
         public ICollection<CandidateModule> CandidateModules { get; set; }
+
+        public int TestId { get; set; }
+        public Test Test { get; set; }
     }
 }

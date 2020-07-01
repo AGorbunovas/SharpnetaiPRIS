@@ -11,6 +11,12 @@
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
         <fieldset class="form-group">
+            <label asp-for="TestId"></label>
+            <select asp-for="TestId" asp-items="Model.Tests" class="form-control"></select>
+            <span asp-validation-for="TestId" class="text-danger"></span>
+        </fieldset>
+
+        <fieldset class="form-group">
             <label asp-for="Firstname"></label>
             <input asp-for="Firstname" class="form-control" />
             <span asp-validation-for="Firstname" class="text-danger"></span>
@@ -38,15 +44,9 @@
             <label asp-for="Gender"></label>
             <br />
             <input type="radio" id="male" asp-for="Gender" value="Vyras">
-            <label>Vyras</label><br>
+            <label for="male">Vyras</label><br>
             <input type="radio" id="female" asp-for="Gender" value="Moteris">
             <label for="female">Moteris</label><br>
-        </fieldset>
-
-        <fieldset class="form-group">
-            <label asp-for="TestId"></label>
-            <select asp-for="TestId" asp-items="Model.Tests" class="form-control"></select>
-            <span asp-validation-for="TestId" class="text-danger"></span>
         </fieldset>
 
         <fieldset class="form-group">
@@ -64,6 +64,12 @@
             <textarea asp-for="Comment"></textarea>
         </fieldset>
 
-        <input id="submitApplication" type="submit" value="Sukurti nauja kandidatą" class="btn btn-outline-dark" />
-
+        @if (Model.CandidateID > 0)
+        {
+            <input id="submitApplication" type="submit" value="Redaguoti kandidatą" class="btn btn-outline-dark" />
+        }
+        else
+        {
+            <input id="submitApplication" type="submit" value="Sukurti nauja kandidatą" class="btn btn-outline-dark" />
+        }
     </form>

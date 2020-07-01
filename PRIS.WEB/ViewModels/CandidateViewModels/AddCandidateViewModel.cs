@@ -8,6 +8,8 @@ namespace PRIS.WEB.ViewModels.CandidateViewModels
 {
     public class AddCandidateViewModel
     {
+        public int CandidateID { set; get; }
+
         [Required(ErrorMessage = "Įveskite...")]
         [Display(Name = "Vardas")]
         public string Firstname { get; set; }
@@ -20,7 +22,7 @@ namespace PRIS.WEB.ViewModels.CandidateViewModels
         public string Email { get; set; }
         [Required(ErrorMessage = "Įveskite...")]
         [Display(Name = "Telefonas")]
-        public string Phone { get; set; }
+        public int? Phone { get; set; }
 
         [Display(Name = "Lytis")]
         public string Gender { get; set; }

@@ -1,35 +1,58 @@
-﻿@model IEnumerable<PRIS.WEB.ViewModels.TestViewModels.AddTestViewModel>
+﻿@model IEnumerable<PRIS.WEB.ViewModels.CandidateViewModels.ListCandidateViewModel>
 
 @{
     ViewData["Title"] = "List";
-    Layout = "~/Views/Shared/_LayoutWithNavSectionForTestView.cshtml";
+    Layout = "~/Views/Shared/_LayoutWithNavSectionForCandidateView.cshtml";
 }
 
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.DateOfTest)
+                Vardas Pavardė
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.City)
+                Programa (I-as pasirinkimas)
             </th>
-            <th></th>
+            <th>
+                Testo data, vieta
+            </th>
+            <th>
+                Testo balas
+            </th>
+            <th>
+                Surinktų balų % nuo maksimalaus
+            </th>
+            <th>
+                Kvietimas į pokalbį
+            </th>
+            <th>
+
+            </th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+        @foreach (var item in Model)
+        {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.DateOfTest)
+                @Html.DisplayFor(modelItem => item.Firstname) @Html.DisplayFor(modelItem => item.Lastname)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.City.CityName)
+                @Html.DisplayFor(modelItem => item.FirstModule)
             </td>
             <td>
-                <a asp-action="Delete" asp-route-id="@item.TestId">Trinti</a>
+                @Html.DisplayFor(modelItem => item.TestDate) @Html.DisplayFor(modelItem => item.TestCity)
+            </td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>
+                @*<a asp-action="View" asp-route-id="@item.CandidateID">Peržiūrėti</a>*@
+                <a asp-action="Candidate" asp-route-id="@item.CandidateID">Redaguoti</a>
+                <a asp-action="Delete" asp-route-id="@item.CandidateID">Trinti</a>
             </td>
         </tr>
-}
+        }
     </tbody>
 </table>
