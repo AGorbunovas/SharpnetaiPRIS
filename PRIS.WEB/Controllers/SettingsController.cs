@@ -210,8 +210,14 @@ namespace PRIS.WEB.Controllers
                 {
                     _context.ResultLimits.Add(newRecord);
                     _context.SaveChanges();
+                } else
+                {
+                    ModelState.AddModelError(string.Empty, "Įveskite teisingus duomenis.");
                 }
                 return RedirectToAction("ResultLimits_View");
+            } else
+            {
+                ModelState.AddModelError(string.Empty, "Pasitikrinkite, ar įvedėte visus duomenis.");
             }
             return View();
         }

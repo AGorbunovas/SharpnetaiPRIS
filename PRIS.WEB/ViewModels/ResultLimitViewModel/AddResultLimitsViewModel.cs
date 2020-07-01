@@ -15,13 +15,15 @@ namespace PRIS.WEB.ViewModels
         public string DateLimitSet { get; set; }
 
         [Required(ErrorMessage = "Pasirinkite reikšmę")]
-        [RegularExpression(@"^(5 |\d)(\.(5){1})?", ErrorMessage = "Pasirinkite reikšmę nuo 0.5 iki 5.")]
+        [Range(0.5, 5, ErrorMessage = "Pasirinkite reikšmę nuo 0.5 iki 5.")]
         public decimal? Task1 { get; set; }
 
         [Required(ErrorMessage = "Pasirinkite reikšmę")]
+        [Range(0.5, 5, ErrorMessage = "Pasirinkite reikšmę nuo 0.5 iki 5.")]
         public decimal? Task2 { get; set; }
 
         [Required(ErrorMessage = "Pasirinkite reikšmę")]
+        [Range(0.5, 5, ErrorMessage = "Pasirinkite reikšmę nuo 0.5 iki 5.")]
         public decimal? Task3 { get; set; }
 
         [Required(ErrorMessage = "Pasirinkite reikšmę")]
