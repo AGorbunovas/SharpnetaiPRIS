@@ -1,18 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ViewFeatures;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
 using PRIS.WEB.Data;
 using PRIS.WEB.Models;
 using PRIS.WEB.ViewModels;
 using PRIS.WEB.ViewModels.ModuleViewModels;
+using System;
+using System.Linq;
 
 namespace PRIS.WEB.Controllers
 {
@@ -34,6 +28,7 @@ namespace PRIS.WEB.Controllers
         }
 
         #region City/Create/Delete
+
         public IActionResult City()
         {
             return View(_context.Cities.ToList());
@@ -68,6 +63,7 @@ namespace PRIS.WEB.Controllers
             }
             return View();
         }
+
         public IActionResult CityDelete(int id)
         {
             var testConnected = _context.Test.Any(x => x.City.CityId == id);
@@ -89,16 +85,24 @@ namespace PRIS.WEB.Controllers
             }
             return RedirectToAction("City");
         }
-        #endregion
+
+        #endregion City/Create/Delete
 
         #region Module
+
         public IActionResult Module()
         {
-            return View(_context.Modules.ToList());
+            if (TempData["IsTestUsedInCandidateModuleTableErrorMessage"] != null)
+            {
+                ModelState.AddModelError(string.Empty, TempData["IsTestUsedInCandidateModuleTableErrorMessage"].ToString());
+            }
+            return View("Module", _context.Modules.OrderBy(m => m.ModuleName).ToList());
         }
-        #endregion
+
+        #endregion Module
 
         #region Module/Create
+
         public IActionResult ModuleCreate()
         {
             return View();
@@ -132,48 +136,26 @@ namespace PRIS.WEB.Controllers
 
         #region Module/Delete
 
-        public IActionResult ModuleDelete(int? id, bool? saveChangesError = false)
+        public IActionResult ModuleDelete(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-            var moduleData = _context.Modules
-                .SingleOrDefault(module => module.ModuleID == id);
+            var testConnected = _context.CandidateModules.Any(x => x.Module.ModuleID == id);
 
-            if (moduleData == null)
+            if (testConnected)
             {
-                return NotFound();
-            }
-            if (saveChangesError.GetValueOrDefault())
-            {
-                ViewData["ErrorMessage"] = "Mokymo programos neįmanoma ištrinti." +
-            "Kreipkitės į sistemos administratorių.";
-            }
-            return View(moduleData);
-        }
-
-        [HttpPost, ActionName("ModuleDelete")]
-        [ValidateAntiForgeryToken]
-
-        public async Task<IActionResult> ModuleDeleteConfirmed(int? id)
-        {
-            var moduleData = await _context.Modules.FindAsync(id);
-            if (moduleData == null)
-            {
+                TempData["IsTestUsedInCandidateModuleTableErrorMessage"] = "Negalima trinti mokymo programos, nes ji yra priskirta prie kandidato!";
                 return RedirectToAction("Module");
             }
-            try
+            else if (ModelState.IsValid)
             {
-                _context.Modules.Remove(moduleData);
-                await _context.SaveChangesAsync();
-
+                var data = _context.Modules.SingleOrDefault(x => x.ModuleID == id);
+                if (data != null)
+                {
+                    _context.Remove(data);
+                    _context.SaveChanges();
+                }
                 return RedirectToAction("Module");
             }
-            catch (DbUpdateException /* ex */)
-            {
-                return RedirectToAction("ModuleDelete", new { id = id, saveChangesError = true });
-            }
+            return RedirectToAction("Module");
         }
 
         #endregion Module/Delete
@@ -194,11 +176,10 @@ namespace PRIS.WEB.Controllers
         [HttpPost]
         public IActionResult ResultLimits_Create(AddResultLimitsViewModel limits)
         {
-
             //TODO rezultatu limitai susije su testo sablonu
 
             var sumTestResults = limits.Task1 + limits.Task2 + limits.Task3 + limits.Task4 + limits.Task5 + limits.Task6 + limits.Task7 + limits.Task8 + limits.Task9 + limits.Task10;
-            if (sumTestResults != limits.ResultSumMax) 
+            if (sumTestResults != limits.ResultSumMax)
             {
                 ModelState.AddModelError(string.Empty, "Testo balų suma turi atitikti bendrą testo balą. Pasitikrinkite įvestis, jų sumą ir bendrą testo balą.");
             }
@@ -210,12 +191,14 @@ namespace PRIS.WEB.Controllers
                 {
                     _context.ResultLimits.Add(newRecord);
                     _context.SaveChanges();
-                } else
+                }
+                else
                 {
                     ModelState.AddModelError(string.Empty, "Įveskite teisingus duomenis.");
                 }
                 return RedirectToAction("ResultLimits_View");
-            } else
+            }
+            else
             {
                 ModelState.AddModelError(string.Empty, "Pasitikrinkite, ar įvedėte visus duomenis.");
             }
@@ -241,7 +224,7 @@ namespace PRIS.WEB.Controllers
         //    }
         //    return RedirectToAction("ResultLimits_View");
         //}
-        #endregion
 
+        #endregion ResultLimits/Create
     }
 }
