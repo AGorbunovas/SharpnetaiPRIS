@@ -109,6 +109,14 @@ namespace PRIS.WEB.Controllers
         [HttpPost]
         public IActionResult Candidate(AddCandidateViewModel model)
         {
+            AddCandidateViewModel viewModel = GetViewModelWithModulesList(model);
+
+            if (model.SelectedModuleIds[0] == null)
+            {
+                ModelState.AddModelError("SelectedModulesAreNotDistinct", "Pasirinkite pirmąją mokymosi programą");
+                return View(viewModel);
+            }
+
             if (ModelState.IsValid)
             {
                 Candidate newRecord = new Candidate()
@@ -128,7 +136,7 @@ namespace PRIS.WEB.Controllers
                 return RedirectToAction("List");
             }
 
-            AddCandidateViewModel viewModel = GetViewModelWithModulesList(model);
+            
 
             return View(viewModel);
         }
@@ -137,7 +145,7 @@ namespace PRIS.WEB.Controllers
         {
             if (viewModel == null) viewModel = new AddCandidateViewModel() { SelectedModuleIds = new int?[] { } };
 
-            viewModel.Modules = _context.Modules.Select(x => new SelectListItem()
+            viewModel.Modules = _context.Modules.Where(x => x.ModuleName != null).Select(x => new SelectListItem()
             {
                 Value = x.ModuleID.ToString(),
                 Text = x.ModuleName
