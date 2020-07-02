@@ -44,7 +44,7 @@ namespace PRIS.WEB.ViewModels.CandidateViewModels
 
         [Display(Name = "Mokymosi programos")]
         public int?[] SelectedModuleIds { get; set; }
-
+       
         public List<SelectListItem> Modules { get; set; }
 
         public List<SelectListItem> Tests { get; set; }
