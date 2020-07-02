@@ -16,9 +16,10 @@
         </p>
         @* Zemiau uzkomentuoti elementai naudojami noritnt aktyvuoti Pop-up forma *@
         @*<div id="PlaceHolderHere"></div>
-            <button type="button" class="btn btn-outline-dark" data-toggle="ajax-modal" data-target="#addCity" data-url="@Url.Action("CityCreate")">Pridėti</button>
-            <button type="submit" class="btn btn-outline-dark" data-toggle="ajax-modal" data-target="#deleteCity" data-url="@Url.Action("Delete")">Trinti</button>*@
+        <button type="button" class="btn btn-outline-dark" data-toggle="ajax-modal" data-target="#addCity" data-url="@Url.Action("CityCreate")">Pridėti</button>
+        <button type="submit" class="btn btn-outline-dark" data-toggle="ajax-modal" data-target="#deleteCity" data-url="@Url.Action("Delete")">Trinti</button>*@
         <br />
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <table class="table">
             <thead>
                 <tr>
@@ -81,3 +82,7 @@
             </section>
         </div>
     </div>*@
+
+@section scripts{
+    <partial name="_ValidationScriptsPartial" />
+}

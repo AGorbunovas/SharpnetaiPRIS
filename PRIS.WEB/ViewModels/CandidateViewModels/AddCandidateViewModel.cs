@@ -12,15 +12,13 @@ namespace PRIS.WEB.ViewModels.CandidateViewModels
 
         [Required(ErrorMessage = "Įveskite vardą")]
         [Display(Name = "Vardas")]
-        [DataType(DataType.Text)]
-        [RegularExpression("[a-zA-Z]+$", ErrorMessage = "Naudokite tik raides")]
+        [RegularExpression("[^0-9]+$", ErrorMessage = "Vardui naudokite tik raides")]
         [StringLength(20, ErrorMessage = "{0} turi būti ne trumpesnis nei {2} ir ne ilgesnis nei {1} simbolių.", MinimumLength = 3)]
         public string Firstname { get; set; }
 
         [Required(ErrorMessage = "Įveskite pavardę")]
         [Display(Name = "Pavardė")]
-        [DataType(DataType.Text)]
-        [RegularExpression("[a-zA-Z]+$", ErrorMessage = "Naudokite tik raides")]
+        [RegularExpression("[^0-9]+$", ErrorMessage = "Pavardei naudokite tik raides")]
         [StringLength(30, ErrorMessage = "{0} turi būti ne trumpesnis nei {2} ir ne ilgesnis {1} simbolių.", MinimumLength = 4)]
         public string Lastname { get; set; }
 

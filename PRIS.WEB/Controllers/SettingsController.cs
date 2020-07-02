@@ -36,6 +36,10 @@ namespace PRIS.WEB.Controllers
         #region City/Create/Delete
         public IActionResult City()
         {
+            if (TempData["TestIsAddedToTheCityErrorMessage"] != null)
+            {
+                ModelState.AddModelError(string.Empty, TempData["TestIsAddedToTheCityErrorMessage"].ToString());
+            }
             return View(_context.Cities.ToList());
         }
 
@@ -53,7 +57,6 @@ namespace PRIS.WEB.Controllers
             if (check)
             {
                 ModelState.AddModelError(string.Empty, "Toks miestas jau yra sukurtas");
-                return View();
             }
 
             if (ModelState.IsValid)
@@ -74,8 +77,8 @@ namespace PRIS.WEB.Controllers
 
             if (testConnected)
             {
-                ViewData["ErrorMessage"] = "Miesto trinti negalima - jam jau yra priskirtas testas.";
-                return View();
+                TempData["TestIsAddedToTheCityErrorMessage"] = "Miesto trinti negalima - jam jau yra priskirtas testas.";
+                return RedirectToAction("City");
             }
             else if (ModelState.IsValid)
             {
