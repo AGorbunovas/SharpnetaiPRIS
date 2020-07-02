@@ -8,7 +8,7 @@
 
     <form method="post" class="form-horizontal" role="form">
 
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div asp-validation-summary="All" class="text-danger"></div>
 
         <fieldset class="form-group">
             <label asp-for="TestId"></label>
@@ -19,25 +19,25 @@
         <fieldset class="form-group">
             <label asp-for="Firstname"></label>
             <input asp-for="Firstname" class="form-control" />
-            <span asp-validation-for="Firstname" class="text-danger"></span>
+            <span @*asp-validation-for="Firstname"*@ class="text-danger"></span>
         </fieldset>
 
         <fieldset class="form-group">
             <label asp-for="Lastname"></label>
             <input asp-for="Lastname" class="form-control" />
-            <span asp-validation-for="Lastname" class="text-danger"></span>
+            <span @*asp-validation-for="Lastname"*@ class="text-danger"></span>
         </fieldset>
 
         <fieldset class="form-group">
             <label asp-for="Email"></label>
-            <input asp-for="Email" class="form-control" />
-            <span asp-validation-for="Email" class="text-danger"></span>
+            <input asp-for="Email" class="form-control" placeholder="vardas@pastas.lt"/>
+            <span @*asp-validation-for="Email"*@ class="text-danger"></span>
         </fieldset>
 
         <fieldset class="form-group">
             <label asp-for="Phone"></label>
-            <input asp-for="Phone" class="form-control" />
-            <span asp-validation-for="Phone" class="text-danger"></span>
+            <input asp-for="Phone" class="form-control" placeholder="86xxxxxxx"/>
+            <span @*asp-validation-for="Phone"*@ class="text-danger"></span>
         </fieldset>
 
         <fieldset class="form-group">
@@ -54,7 +54,7 @@
             <br />
             @for (int i = 0; i < Model.SelectedModuleIds.Length; i++)
             {
-                <label>@(i+1)</label>
+                <label>@(i + 1)</label>
                 <select asp-for="@Model.SelectedModuleIds[i]" asp-items="@Model.Modules" class="form-control"></select>
             }
         </fieldset>

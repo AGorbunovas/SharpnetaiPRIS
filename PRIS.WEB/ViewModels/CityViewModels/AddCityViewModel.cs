@@ -11,8 +11,8 @@ namespace PRIS.WEB.ViewModels
     {
         [Display(Name = "Miesto pavadinimas")]
         [Required(ErrorMessage = "Įveskite miesto pavadinimą")]
-        [StringLength(10, MinimumLength = 4, ErrorMessage = "Miesto pavadinimas turi būti bent iš 4 simbolių, bet ne ilgesnis nei 10 simbolių")]
-        [DataType(DataType.Text)]
+        [StringLength(10, ErrorMessage = "{0} turi būti ne trumpesnis nei {2} ir ne ilgesnis nei {1} simbolių.", MinimumLength = 4)]
+        [RegularExpression("[^0-9]+$", ErrorMessage = "Naudokite tik raides")]
         public string CityName { get; set; }
         public int CityId { get; set; }
 
