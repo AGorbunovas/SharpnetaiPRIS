@@ -8,7 +8,7 @@
 
     <form method="post" class="form-horizontal" role="form">
 
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div asp-validation-summary="All" class="text-danger"></div>
 
         <fieldset class="form-group">
             <label asp-for="TestId"></label>
@@ -54,7 +54,7 @@
             <br />
             @for (int i = 0; i < Model.SelectedModuleIds.Length; i++)
             {
-                <label>@(i+1)</label>
+                <label>@(i + 1)</label>
                 <select asp-for="@Model.SelectedModuleIds[i]" asp-items="@Model.Modules" class="form-control"></select>
             }
         </fieldset>

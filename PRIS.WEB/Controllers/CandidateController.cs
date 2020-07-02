@@ -109,6 +109,16 @@ namespace PRIS.WEB.Controllers
         [HttpPost]
         public IActionResult Candidate(AddCandidateViewModel model)
         {
+            AddCandidateViewModel viewModel = GetViewModelWithModulesList(model);
+
+            var CountOfModuleIds = model.SelectedModuleIds.Count();
+            var CountOfDistinctModuleIds = model.SelectedModuleIds.Distinct().Count();
+
+            if (CountOfModuleIds != CountOfDistinctModuleIds)
+            {
+                ModelState.AddModelError("SelectedModulesAreNotDistinct", "Pasirinktos pasikartojančios mokymosi programos");
+                return View(viewModel);
+            }
             if (ModelState.IsValid)
             {
                 Candidate newRecord = new Candidate()
@@ -128,7 +138,7 @@ namespace PRIS.WEB.Controllers
                 return RedirectToAction("List");
             }
 
-            AddCandidateViewModel viewModel = GetViewModelWithModulesList(model);
+            
 
             return View(viewModel);
         }
