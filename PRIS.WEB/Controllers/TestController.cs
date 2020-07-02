@@ -59,24 +59,37 @@ namespace PRIS.WEB.Controllers
 
         public IActionResult List()
         {
-             IEnumerable<AddTestViewModel> data = _context.Test.Select(x =>
-             new AddTestViewModel()
-             {
-                 DateOfTest = x.DateOfTest,
-                 City = x.City,
-                 TestId = x.TestId
-             }).OrderByDescending(x => x.DateOfTest)
-               .ToList();
+            IEnumerable<AddTestViewModel> data = _context.Test.Select(x =>
+            new AddTestViewModel()
+            {
+                DateOfTest = x.DateOfTest,
+                City = x.City,
+                TestId = x.TestId
+            }).OrderByDescending(x => x.DateOfTest)
+              .ToList();
 
+
+            if (TempData["IsTestUsedInCandidateTableErrorMessage"] != null)
+            {
+                ModelState.AddModelError(string.Empty, TempData["IsTestUsedInCandidateTableErrorMessage"].ToString());
+            }
             return View(data);
         }
 
         public IActionResult Delete(int id)
         {
-            var data = _context.Test.SingleOrDefault(x => x.TestId == id);
-            if (data != null)
+            var test = _context.Test.SingleOrDefault(x => x.TestId == id);
+            var IsTestUsedInCandidateTable = _context.Candidates.Any(x => x.Test == test);
+
+            if (IsTestUsedInCandidateTable)
             {
-                _context.Remove(data);
+                TempData["IsTestUsedInCandidateTableErrorMessage"] = "Negalima trinti testo, nes jis yra priskirtas prie kandidato!";
+                return RedirectToAction("List");
+            }
+
+            if (test != null)
+            {
+                _context.Remove(test);
                 _context.SaveChanges();
             }
 
