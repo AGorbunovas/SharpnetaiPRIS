@@ -37,6 +37,7 @@ namespace PRIS.WEB.Data
             modelBuilder.Entity<CandidateModule>()
                 .HasKey(candidateModule => new { candidateModule.CandidateID, candidateModule.ModuleID });
 
+            //https://stackoverflow.com/questions/50785009/how-to-seed-an-admin-user-in-ef-core-2-1-0
             modelBuilder.ApplyConfiguration(new RoleConfiguration());
             modelBuilder.ApplyConfiguration(new AdminConfiguration());
             modelBuilder.ApplyConfiguration(new UsersWithRolesConfiguration());
