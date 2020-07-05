@@ -36,6 +36,10 @@ namespace PRIS.WEB.Data
 
             modelBuilder.Entity<CandidateModule>()
                 .HasKey(candidateModule => new { candidateModule.CandidateID, candidateModule.ModuleID });
+
+            modelBuilder.ApplyConfiguration(new RoleConfiguration());
+            modelBuilder.ApplyConfiguration(new AdminConfiguration());
+            modelBuilder.ApplyConfiguration(new UsersWithRolesConfiguration());
         }
     }
 }
