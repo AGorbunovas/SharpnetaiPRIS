@@ -79,6 +79,21 @@ namespace PRIS.WEB.Controllers
             return View(data);
         }
 
+        public IActionResult Contracts()
+        {
+            var data = _context.Candidates.Select(x =>
+            new ListCandidateViewModel()
+            {
+                CandidateID = x.CandidateID,
+                Firstname = x.FirstName,
+                Lastname = x.LastName,
+                TestDate = x.Test.DateOfTest,
+                TestCity = x.Test.City.CityName,
+                FirstModule = x.CandidateModules.Select(t => t.Module.ModuleName).FirstOrDefault()
+            }).ToList();
+            return View(data);
+        }
+
         public IActionResult Delete(int id)
         {
             var data = _context.Candidates.SingleOrDefault(x => x.CandidateID == id);
