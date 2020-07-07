@@ -1,8 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using PRIS.WEB.Data.Models;
 using PRIS.WEB.Models;
 using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace PRIS.WEB.Controllers
 {
@@ -10,14 +13,30 @@ namespace PRIS.WEB.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, UserManager<ApplicationUser> userManager)
         {
             _logger = logger;
+            _userManager = userManager;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+
+            var NeedToChangedInitialPassword = user.ChangeInitialPassword;
+
+            if (NeedToChangedInitialPassword)
+            {
+                ModelState.AddModelError("NeedToChangedInitialPassword", "Prašome pakeisti pirmini slaptažodi. https://localhost:44323/Identity/Account/Manage/ChangePassword");
+            }
+
+            if (ModelState.IsValid)
+            {
+                return View();
+            }
+
             return View();
         }
 

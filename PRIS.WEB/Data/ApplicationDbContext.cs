@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using PRIS.WEB.Data.Models;
 using PRIS.WEB.Models;
 
 namespace PRIS.WEB.Data
 {
-    public class ApplicationDbContext : IdentityDbContext
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
 
         public DbSet<Test> Test { get; set; }

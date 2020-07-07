@@ -2,19 +2,20 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using PRIS.WEB.Data.Models;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 namespace PRIS.WEB.Areas.Identity.Pages.Account.Manage
 {
     public class ChangePasswordModel : PageModel
     {
-        private readonly UserManager<IdentityUser> _userManager;
-        private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ILogger<ChangePasswordModel> _logger;
 
         public ChangePasswordModel(
-            UserManager<IdentityUser> userManager,
-            SignInManager<IdentityUser> signInManager,
+            UserManager<ApplicationUser> userManager,
+            SignInManager<ApplicationUser> signInManager,
             ILogger<ChangePasswordModel> logger)
         {
             _userManager = userManager;
@@ -90,6 +91,11 @@ namespace PRIS.WEB.Areas.Identity.Pages.Account.Manage
             await _signInManager.RefreshSignInAsync(user);
             _logger.LogInformation("Vartotojas sėkmingai pakeitė slaptažodį.");
             StatusMessage = "Jūsų slaptažodis pakeistas sėkmingai.";
+
+            //TO DO
+            user.ChangeInitialPassword = false;
+            var result = await _userManager.UpdateAsync(user);
+            var status = user.ChangeInitialPassword;
 
             return RedirectToPage();
         }
