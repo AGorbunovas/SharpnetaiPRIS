@@ -30,7 +30,7 @@ namespace PRIS.WEB.Controllers
                 TempData["NeedToChangedInitialPassword"] = "Prašome pakeisti pirmini slaptažodi.";
             }
 
-            return View();
+            return View("Index");
         }
 
         public IActionResult Test()
