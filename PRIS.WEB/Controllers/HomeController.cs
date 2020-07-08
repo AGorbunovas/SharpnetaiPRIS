@@ -27,7 +27,7 @@ namespace PRIS.WEB.Controllers
 
             if (NeedToChangedInitialPassword)
             {
-                TempData["NeedToChangedInitialPassword"] = "Prašome pakeisti pirmini slaptažodi.";
+                //TempData["NeedToChangedInitialPassword"] = "Prašome pakeisti pirmini slaptažodi.";
             }
 
             return View("Index");
