@@ -57,6 +57,7 @@
                 <label>@(i + 1)</label>
                 <select asp-for="@Model.SelectedModuleIds[i]" asp-items="@Model.Modules" class="form-control"></select>
             }
+            <span asp-validation-for="SelectedModuleIds" class="text-danger"></span>
         </fieldset>
 
         <fieldset class="form-group">
