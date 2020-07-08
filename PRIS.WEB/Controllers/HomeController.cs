@@ -12,12 +12,10 @@ namespace PRIS.WEB.Controllers
     [Authorize]
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public HomeController(ILogger<HomeController> logger, UserManager<ApplicationUser> userManager)
+        public HomeController(UserManager<ApplicationUser> userManager)
         {
-            _logger = logger;
             _userManager = userManager;
         }
 
@@ -29,12 +27,7 @@ namespace PRIS.WEB.Controllers
 
             if (NeedToChangedInitialPassword)
             {
-                ModelState.AddModelError("NeedToChangedInitialPassword", "Prašome pakeisti pirmini slaptažodi. https://localhost:44323/Identity/Account/Manage/ChangePassword");
-            }
-
-            if (ModelState.IsValid)
-            {
-                return View();
+                TempData["NeedToChangedInitialPassword"] = "Prašome pakeisti pirmini slaptažodi.";
             }
 
             return View();

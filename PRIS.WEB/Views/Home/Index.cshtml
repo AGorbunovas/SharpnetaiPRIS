@@ -3,7 +3,14 @@
 }
 
     <div class="text-center">
-        <div asp-validation-summary="All" class="text-danger list-unstyled"></div>
         <h1 class="display-4">Sveiki</h1>
+
+        @if (TempData["NeedToChangedInitialPassword"] != null)
+        {
+            <div class="alert alert-danger" role="alert">
+                <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/ChangePassword">@TempData["NeedToChangedInitialPassword"].ToString()</a>
+            </div>
+        }
+
         <p>Sėkmingai prisijungėte prie kandidatų priėmimo sistemos į Akademija.IT organizuojamus mokymo kursus.</p>
     </div>
