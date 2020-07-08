@@ -65,7 +65,7 @@ namespace PRIS.Test.Controller
 
             // assert
             ViewResult viewResult = Assert.IsType<ViewResult>(result);
-            Assert.Equal("IndexWithTempData", viewResult.ViewName);
+            Assert.Null(viewResult.ViewName);
         }
 
     }
