@@ -93,7 +93,7 @@ namespace PRIS.WEB.Controllers
                 record.Email = model.Email;
                 record.PhoneNumber = model.Phone.Value;
                 record.Comment = model.Comment;
-                record.TestId = model.TestId;
+                record.TestId = model.TestId.Value;
 
                 var removeModules = record.CandidateModules.Where(t => !model.SelectedModuleIds.Contains(t.ModuleID)).ToArray();
                 _context.CandidateModules.RemoveRange(removeModules);
@@ -137,7 +137,7 @@ namespace PRIS.WEB.Controllers
                     Gender = model.Gender,
                     PhoneNumber = model.Phone.Value,
                     Comment = model.Comment,
-                    TestId = model.TestId,
+                    TestId = model.TestId.Value,
                     CandidateModules = model.SelectedModuleIds.Where(t => t.HasValue).Distinct().Select(t => new CandidateModule() { ModuleID = t.Value }).ToList()
                 };
                 _context.Candidates.Add(newRecord);
