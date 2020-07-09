@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using PRIS.WEB.Data.Models;
 using PRIS.WEB.Models;
 
 namespace PRIS.WEB.Data
@@ -17,6 +18,7 @@ namespace PRIS.WEB.Data
         public DbSet<CandidateModule> CandidateModules { get; set; }
         public DbSet<TaskGroup> TaskGroups { get; set; }
         public DbSet<ResultLimits> ResultLimits { get; set; }  
+        public DbSet<InterviewTask> InterviewTasks { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -33,6 +35,7 @@ namespace PRIS.WEB.Data
             modelBuilder.Entity<CandidateModule>().ToTable("CandidateModule");
             modelBuilder.Entity<TaskGroup>().ToTable("TaskGroup");
             modelBuilder.Entity<ResultLimits>().ToTable("ResultLimits");
+            modelBuilder.Entity<InterviewTask>().ToTable("InterviewTask");
 
             modelBuilder.Entity<CandidateModule>()
                 .HasKey(candidateModule => new { candidateModule.CandidateID, candidateModule.ModuleID });

@@ -18,6 +18,8 @@
     <Compile Remove="Data\Migrations\20200629061058__createResultLimitsTable.Designer.cs" />
     <Compile Remove="Data\Migrations\20200629091258__createResultLimitsTable.cs" />
     <Compile Remove="Data\Migrations\20200629091258__createResultLimitsTable.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200708153218_TaskGroup.cs" />
+    <Compile Remove="Data\Migrations\20200708153218_TaskGroup.Designer.cs" />
   </ItemGroup>
 
 
