@@ -63,7 +63,7 @@ namespace PRIS.WEB.Controllers
                 FirstModule = x.CandidateModules.Select(t => t.Module.ModuleName).FirstOrDefault(),
                 TestResult = _context.TaskResult.Where(t => t.CandidateId == x.CandidateID).Sum(t => t.Value),
                 MaxResult = _context.TaskResult.Where(t => t.CandidateId == x.CandidateID).Sum(t => t.TaskResultLimit.MaxValue)
-            }).ToList();
+            }).OrderByDescending(x=>x.TestResult).ToList();
             return View(data);
         }
 
