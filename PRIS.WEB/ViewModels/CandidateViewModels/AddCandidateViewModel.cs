@@ -37,7 +37,7 @@ namespace PRIS.WEB.ViewModels.CandidateViewModels
 
         [Required(ErrorMessage = "Pasirinkite testą")]
         [Display(Name = "Testas")]
-        public int TestId { get; set; }
+        public int? TestId { get; set; }
 
         [Display(Name = "Komentaras")]
         public string Comment { get; set; }

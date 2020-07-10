@@ -78,6 +78,11 @@ namespace PRIS.WEB.Controllers
         [HttpPost("{id}")]
         public IActionResult Candidate(int id, AddCandidateViewModel model)
         {
+            if (!model.SelectedModuleIds.Any(x => x > 0))
+            {
+                ModelState.AddModelError("SelectedModuleIds", "Kandidatui turi būti pasirinkta bent viena mokymosi programa");
+            }
+
             if (ModelState.IsValid)
             {
                 var record = _context.Candidates.Include(t => t.CandidateModules).Where(t => t.CandidateID == id).Single();
@@ -88,7 +93,7 @@ namespace PRIS.WEB.Controllers
                 record.Email = model.Email;
                 record.PhoneNumber = model.Phone.Value;
                 record.Comment = model.Comment;
-                record.TestId = model.TestId;
+                record.TestId = model.TestId.Value;
 
                 var removeModules = record.CandidateModules.Where(t => !model.SelectedModuleIds.Contains(t.ModuleID)).ToArray();
                 _context.CandidateModules.RemoveRange(removeModules);
@@ -109,6 +114,11 @@ namespace PRIS.WEB.Controllers
         [HttpPost]
         public IActionResult Candidate(AddCandidateViewModel model)
         {
+            if (!model.SelectedModuleIds.Any(x => x > 0))
+            {
+                ModelState.AddModelError("SelectedModuleIds", "Kandidatui turi būti pasirinkta bent viena mokymosi programa");
+            }
+
             AddCandidateViewModel viewModel = GetViewModelWithModulesList(model);
 
             if (model.SelectedModuleIds[0] == null)
@@ -127,7 +137,7 @@ namespace PRIS.WEB.Controllers
                     Gender = model.Gender,
                     PhoneNumber = model.Phone.Value,
                     Comment = model.Comment,
-                    TestId = model.TestId,
+                    TestId = model.TestId.Value,
                     CandidateModules = model.SelectedModuleIds.Where(t => t.HasValue).Distinct().Select(t => new CandidateModule() { ModuleID = t.Value }).ToList()
                 };
                 _context.Candidates.Add(newRecord);
@@ -136,7 +146,7 @@ namespace PRIS.WEB.Controllers
                 return RedirectToAction("List");
             }
 
-            
+
 
             return View(viewModel);
         }
@@ -157,13 +167,10 @@ namespace PRIS.WEB.Controllers
                 Text = x.DateOfTest.ToString("yyyy-MM-dd") + " " + x.City.CityName
             }).ToList();
 
-            if (viewModel.SelectedModuleIds.Length < viewModel.Modules.Count)
-            {
-                var ids = viewModel.SelectedModuleIds.ToList();
-                while (ids.Count < viewModel.Modules.Count)
-                    ids.Add(null);
-                viewModel.SelectedModuleIds = ids.ToArray();
-            }
+            var ids = viewModel.SelectedModuleIds.Take(3).ToList();
+            while (ids.Count < 3)
+                ids.Add(null);
+            viewModel.SelectedModuleIds = ids.ToArray();
 
             viewModel.Modules.Insert(0, new SelectListItem());
 

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using PRIS.WEB.Data.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,14 +9,14 @@ using System.Threading.Tasks;
 
 namespace PRIS.WEB.Data
 {
-    public class AdminConfiguration : IEntityTypeConfiguration<IdentityUser>
+    public class AdminConfiguration : IEntityTypeConfiguration<ApplicationUser>
     {
         private const string adminId = "B22698B8-42A2-4115-9631-1C2D1E2AC5F7";
 
-        public void Configure(EntityTypeBuilder<IdentityUser> builder)
+        public void Configure(EntityTypeBuilder<ApplicationUser> builder)
         {
 
-            var admin = new IdentityUser
+            var admin = new ApplicationUser
             {
                 Id = adminId,
                 UserName = "Admin1@Admin.com",
@@ -25,6 +26,7 @@ namespace PRIS.WEB.Data
                 PhoneNumber = "XXXXXXXXXXXXX",
                 EmailConfirmed = true,
                 SecurityStamp = new Guid().ToString("D"),
+                ChangeInitialPassword = true
             };
 
             admin.PasswordHash = PassGenerate(admin);

@@ -1,24 +1,37 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using PRIS.WEB.Data.Models;
 using PRIS.WEB.Models;
 using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace PRIS.WEB.Controllers
 {
     [Authorize]
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(UserManager<ApplicationUser> userManager)
         {
-            _logger = logger;
+            _userManager = userManager;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+
+            var NeedToChangedInitialPassword = user.ChangeInitialPassword;
+
+            if (NeedToChangedInitialPassword)
+            {
+                TempData["NeedToChangedInitialPassword"] = "Prašome pakeisti pirmini slaptažodi.";
+                return View();
+            }
+
+            return View("Index");
         }
 
         public IActionResult Test()
