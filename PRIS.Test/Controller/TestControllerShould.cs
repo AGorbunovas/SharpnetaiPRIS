@@ -43,7 +43,7 @@ namespace PRIS.Test.Controller
             City city = new City { CityName = "Vilnius" };
             _context.Cities.Add(city);
             _context.SaveChanges();
-            var viewModel = new AddTestViewModel { CityName = "Vilnius", DateOfTest = DateTime.Today };
+            var viewModel = new AddTestViewModel { CityName = "Vilnius", DateOfTest = DateTime.Today, ClassYearStart = DateTime.Today, ClassYearEnd = DateTime.Today.AddMonths(10) };
 
             //act
             IActionResult result = _sut.Test(viewModel);
@@ -77,7 +77,7 @@ namespace PRIS.Test.Controller
             City city = new City { CityName = "Vilnius" };
             _context.Cities.Add(city);
             _context.SaveChanges();
-            var viewModel = new AddTestViewModel { CityName = "Vilnius", DateOfTest = DateTime.Today };
+            var viewModel = new AddTestViewModel { CityName = "Vilnius", DateOfTest = DateTime.Today, ClassYearStart = DateTime.Today, ClassYearEnd = DateTime.Today.AddMonths(10) };
 
             //act
             _sut.Test(viewModel);
@@ -96,7 +96,7 @@ namespace PRIS.Test.Controller
             City city = new City { CityName = "Vilnius" };
             _context.Cities.Add(city);
             _context.SaveChanges();
-            var viewModel = new AddTestViewModel { CityName = "Vilnius", DateOfTest = DateTime.Today.AddDays(-1) };
+            var viewModel = new AddTestViewModel { CityName = "Vilnius", DateOfTest = DateTime.Today.AddDays(-1), ClassYearStart = DateTime.Today, ClassYearEnd = DateTime.Today.AddMonths(10) };
 
             //act
             _sut.Test(viewModel);

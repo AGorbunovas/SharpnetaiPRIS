@@ -8,6 +8,9 @@ namespace PRIS.WEB.Models
 {
     public class Test
     {
+        public DateTime ClassYearStart { get; set; }
+        public DateTime ClassYearEnd { get; set; }
+
         public DateTime DateOfTest { get; set; }
         public int TestId { get; set; }
 

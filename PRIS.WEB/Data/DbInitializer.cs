@@ -40,8 +40,9 @@ namespace PRIS.WEB.Data
 
             var tests = new Test[]
             {
-                new Test { CityId = cities.Single(c=>c.CityName == "Vilnius").CityId, DateOfTest = DateTime.Parse("2020-07-30") }               
+                new Test { CityId = cities.Single(c=>c.CityName == "Vilnius").CityId, DateOfTest = DateTime.Parse("2020-07-30"), ClassYearStart = DateTime.Today, ClassYearEnd = DateTime.Today.AddMonths(10) }               
             };
+
             foreach (Test test in tests)
             {
                 context.Test.Add(test);
