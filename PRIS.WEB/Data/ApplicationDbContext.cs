@@ -17,8 +17,11 @@ namespace PRIS.WEB.Data
         public DbSet<Candidate> Candidates { get; set; }
         public DbSet<CandidateModule> CandidateModules { get; set; }
         public DbSet<TaskGroup> TaskGroups { get; set; }
-        public DbSet<ResultLimits> ResultLimits { get; set; }
-
+        public DbSet<AddResultMaxLimitViewModel> ResultLimits { get; set; }  
+        public DbSet<TestTask> TestTasks { get; set; }    
+        public DbSet<TestTemplate> TestTemplates { get; set; }   
+        public DbSet<TestResult> TestResults { get; set; }    
+         
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
@@ -32,8 +35,11 @@ namespace PRIS.WEB.Data
             modelBuilder.Entity<City>().ToTable("City");
             modelBuilder.Entity<Candidate>().ToTable("Candidate");
             modelBuilder.Entity<CandidateModule>().ToTable("CandidateModule");
-            modelBuilder.Entity<TaskGroup>().ToTable("TaskGroup");
-            modelBuilder.Entity<ResultLimits>().ToTable("ResultLimits");
+            modelBuilder.Entity<TaskGroup>().ToTable("TaskGroups");
+            modelBuilder.Entity<AddResultMaxLimitViewModel>().ToTable("ResultLimits");
+            modelBuilder.Entity<TestTask>().ToTable("TestTasks");
+            modelBuilder.Entity<TestTemplate>().ToTable("TestTemplates");
+            modelBuilder.Entity<TestResult>().ToTable("TestResults"); 
 
             modelBuilder.Entity<CandidateModule>()
                 .HasKey(candidateModule => new { candidateModule.CandidateID, candidateModule.ModuleID });
@@ -42,6 +48,8 @@ namespace PRIS.WEB.Data
             modelBuilder.ApplyConfiguration(new RoleConfiguration());
             modelBuilder.ApplyConfiguration(new AdminConfiguration());
             modelBuilder.ApplyConfiguration(new UsersWithRolesConfiguration());
+
+            modelBuilder.SeedTasks();
         }
     }
 }

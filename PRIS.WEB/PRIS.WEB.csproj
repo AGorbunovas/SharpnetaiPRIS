@@ -6,18 +6,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Data\Migrations\20200623101610_CityTableAddUpdate-Database.cs" />
-    <Compile Remove="Data\Migrations\20200623101610_CityTableAddUpdate-Database.Designer.cs" />
-    <Compile Remove="Data\Migrations\20200625113958_OnModelCreating.cs" />
-    <Compile Remove="Data\Migrations\20200625113958_OnModelCreating.Designer.cs" />
-    <Compile Remove="Data\Migrations\20200626061825__addCitiesTable.cs" />
-    <Compile Remove="Data\Migrations\20200626061825__addCitiesTable.Designer.cs" />
-    <Compile Remove="Data\Migrations\20200629060512__createResultLimitsTable.cs" />
-    <Compile Remove="Data\Migrations\20200629060512__createResultLimitsTable.Designer.cs" />
-    <Compile Remove="Data\Migrations\20200629061058__createResultLimitsTable.cs" />
-    <Compile Remove="Data\Migrations\20200629061058__createResultLimitsTable.Designer.cs" />
-    <Compile Remove="Data\Migrations\20200629091258__createResultLimitsTable.cs" />
-    <Compile Remove="Data\Migrations\20200629091258__createResultLimitsTable.Designer.cs" />
+    <Compile Remove="Migrations\20200710064117__InitialCreate.cs" />
+    <Compile Remove="Migrations\20200710064117__InitialCreate.Designer.cs" />
+    <Compile Remove="Migrations\20200710064832__createTestResultsTable.cs" />
+    <Compile Remove="Migrations\20200710064832__createTestResultsTable.Designer.cs" />
+    <Compile Remove="Migrations\20200710065119__InitialCreate.cs" />
+    <Compile Remove="Migrations\20200710065119__InitialCreate.Designer.cs" />
+    <Compile Remove="Migrations\20200710065646_TestResultNullableTypesAdded.cs" />
+    <Compile Remove="Migrations\20200710065646_TestResultNullableTypesAdded.Designer.cs" />
   </ItemGroup>
 
 
