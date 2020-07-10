@@ -7,22 +7,34 @@
 }
 
 
-<form method="post" class="form-horizontal" role="form">
+    <form method="post" class="form-horizontal" role="form">
 
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-    <fieldset class="form-group">
-        <label asp-for="DateOfTest"></label>
-        <input asp-for="DateOfTest" class="form-control" />
-        <span asp-validation-for="DateOfTest" class="text-danger"></span>
-    </fieldset>
+        <fieldset class="form-group">
+            <label asp-for="ClassYearStart"></label>
+            <input asp-for="ClassYearStart" class="form-control" />
+            <span asp-validation-for="ClassYearStart" class="text-danger"></span>
+        </fieldset>
 
-    <fieldset class="form-group">
-        <label asp-for="CityName">Miestas</label>
-        <select asp-for="CityName" asp-items="Model.Cities" class="form-control"></select>
-        <span asp-validation-for="CityName" class="text-danger"></span>
-    </fieldset>
+        <fieldset class="form-group">
+            <label asp-for="ClassYearEnd"></label>
+            <input asp-for="ClassYearEnd" class="form-control" />
+            <span asp-validation-for="ClassYearEnd" class="text-danger"></span>
+        </fieldset>
 
-    <input id="submitApplication" type="submit" value="Sukurti" class="btn btn-outline-dark" />
+        <fieldset class="form-group">
+            <label asp-for="DateOfTest"></label>
+            <input asp-for="DateOfTest" class="form-control" />
+            <span asp-validation-for="DateOfTest" class="text-danger"></span>
+        </fieldset>
 
-</form>
+        <fieldset class="form-group">
+            <label asp-for="CityName">Miestas</label>
+            <select asp-for="CityName" asp-items="Model.Cities" class="form-control"></select>
+            <span asp-validation-for="CityName" class="text-danger"></span>
+        </fieldset>
+
+        <input id="submitApplication" type="submit" value="Sukurti" class="btn btn-outline-dark" />
+
+    </form>

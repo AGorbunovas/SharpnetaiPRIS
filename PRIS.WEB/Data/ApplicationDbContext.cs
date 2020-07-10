@@ -17,7 +17,7 @@ namespace PRIS.WEB.Data
         public DbSet<Candidate> Candidates { get; set; }
         public DbSet<CandidateModule> CandidateModules { get; set; }
         public DbSet<TaskGroup> TaskGroups { get; set; }
-        public DbSet<ResultLimits> ResultLimits { get; set; }  
+        public DbSet<ResultLimits> ResultLimits { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)

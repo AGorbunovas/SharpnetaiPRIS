@@ -28,7 +28,11 @@ namespace PRIS.WEB.Controllers
         [HttpPost]
         public IActionResult Test(AddTestViewModel model)
         {
-            var isNotUnique = _context.Test.Any(x => x.City.CityName == model.CityName && x.DateOfTest == model.DateOfTest);
+            var isNotUnique = _context.Test.Any
+                (
+                x => x.City.CityName == model.CityName && x.DateOfTest == model.DateOfTest && x.ClassYearStart == model.ClassYearStart && x.ClassYearEnd == model.ClassYearEnd
+                );
+
             if (isNotUnique)
             {
                 ModelState.AddModelError(string.Empty, "Toks testas jau yra sukurtas");
@@ -45,7 +49,7 @@ namespace PRIS.WEB.Controllers
                 City city = _context.Cities.FirstOrDefault(x => x.CityName == model.CityName);
                 if (city != null)
                 {
-                    Test newRecord = new Test() { City = city, DateOfTest = model.DateOfTest };
+                    Test newRecord = new Test() { City = city, DateOfTest = model.DateOfTest, ClassYearStart = model.ClassYearStart, ClassYearEnd = model.ClassYearEnd};
                     _context.Test.Add(newRecord);
                     _context.SaveChanges();
 
@@ -64,7 +68,9 @@ namespace PRIS.WEB.Controllers
             {
                 DateOfTest = x.DateOfTest,
                 City = x.City,
-                TestId = x.TestId
+                TestId = x.TestId,
+                ClassYearStart = x.ClassYearStart,
+                ClassYearEnd = x.ClassYearEnd
             }).OrderByDescending(x => x.DateOfTest)
               .ToList();
 
@@ -104,8 +110,12 @@ namespace PRIS.WEB.Controllers
                 Text = x.CityName
             }).ToList();
 
-            var viewModel = new AddTestViewModel() { Cities = data, DateOfTest = DateTime.Today };
+            var viewModel = new AddTestViewModel() { Cities = data, DateOfTest = DateTime.Today, ClassYearStart = DateTime.Today, ClassYearEnd = DateTime.Today.AddMonths(10) };
             return viewModel;
         }
+    
+    
+    
+    
     }
 }
