@@ -5,6 +5,7 @@ using PRIS.WEB.Data;
 using PRIS.WEB.Models;
 using PRIS.WEB.ViewModels;
 using PRIS.WEB.ViewModels.ModuleViewModels;
+using PRIS.WEB.ViewModels.TaskGroupViewModel;
 using System;
 using System.Linq;
 
@@ -229,5 +230,86 @@ namespace PRIS.WEB.Controllers
         ////}
 
         //#endregion ResultLimits/Create
+
+        #region TaskGroup
+
+        //public IActionResult TaskGroup()
+        //{
+        //    var taskGroupModel = _context.TaskGroups
+        //        .ProjectTo<AddTaskGroupViewModel>(_mapper.ConfigurationProvider).ToList();
+
+        //    return View(taskGroupModel);
+        //}
+
+        public IActionResult TaskGroup()
+        {
+            if (TempData["IsTestUsedInTaskGroupModuleTableErrorMessage"] != null)
+            {
+                ModelState.AddModelError(string.Empty, TempData["IsTestUsedInTaskGroupModuleTableErrorMessage"].ToString());
+            }
+            return View("TaskGroup", _context.TaskGroups.OrderBy(m => m.TaskGroupName).ToList());
+        }
+
+        #endregion
+
+        #region TaskGroup/Create
+
+        public IActionResult TaskGroupCreate()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult TaskGroupCreate(AddTaskGroupViewModel addTaskGroup)
+        {
+            var check = _context.TaskGroups.Any(t => t.TaskGroupName == addTaskGroup.TaskGroupName);
+
+            if (check)
+            {
+                ModelState.AddModelError(string.Empty, "Tokia užduočių grupė jau yra sukurta");
+                return View();
+            }
+
+            if (ModelState.IsValid)
+            {
+                //var newTaskGroup = new TaskGroup() { TaskGroupName = addTaskGroup.TaskGroupName, TaskGroupCount = addTaskGroup.TaskGroupCount };
+                var newTaskGroup = new TaskGroup() { TaskGroupName = addTaskGroup.TaskGroupName };
+                if (newTaskGroup != null)
+                {
+                    _context.TaskGroups.Add(newTaskGroup);
+                    _context.SaveChanges();
+                }
+                return RedirectToAction("TaskGroup");
+            }
+            return View();
+        }
+
+        #endregion
+
+        #region TaskGroup/Delete
+
+        public IActionResult TaskGroupDelete(int id)
+        {
+            var testConnected = _context.InterviewTasks.Any(x => x.TaskGroup.TaskGroupID == id);
+
+            if (testConnected)
+            {
+                TempData["IsTestUsedInInterviewTaskModuleTableErrorMessage"] = "Negalima trinti užduočių grupės, nes ji yra susieta su pokalbio užduotimis!";
+                return RedirectToAction("TaskGroup");
+            }
+            else if (ModelState.IsValid)
+            {
+                var data = _context.TaskGroups.SingleOrDefault(t => t.TaskGroupID == id);
+                if (data != null)
+                {
+                    _context.Remove(data);
+                    _context.SaveChanges();
+                }
+                return RedirectToAction("TaskGroup");
+            }
+            return RedirectToAction("TaskGroup");
+        }
+
+        #endregion --- TaskGroup/Delete ---
     }
 }

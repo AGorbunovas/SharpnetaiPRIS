@@ -11,9 +11,10 @@ namespace PRIS.WEB.Views.Shared
     {
         public static string City => "City";
         public static string Module => "Module";
-        public static string ResultLimits_View => "ResultLimits_View";
+        public static string ResultLimits_View => "ResultLimits_View";        
         public static string List => "TestList";
         public static string Test => "TestCreate";
+        public static string TaskGroup => "TaskGroup";
 
 
         public static string CityNavClass(ViewContext viewContext) => PageNavClass(viewContext, City);
@@ -21,6 +22,7 @@ namespace PRIS.WEB.Views.Shared
         public static string ResultLimits_ViewNavClass(ViewContext viewContext) => PageNavClass(viewContext, ResultLimits_View);
         public static string TestListNavClass(ViewContext viewContext) => PageNavClass(viewContext, List);
         public static string TestCreateNavClass(ViewContext viewContext) => PageNavClass(viewContext, Test);
+        public static string TaskGroupNavClass(ViewContext viewContext) => PageNavClass(viewContext, TaskGroup);
 
         private static string PageNavClass(ViewContext viewContext, string page)
         {

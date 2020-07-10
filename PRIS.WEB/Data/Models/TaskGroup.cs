@@ -13,6 +13,11 @@ namespace PRIS.WEB.Models
         [Required]
         public string TaskGroupName { get; set; }
 
-        public IList<TestTask> TestTask { get; set; } 
+        public virtual ICollection<InterviewTask> InterviewTasks { get; set; }
+
+        public TaskGroup()
+        {
+            this.InterviewTasks = new List<InterviewTask>();
+        }
     }
 }
