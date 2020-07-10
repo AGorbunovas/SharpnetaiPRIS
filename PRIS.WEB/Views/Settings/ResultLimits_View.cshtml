@@ -1,4 +1,4 @@
-﻿@model IEnumerable<PRIS.WEB.Models.ResultLimits>
+﻿@*@model IEnumerable<PRIS.WEB.Models.ResultLimits>
 
 @{
     ViewData["Title"] = "ResultLimits_View";
@@ -103,10 +103,8 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.DateLimitSet)
                 </td>
-                @*<td>
-                    <a asp-action="LimitsDelete" asp-route-id="@item.ResultLimitsId">Trinti</a>
-                </td>*@
+
             </tr>
         }
     </tbody>
-</table>
+</table>*@

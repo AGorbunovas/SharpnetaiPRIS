@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PRIS.WEB.Data;
 
-namespace PRIS.WEB.Data.Migrations
+namespace PRIS.WEB.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200630060912__createResultLimitsTable")]
-    partial class _createResultLimitsTable
+    [Migration("20200710065907__InitialCreate")]
+    partial class _InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -46,6 +46,15 @@ namespace PRIS.WEB.Data.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "2301D884-221A-4E7D-B509-0113DCC043E1",
+                            ConcurrencyStamp = "2cd87d57-30f7-43ba-b87e-c33a83fd598b",
+                            Name = "Admin",
+                            NormalizedName = "ADMIN"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -70,71 +79,6 @@ namespace PRIS.WEB.Data.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetRoleClaims");
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUser", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("AccessFailedCount")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Email")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
-
-                    b.Property<bool>("EmailConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("LockoutEnabled")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTimeOffset?>("LockoutEnd")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("NormalizedEmail")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
-
-                    b.Property<string>("NormalizedUserName")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
-
-                    b.Property<string>("PasswordHash")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("PhoneNumberConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("SecurityStamp")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("TwoFactorEnabled")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("UserName")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("NormalizedEmail")
-                        .HasName("EmailIndex");
-
-                    b.HasIndex("NormalizedUserName")
-                        .IsUnique()
-                        .HasName("UserNameIndex")
-                        .HasFilter("[NormalizedUserName] IS NOT NULL");
-
-                    b.ToTable("AspNetUsers");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -198,6 +142,13 @@ namespace PRIS.WEB.Data.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles");
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = "B22698B8-42A2-4115-9631-1C2D1E2AC5F7",
+                            RoleId = "2301D884-221A-4E7D-B509-0113DCC043E1"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
@@ -219,6 +170,235 @@ namespace PRIS.WEB.Data.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("PRIS.WEB.Data.Models.ApplicationUser", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("ChangeInitialPassword")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(256)")
+                        .HasMaxLength(256);
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasColumnType("nvarchar(256)")
+                        .HasMaxLength(256);
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasColumnType("nvarchar(256)")
+                        .HasMaxLength(256);
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("UserName")
+                        .HasColumnType("nvarchar(256)")
+                        .HasMaxLength(256);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedEmail")
+                        .HasName("EmailIndex");
+
+                    b.HasIndex("NormalizedUserName")
+                        .IsUnique()
+                        .HasName("UserNameIndex")
+                        .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.ToTable("AspNetUsers");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "B22698B8-42A2-4115-9631-1C2D1E2AC5F7",
+                            AccessFailedCount = 0,
+                            ChangeInitialPassword = true,
+                            ConcurrencyStamp = "e7c4f45a-d356-43f9-af54-fb4ace7715b3",
+                            Email = "Admin1@Admin.com",
+                            EmailConfirmed = true,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "ADMIN@ADMIN.COM",
+                            NormalizedUserName = "ADMIN1@ADMIN.COM",
+                            PasswordHash = "AQAAAAEAACcQAAAAEGqgL+GsLOqF9SM1BS9OXdrbH0BPZlH8nimchpp9609avETnxEEmTPeaxqsEiALvZA==",
+                            PhoneNumber = "XXXXXXXXXXXXX",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "00000000-0000-0000-0000-000000000000",
+                            TwoFactorEnabled = false,
+                            UserName = "Admin1@Admin.com"
+                        });
+                });
+
+            modelBuilder.Entity("PRIS.WEB.Data.Models.TestResult", b =>
+                {
+                    b.Property<int>("TestResultId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("CandidateID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TemplateId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("TestId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal?>("TestResultAvg")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int?>("TestTemplateTemplateId")
+                        .HasColumnType("int");
+
+                    b.HasKey("TestResultId");
+
+                    b.HasIndex("CandidateID");
+
+                    b.HasIndex("TestId");
+
+                    b.HasIndex("TestTemplateTemplateId");
+
+                    b.ToTable("TestResults");
+                });
+
+            modelBuilder.Entity("PRIS.WEB.Data.Models.TestTask", b =>
+                {
+                    b.Property<int>("TaskId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("AddResultMaxLimitViewModelResultLimitsId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal?>("MaxResultValue")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int?>("TaskGroupsTaskGroupID")
+                        .HasColumnType("int");
+
+                    b.Property<decimal?>("TaskResult")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int?>("TestTemplateTemplateId")
+                        .HasColumnType("int");
+
+                    b.HasKey("TaskId");
+
+                    b.HasIndex("AddResultMaxLimitViewModelResultLimitsId");
+
+                    b.HasIndex("TaskGroupsTaskGroupID");
+
+                    b.HasIndex("TestTemplateTemplateId");
+
+                    b.ToTable("TestTasks");
+
+                    b.HasData(
+                        new
+                        {
+                            TaskId = 1
+                        },
+                        new
+                        {
+                            TaskId = 2
+                        },
+                        new
+                        {
+                            TaskId = 3
+                        },
+                        new
+                        {
+                            TaskId = 4
+                        },
+                        new
+                        {
+                            TaskId = 5
+                        },
+                        new
+                        {
+                            TaskId = 6
+                        },
+                        new
+                        {
+                            TaskId = 7
+                        },
+                        new
+                        {
+                            TaskId = 8
+                        },
+                        new
+                        {
+                            TaskId = 9
+                        },
+                        new
+                        {
+                            TaskId = 10
+                        });
+                });
+
+            modelBuilder.Entity("PRIS.WEB.Data.Models.TestTemplate", b =>
+                {
+                    b.Property<int>("TemplateId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("TaskId")
+                        .HasColumnType("int");
+
+                    b.HasKey("TemplateId");
+
+                    b.ToTable("TestTemplates");
+                });
+
+            modelBuilder.Entity("PRIS.WEB.Models.AddResultMaxLimitViewModel", b =>
+                {
+                    b.Property<int>("ResultLimitsId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("DateLimitSet")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("ResultSumMax")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("ResultLimitsId");
+
+                    b.ToTable("ResultLimits");
                 });
 
             modelBuilder.Entity("PRIS.WEB.Models.Candidate", b =>
@@ -249,7 +429,12 @@ namespace PRIS.WEB.Data.Migrations
                     b.Property<int>("PhoneNumber")
                         .HasColumnType("int");
 
+                    b.Property<int>("TestId")
+                        .HasColumnType("int");
+
                     b.HasKey("CandidateID");
+
+                    b.HasIndex("TestId");
 
                     b.ToTable("Candidate");
                 });
@@ -305,51 +490,6 @@ namespace PRIS.WEB.Data.Migrations
                     b.ToTable("Module");
                 });
 
-            modelBuilder.Entity("PRIS.WEB.Models.ResultLimits", b =>
-                {
-                    b.Property<int>("ResultLimitsId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("DateLimitSet")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<float?>("Task1")
-                        .HasColumnType("real");
-
-                    b.Property<float>("Task10")
-                        .HasColumnType("real");
-
-                    b.Property<float>("Task2")
-                        .HasColumnType("real");
-
-                    b.Property<float>("Task3")
-                        .HasColumnType("real");
-
-                    b.Property<float>("Task4")
-                        .HasColumnType("real");
-
-                    b.Property<float>("Task5")
-                        .HasColumnType("real");
-
-                    b.Property<float>("Task6")
-                        .HasColumnType("real");
-
-                    b.Property<float>("Task7")
-                        .HasColumnType("real");
-
-                    b.Property<float>("Task8")
-                        .HasColumnType("real");
-
-                    b.Property<float>("Task9")
-                        .HasColumnType("real");
-
-                    b.HasKey("ResultLimitsId");
-
-                    b.ToTable("ResultLimits");
-                });
-
             modelBuilder.Entity("PRIS.WEB.Models.TaskGroup", b =>
                 {
                     b.Property<int>("TaskGroupID")
@@ -363,7 +503,7 @@ namespace PRIS.WEB.Data.Migrations
 
                     b.HasKey("TaskGroupID");
 
-                    b.ToTable("TaskGroup");
+                    b.ToTable("TaskGroups");
                 });
 
             modelBuilder.Entity("PRIS.WEB.Models.Test", b =>
@@ -397,7 +537,7 @@ namespace PRIS.WEB.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                    b.HasOne("PRIS.WEB.Data.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -406,7 +546,7 @@ namespace PRIS.WEB.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                    b.HasOne("PRIS.WEB.Data.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -421,7 +561,7 @@ namespace PRIS.WEB.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                    b.HasOne("PRIS.WEB.Data.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -430,9 +570,48 @@ namespace PRIS.WEB.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                    b.HasOne("PRIS.WEB.Data.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("PRIS.WEB.Data.Models.TestResult", b =>
+                {
+                    b.HasOne("PRIS.WEB.Models.Candidate", "Candidates")
+                        .WithMany()
+                        .HasForeignKey("CandidateID");
+
+                    b.HasOne("PRIS.WEB.Models.Test", "Test")
+                        .WithMany()
+                        .HasForeignKey("TestId");
+
+                    b.HasOne("PRIS.WEB.Data.Models.TestTemplate", "TestTemplate")
+                        .WithMany()
+                        .HasForeignKey("TestTemplateTemplateId");
+                });
+
+            modelBuilder.Entity("PRIS.WEB.Data.Models.TestTask", b =>
+                {
+                    b.HasOne("PRIS.WEB.Models.AddResultMaxLimitViewModel", null)
+                        .WithMany("TestTasks")
+                        .HasForeignKey("AddResultMaxLimitViewModelResultLimitsId");
+
+                    b.HasOne("PRIS.WEB.Models.TaskGroup", "TaskGroups")
+                        .WithMany("TestTask")
+                        .HasForeignKey("TaskGroupsTaskGroupID");
+
+                    b.HasOne("PRIS.WEB.Data.Models.TestTemplate", null)
+                        .WithMany("TestTasks")
+                        .HasForeignKey("TestTemplateTemplateId");
+                });
+
+            modelBuilder.Entity("PRIS.WEB.Models.Candidate", b =>
+                {
+                    b.HasOne("PRIS.WEB.Models.Test", "Test")
+                        .WithMany()
+                        .HasForeignKey("TestId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

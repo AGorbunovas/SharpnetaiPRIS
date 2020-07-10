@@ -21,13 +21,9 @@ namespace PRIS.WEB.Models
 
         [Required]
         public int PhoneNumber { get; set; }
-
         public string Gender { get; set; }
-
         public string Comment { get; set; }
-
         public ICollection<CandidateModule> CandidateModules { get; set; }
-
         public int TestId { get; set; }
         public Test Test { get; set; }
     }
