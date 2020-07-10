@@ -10,10 +10,10 @@ namespace PRIS.WEB.Data.Models
     public class InterviewTask
     {
         public int InterviewTaskID { get; set; }
-
         [Required]
         public string InterviewTaskName { get; set; }
+
         public int TaskGroupID { get; set; }
-        public TaskGroup TaskGroup { get; set; }
+        public virtual TaskGroup TaskGroup { get; set; }
     }
 }

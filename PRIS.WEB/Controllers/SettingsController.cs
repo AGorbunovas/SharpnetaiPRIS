@@ -272,7 +272,7 @@ namespace PRIS.WEB.Controllers
 
             if (ModelState.IsValid)
             {
-                var newTaskGroup = new TaskGroup() { TaskGroupName = addTaskGroup.TaskGroupName };
+                var newTaskGroup = new TaskGroup() { TaskGroupName = addTaskGroup.TaskGroupName, TaskGroupCount = addTaskGroup.TaskGroupCount };
                 if (newTaskGroup != null)
                 {
                     _context.TaskGroups.Add(newTaskGroup);
