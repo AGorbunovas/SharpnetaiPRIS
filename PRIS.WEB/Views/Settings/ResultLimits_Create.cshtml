@@ -19,11 +19,11 @@
                     <span @*asp-validation-for="ResultLimitsId"*@ class="text-danger"></span>
                 </div>
                 <div class="row">
-                    @for (int i = 0; i < Model.TestTasks.Count; i++) { 
+                    @for (int i = 0; i < Model.TestTemplate.TestTasks.Count; i++) { 
                     <div class="form-group col-2">
-                        <label asp-for="@Model.TestTasks[i].TaskId" class="control-label">Nr. @Model.TestTasks[i].TaskId</label>
-                        <input asp-for="@Model.TestTasks[i].MaxResultLimit" class="form-control" type="number" />
-                        <span asp-validation-for="@Model.TestTasks[i].MaxResultLimit" class="text-danger"></span>
+                        <label asp-for="@Model.TestTemplate.TestTasks[i].TaskId" class="control-label">Nr. @Model.TestTemplate.TestTasks[i].TaskId</label>
+                        <input asp-for="@Model.TestTemplate.TestTasks[i].MaxResultLimit" class="form-control" type="number" />
+                        <span asp-validation-for="@Model.TestTemplate.TestTasks[i].MaxResultLimit" class="text-danger"></span>
                     </div>
                     }
                 </div>

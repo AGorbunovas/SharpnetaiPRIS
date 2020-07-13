@@ -10,6 +10,8 @@ using PRIS.WEB.ViewModels.TaskGroupViewModel;
 using PRIS.WEB.ViewModels.ResultLimitViewModel;
 using System;
 using System.Linq;
+using System.Collections.Generic;
+using Microsoft.AspNetCore.Razor.Language;
 
 namespace PRIS.WEB.Controllers
 {
@@ -170,7 +172,7 @@ namespace PRIS.WEB.Controllers
 
         public IActionResult ResultLimits_View()
         {
-            return View(_context.ResultLimits.ToList());
+            return View(/*_context.TestTasks.ToList()*/);
         }
 
         [HttpGet]
@@ -185,43 +187,55 @@ namespace PRIS.WEB.Controllers
             //TODO rezultatu limitai susije su testo sablonu
             decimal sumTestResults = 0;
 
-            for (int i = 0; i < limits.TestTasks.Count; i++)
+            for (int i = 0; i < limits.TestTemplate.TestTasks.Count; i++)
             {
-                sumTestResults += (decimal)limits.TestTasks[i].MaxResultLimit;
+                sumTestResults += (decimal)limits.TestTemplate.TestTasks[i].MaxResultLimit;
             }
 
-            
+
             if (ModelState.IsValid)
             {
+                //List<TestTask> testTasks = new List<TestTask>();
+
+
                 string timeStamp = GetTimestamp(DateTime.Now);
-                var newRecord = new ResultLimit() { 
-                    ResultLimitsId = limits.ResultLimitsId, 
-                    DateLimitSet = timeStamp, 
-                    TestTasks = limits.TestTasks
-                };
-                if (newRecord != null)
+
+                foreach (var task in limits.TestTemplate.TestTasks)
                 {
-                    _context.ResultLimits.Add(newRecord);
-                    _context.SaveChanges();
+                    var maxLimit = from TTask in limits.TestTemplate.TestTasks
+                                   where task.TaskId == limits.TestTemplate.TestTask.TaskId
+                                   select task.MaxResultLimit;
                 }
-                else
+
+                var newRecord = new TestTemplate()
                 {
-                    ModelState.AddModelError(string.Empty, "Įveskite teisingus duomenis.");
-                }
-                return RedirectToAction("ResultLimits_View");
+                    TemplateId = limits.TemplateId,
+                    DateTemplateSet = timeStamp,
+                    
+            };
+            if (newRecord != null)
+            {
+                _context.TestTemplates.Add(newRecord);
+                _context.SaveChanges();
             }
+            else
+            {
+                ModelState.AddModelError(string.Empty, "Įveskite teisingus duomenis.");
+            }
+            return RedirectToAction("ResultLimits_View");
+        }
             else
             {
                 ModelState.AddModelError(string.Empty, "Pasitikrinkite, ar įvedėte visus duomenis.");
             }
             return View();
-        }
+}
 
-        private string GetTimestamp(DateTime date)
-        {
-            return date.Date.ToString("yyyy/MM/dd");
-        }
+private string GetTimestamp(DateTime date)
+{
+    return date.Date.ToString("yyyy/MM/dd");
+}
 
-        //#endregion ResultLimits/Create
+        #endregion ResultLimits/Create
     }
 }

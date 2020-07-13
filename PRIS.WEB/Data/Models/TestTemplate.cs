@@ -12,6 +12,9 @@ namespace PRIS.WEB.Data.Models
         [Key]
         public int TemplateId { get; set; }
         public int TaskId { get; set; }
-        public IList<TestTask> TestTasks { get; set; } 
+        public TestTask TestTask { get; set; }
+        public IList<TestTask> TestTasks { get; set; }
+        //kada ivestas testo template (ir nustatyti rezultatu limitai)
+        public string DateTemplateSet { get; set; } 
     }
 }
