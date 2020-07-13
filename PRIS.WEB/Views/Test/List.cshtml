@@ -16,23 +16,34 @@
             <th>
                 @Html.DisplayNameFor(model => model.City)
             </th>
-            <th></th>
+            <th>
+                @Html.DisplayNameFor(model => model.ClassYearStart)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ClassYearEnd)
+            </th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DateOfTest)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.City.CityName)
-                </td>
-                <td>
-                    <a asp-action="Delete" asp-route-id="@item.TestId" class="btn btn-sm btn-outline-danger" role="button">Trinti</a>
-                </td>
-            </tr>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateOfTest)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.City.CityName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ClassYearStart)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ClassYearEnd)
+            </td>
+            <td>
+                <a asp-action="Delete" asp-route-id="@item.TestId" class="btn btn-sm btn-outline-danger" role="button">Trinti</a>
+            </td>
+        </tr>
         }
     </tbody>
 </table>

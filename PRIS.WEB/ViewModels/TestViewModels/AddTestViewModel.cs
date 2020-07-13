@@ -9,6 +9,13 @@ namespace PRIS.WEB.ViewModels.TestViewModels
     public class AddTestViewModel
     {
         [DataType(DataType.Date)]
+        [Display(Name = "Mokslo metu pradžia")]
+        public DateTime ClassYearStart { get; set; }
+        [DataType(DataType.Date)]
+        [Display(Name = "Mokslo metu pabaiga")]
+        public DateTime ClassYearEnd { get; set; }
+
+        [DataType(DataType.Date)]
         [Display(Name = "Testo data")]
         public DateTime DateOfTest { get; set; }
 

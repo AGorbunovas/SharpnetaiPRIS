@@ -20,8 +20,9 @@ namespace PRIS.WEB.Data
         public DbSet<ResultLimit> ResultLimits { get; set; }  
         public DbSet<TestTask> TestTasks { get; set; }    
         public DbSet<TestTemplate> TestTemplates { get; set; }   
-        public DbSet<TestResult> TestResults { get; set; }    
-         
+        public DbSet<TestResult> TestResults { get; set; }
+        public DbSet<InterviewTask> InterviewTasks { get; set; }
+
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
@@ -39,7 +40,8 @@ namespace PRIS.WEB.Data
             modelBuilder.Entity<ResultLimit>().ToTable("ResultLimits");
             modelBuilder.Entity<TestTask>().ToTable("TestTasks");
             modelBuilder.Entity<TestTemplate>().ToTable("TestTemplates");
-            modelBuilder.Entity<TestResult>().ToTable("TestResults"); 
+            modelBuilder.Entity<TestResult>().ToTable("TestResults");
+            modelBuilder.Entity<InterviewTask>().ToTable("InterviewTask");
 
             modelBuilder.Entity<CandidateModule>()
                 .HasKey(candidateModule => new { candidateModule.CandidateID, candidateModule.ModuleID });

@@ -19,8 +19,8 @@ namespace PRIS.WEB.Controllers
             _context = context;
         }
 
-        [HttpGet("{id}")]
-        public IActionResult Candidate(int id)
+        [HttpGet("Candidate/Edit/{id}")]
+        public IActionResult EditCandidate(int id)
         {
             var data = _context.Candidates.Where(t => t.CandidateID == id).Select(x =>
               new AddCandidateViewModel()
@@ -75,8 +75,8 @@ namespace PRIS.WEB.Controllers
             return RedirectToAction("List");
         }
 
-        [HttpPost("{id}")]
-        public IActionResult Candidate(int id, AddCandidateViewModel model)
+        [HttpPost("Candidate/Edit/{id}")]
+        public IActionResult EditCandidate(int id, AddCandidateViewModel model)
         {
             if (!model.SelectedModuleIds.Any(x => x > 0))
             {
