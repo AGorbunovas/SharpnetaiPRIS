@@ -1,4 +1,4 @@
-﻿@*@model IEnumerable<PRIS.WEB.Models.ResultLimits>
+﻿@model IEnumerable<PRIS.WEB.ViewModels.ResultLimitViewModel.ResultMaxLimitViewModel>
 
 @{
     ViewData["Title"] = "ResultLimits_View";
@@ -17,94 +17,52 @@
 <table class="table table-bordered table-responsive-lg">
     <thead>
         <tr>
-            <th rowspan="1" colspan="1"></th>
-            <th rowspan="1" colspan="3" class="text-center">Kompiuterinės sistemos</th>
-            <th rowspan="1" colspan="3" class="text-center">Logikos pagrindai</th>
-            <th rowspan="1" colspan="4" class="text-center">Programavimo pagrindai</th>
-            <th rowspan="1" colspan="1"></th>
-            <th rowspan="1" colspan="1"></th>
+            @foreach (var item in Model)
+            {
+                <th rowspan="1" colspan="1"></th>
+                <th rowspan="1" colspan="3" class="text-center">@item.TaskGroups[0]</th>
+                <th rowspan="1" colspan="3" class="text-center">@item.TaskGroups[1]</th>
+                <th rowspan="1" colspan="4" class="text-center">@item.TaskGroups[2]</th> 
+                <th rowspan="1" colspan="1"></th>
+                <th rowspan="1" colspan="1"></th>
+            }
         </tr>
         <tr>
             <th class="text-center">
                 Užduoties nr.
             </th>
-            <th>
-                1
-            </th>
-            <th>
-                2
-            </th>
-            <th>
-                3
-            </th>
-            <th>
-                4
-            </th>
-            <th>
-                5
-            </th>
-            <th>
-                6
-            </th>
-            <th>
-                7
-            </th>
-            <th>
-                8
-            </th>
-            <th>
-                9
-            </th>
-            <th>
-                10
-            </th>
+            
+            @foreach (var item in Model)
+            {
+                <th>
+                    @item.TestTask.TaskId
+                </th>
+            }
+
+
             <th class="text-center">Bendras testo balas</th>
             <th class="text-center">Pridėjimo data</th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td></td>
+
+        <tr>
+            <td></td>
+            @foreach (var item in Model)
+            {
                 <td>
-                    @Html.DisplayFor(modelItem => item.Task1)
+                    @Html.DisplayFor(modelItem => item.TestTask.MaxResultLimit)
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Task2)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Task3)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Task4)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Task5)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Task6)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Task7)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Task8)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Task9)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Task10)
-                </td>
-                <td>
+
+                @*<td>
                     @Html.DisplayFor(modelItem => item.ResultSumMax)
-                </td>
+                </td>*@
+
                 <td>
                     @Html.DisplayFor(modelItem => item.DateLimitSet)
                 </td>
+            }
+        </tr>
 
-            </tr>
-        }
     </tbody>
-</table>*@
+</table>

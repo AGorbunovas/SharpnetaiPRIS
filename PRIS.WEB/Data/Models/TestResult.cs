@@ -20,9 +20,6 @@ namespace PRIS.WEB.Data.Models
         public int TemplateId { get; set; }
         public TestTemplate TestTemplate { get; set; }
 
-        [Column(TypeName = "decimal(18,2)")]
-        public double? TestResultAvg { get; set; }
-
         //kandidato info
         public int? CandidateID { get; set; }
         public Candidate Candidates { get; set; }

@@ -14,7 +14,7 @@ namespace PRIS.WEB.ViewModels.TestViewModels
 
         [Display(Name = "Miestas")]
         public City City { get; set; }
-        
+
         public List<SelectListItem> Cities { get; set; }
 
         [Required(ErrorMessage = "Įveskite miestą")]

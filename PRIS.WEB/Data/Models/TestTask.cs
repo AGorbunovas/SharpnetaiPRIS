@@ -13,15 +13,13 @@ namespace PRIS.WEB.Data.Models
         [Key]
         public int TaskId { get; set; }
 
-        //[Required(ErrorMessage = "Įveskite užduoties įvertinimo balą")]
-        //[RegularExpression(@"^(?:[0-4](?:\.5|\,5)+|[1-5]+)$", ErrorMessage = "Pasirinkite reikšmę nuo 0.5 iki 5, kuri būtų 0.5 kartotinis")]
-        [Column(TypeName = "decimal(18,2)")]
+        [Column(TypeName = "decimal(18,1)")]
         public double? TaskResult { get; set; }
 
         //[Required(ErrorMessage = "Pasirinkite reikšmę")]
-        //[RegularExpression(@"^(?:[0-4](?:\.5|\,5)+|[1-5]+)$", ErrorMessage = "Pasirinkite reikšmę nuo 0.5 iki 5, kuri būtų 0.5 kartotinis")]
-        [Column(TypeName = "decimal(18,2)")]
-        public decimal? MaxResultValue { get; set; }  
+        [RegularExpression(@"^(?:[0-4](?:\.5|\,5)+|[1-5]+)$", ErrorMessage = "Pasirinkite reikšmę nuo 0.5 iki 5, kuri būtų 0.5 kartotinis")]
+        [Column(TypeName = "decimal(18,1)")]
+        public decimal? MaxResultLimit { get; set; }     
         public TaskGroup TaskGroups { get; set; }
     }
 }
