@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using PRIS.WEB.Data;
+using PRIS.WEB.Data.Models;
 using PRIS.WEB.Models;
+using PRIS.WEB.ViewModels.ResultLimitViewModel;
 using PRIS.WEB.ViewModels.TestViewModels;
 using System;
 using System.Collections.Generic;
@@ -101,6 +103,37 @@ namespace PRIS.WEB.Controllers
 
             return RedirectToAction("List");
         }
+
+        public IActionResult ResultLimitTA()
+        {
+            ResultLimitTAViewModel model = new ResultLimitTAViewModel();
+            model.Value.Add(0);
+            model.Value.Add(0);
+            model.Value.Add(0);
+            model.Value.Add(0);
+            model.Value.Add(0);
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult ResultLimitTA(ResultLimitTAViewModel model)
+        {
+            foreach (var item in model.Value)
+            {
+                var dbModel = new ResultLimitTA();
+                dbModel.Date = DateTime.Today;
+                dbModel.Position = item;
+                dbModel.Value = item;
+
+                _context.ResultLimitTA.Add(dbModel);
+                _context.SaveChanges();
+            }
+
+            return View(model);
+        }
+
+
 
         private AddTestViewModel GetViewModelWithCityList()
         {

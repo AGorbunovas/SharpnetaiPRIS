@@ -166,7 +166,7 @@ namespace PRIS.WEB.Controllers
 
         #endregion Module/Delete
 
-        #region ResultLimits/Create
+
 
         public IActionResult ResultLimits_View()
         {
@@ -222,6 +222,5 @@ namespace PRIS.WEB.Controllers
             return date.Date.ToString("yyyy/MM/dd");
         }
 
-        //#endregion ResultLimits/Create
     }
 }
