@@ -113,6 +113,8 @@ namespace PRIS.WEB.Controllers
             model.Value.Add(0);
             model.Value.Add(0);
 
+            _context.ResultsTA.Select(x => x.ResultLimitTA.Value);
+
             return View(model);
         }
 
@@ -129,6 +131,35 @@ namespace PRIS.WEB.Controllers
                 _context.ResultLimitTA.Add(dbModel);
                 _context.SaveChanges();
             }
+
+
+            var candidate = new Candidate
+            {
+                FirstName = "Foo",
+                LastName = "Bar",
+                Email = "asas",
+                PhoneNumber = 1111,
+                Test = _context.Test.FirstOrDefault(x => x.TestId == 1)
+            };
+
+            _context.Candidates.Add(candidate);
+            _context.SaveChanges();
+
+            var ResultLimitTA = new ResultLimitTA {
+                Date = DateTime.Today,
+                Value = 1
+            };
+
+            var result = new ResultsTA
+            {
+                Candidate = candidate,
+                Result = 1,
+                ResultLimitTA = ResultLimitTA
+
+            };
+
+            _context.ResultsTA.Add(result);
+            _context.SaveChanges();
 
             return View(model);
         }

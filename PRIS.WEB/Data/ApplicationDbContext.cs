@@ -23,6 +23,7 @@ namespace PRIS.WEB.Data
         public DbSet<TestResult> TestResults { get; set; }
         public DbSet<InterviewTask> InterviewTasks { get; set; }
         public DbSet<ResultLimitTA> ResultLimitTA { get; set; }
+        public DbSet<ResultsTA> ResultsTA { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
