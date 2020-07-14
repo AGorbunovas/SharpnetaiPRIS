@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using PRIS.WEB.Data;
 using PRIS.WEB.Models;
+using PRIS.WEB.ViewModels;
 using PRIS.WEB.ViewModels.CandidateViewModels;
 using System;
 using System.Collections.Generic;
@@ -150,6 +151,30 @@ namespace PRIS.WEB.Controllers
 
             return View(viewModel);
         }
+
+        [HttpGet("Candidate/AddTaskResult/{id}")]
+        public IActionResult AddTaskResult(int id)
+        {
+            TaskResultViewModel model = new TaskResultViewModel();
+
+            var candidate = _context.Candidates.FirstOrDefault(x => x.CandidateID == id);
+            model.Candidate = candidate;
+
+            model.Value.Add(0);
+            model.Value.Add(1);
+            model.Value.Add(2);
+            model.Value.Add(3);
+            model.Value.Add(4);
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult AddTaskResult(TaskResultViewModel model)
+        {
+            return View(model);
+        }
+
 
         private AddCandidateViewModel GetViewModelWithModulesList(AddCandidateViewModel viewModel = null)
         {

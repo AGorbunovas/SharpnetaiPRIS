@@ -10,7 +10,6 @@ namespace PRIS.WEB.Data
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
-
         public DbSet<Test> Test { get; set; }
         public DbSet<Module> Modules { get; set; }
         public DbSet<City> Cities { get; set; }
@@ -19,6 +18,7 @@ namespace PRIS.WEB.Data
         public DbSet<TaskGroup> TaskGroups { get; set; }
         public DbSet<InterviewTask> InterviewTasks { get; set; }
         public DbSet<TaskResultLimit> TaskResultLimits { get; set; }
+        public DbSet<TaskResult> TaskResult { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
