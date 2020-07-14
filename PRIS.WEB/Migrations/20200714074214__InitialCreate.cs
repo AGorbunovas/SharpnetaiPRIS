@@ -53,18 +53,11 @@ namespace PRIS.WEB.Migrations
                 {
                     CityId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CityName = table.Column<string>(nullable: true),
-                    CityId1 = table.Column<int>(nullable: true)
+                    CityName = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_City", x => x.CityId);
-                    table.ForeignKey(
-                        name: "FK_City_City_CityId1",
-                        column: x => x.CityId1,
-                        principalTable: "City",
-                        principalColumn: "CityId",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -81,20 +74,6 @@ namespace PRIS.WEB.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ResultLimits",
-                columns: table => new
-                {
-                    ResultLimitsId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    DateLimitSet = table.Column<string>(nullable: true),
-                    ResultSumMax = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ResultLimits", x => x.ResultLimitsId);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "TaskGroups",
                 columns: table => new
                 {
@@ -108,16 +87,18 @@ namespace PRIS.WEB.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "TestTemplates",
+                name: "TaskResultLimits",
                 columns: table => new
                 {
-                    TemplateId = table.Column<int>(nullable: false)
+                    TaskResultLimitId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    TaskId = table.Column<int>(nullable: false)
+                    Position = table.Column<int>(nullable: false),
+                    Date = table.Column<string>(nullable: true),
+                    Value = table.Column<decimal>(type: "decimal(18,1)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TestTemplates", x => x.TemplateId);
+                    table.PrimaryKey("PK_TaskResultLimits", x => x.TaskResultLimitId);
                 });
 
             migrationBuilder.CreateTable(
@@ -232,6 +213,8 @@ namespace PRIS.WEB.Migrations
                 {
                     TestId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    ClassYearStart = table.Column<DateTime>(nullable: false),
+                    ClassYearEnd = table.Column<DateTime>(nullable: false),
                     DateOfTest = table.Column<DateTime>(nullable: false),
                     CityId = table.Column<int>(nullable: false)
                 },
@@ -247,38 +230,23 @@ namespace PRIS.WEB.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "TestTasks",
+                name: "InterviewTask",
                 columns: table => new
                 {
-                    TaskId = table.Column<int>(nullable: false)
+                    InterviewTaskID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    TaskResult = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
-                    MaxResultValue = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
-                    TaskGroupsTaskGroupID = table.Column<int>(nullable: true),
-                    AddResultMaxLimitViewModelResultLimitsId = table.Column<int>(nullable: true),
-                    TestTemplateTemplateId = table.Column<int>(nullable: true)
+                    InterviewTaskName = table.Column<string>(nullable: false),
+                    TaskGroupID = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TestTasks", x => x.TaskId);
+                    table.PrimaryKey("PK_InterviewTask", x => x.InterviewTaskID);
                     table.ForeignKey(
-                        name: "FK_TestTasks_ResultLimits_AddResultMaxLimitViewModelResultLimitsId",
-                        column: x => x.AddResultMaxLimitViewModelResultLimitsId,
-                        principalTable: "ResultLimits",
-                        principalColumn: "ResultLimitsId",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_TestTasks_TaskGroups_TaskGroupsTaskGroupID",
-                        column: x => x.TaskGroupsTaskGroupID,
+                        name: "FK_InterviewTask_TaskGroups_TaskGroupID",
+                        column: x => x.TaskGroupID,
                         principalTable: "TaskGroups",
                         principalColumn: "TaskGroupID",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_TestTasks_TestTemplates_TestTemplateTemplateId",
-                        column: x => x.TestTemplateTemplateId,
-                        principalTable: "TestTemplates",
-                        principalColumn: "TemplateId",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -330,67 +298,15 @@ namespace PRIS.WEB.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "TestResults",
-                columns: table => new
-                {
-                    TestResultId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    TestId = table.Column<int>(nullable: true),
-                    TemplateId = table.Column<int>(nullable: false),
-                    TestTemplateTemplateId = table.Column<int>(nullable: true),
-                    TestResultAvg = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
-                    CandidateID = table.Column<int>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_TestResults", x => x.TestResultId);
-                    table.ForeignKey(
-                        name: "FK_TestResults_Candidate_CandidateID",
-                        column: x => x.CandidateID,
-                        principalTable: "Candidate",
-                        principalColumn: "CandidateID",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_TestResults_Test_TestId",
-                        column: x => x.TestId,
-                        principalTable: "Test",
-                        principalColumn: "TestId",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_TestResults_TestTemplates_TestTemplateTemplateId",
-                        column: x => x.TestTemplateTemplateId,
-                        principalTable: "TestTemplates",
-                        principalColumn: "TemplateId",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "2301D884-221A-4E7D-B509-0113DCC043E1", "2cd87d57-30f7-43ba-b87e-c33a83fd598b", "Admin", "ADMIN" });
+                values: new object[] { "2301D884-221A-4E7D-B509-0113DCC043E1", "086f1a39-7e16-44e0-b4d5-cf52e81b7291", "Admin", "ADMIN" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ChangeInitialPassword", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "B22698B8-42A2-4115-9631-1C2D1E2AC5F7", 0, true, "e7c4f45a-d356-43f9-af54-fb4ace7715b3", "Admin1@Admin.com", true, false, null, "ADMIN@ADMIN.COM", "ADMIN1@ADMIN.COM", "AQAAAAEAACcQAAAAEGqgL+GsLOqF9SM1BS9OXdrbH0BPZlH8nimchpp9609avETnxEEmTPeaxqsEiALvZA==", "XXXXXXXXXXXXX", false, "00000000-0000-0000-0000-000000000000", false, "Admin1@Admin.com" });
-
-            migrationBuilder.InsertData(
-                table: "TestTasks",
-                columns: new[] { "TaskId", "AddResultMaxLimitViewModelResultLimitsId", "MaxResultValue", "TaskGroupsTaskGroupID", "TaskResult", "TestTemplateTemplateId" },
-                values: new object[,]
-                {
-                    { 1, null, null, null, null, null },
-                    { 2, null, null, null, null, null },
-                    { 3, null, null, null, null, null },
-                    { 4, null, null, null, null, null },
-                    { 5, null, null, null, null, null },
-                    { 6, null, null, null, null, null },
-                    { 7, null, null, null, null, null },
-                    { 8, null, null, null, null, null },
-                    { 9, null, null, null, null, null },
-                    { 10, null, null, null, null, null }
-                });
+                values: new object[] { "B22698B8-42A2-4115-9631-1C2D1E2AC5F7", 0, true, "51a872eb-9de5-4ea0-9992-62d8d8152c36", "Admin1@Admin.com", true, false, null, "ADMIN@ADMIN.COM", "ADMIN1@ADMIN.COM", "AQAAAAEAACcQAAAAEGfmHhztknOU0IqL3gd3p9n9G3Kgw3nvfsr4FESeVDT/ZXHZEbScQdblnQUeOvNhCg==", "XXXXXXXXXXXXX", false, "00000000-0000-0000-0000-000000000000", false, "Admin1@Admin.com" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",
@@ -447,44 +363,14 @@ namespace PRIS.WEB.Migrations
                 column: "ModuleID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_City_CityId1",
-                table: "City",
-                column: "CityId1");
+                name: "IX_InterviewTask_TaskGroupID",
+                table: "InterviewTask",
+                column: "TaskGroupID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Test_CityId",
                 table: "Test",
                 column: "CityId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_TestResults_CandidateID",
-                table: "TestResults",
-                column: "CandidateID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_TestResults_TestId",
-                table: "TestResults",
-                column: "TestId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_TestResults_TestTemplateTemplateId",
-                table: "TestResults",
-                column: "TestTemplateTemplateId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_TestTasks_AddResultMaxLimitViewModelResultLimitsId",
-                table: "TestTasks",
-                column: "AddResultMaxLimitViewModelResultLimitsId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_TestTasks_TaskGroupsTaskGroupID",
-                table: "TestTasks",
-                column: "TaskGroupsTaskGroupID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_TestTasks_TestTemplateTemplateId",
-                table: "TestTasks",
-                column: "TestTemplateTemplateId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -508,10 +394,10 @@ namespace PRIS.WEB.Migrations
                 name: "CandidateModule");
 
             migrationBuilder.DropTable(
-                name: "TestResults");
+                name: "InterviewTask");
 
             migrationBuilder.DropTable(
-                name: "TestTasks");
+                name: "TaskResultLimits");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
@@ -520,19 +406,13 @@ namespace PRIS.WEB.Migrations
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
-                name: "Module");
-
-            migrationBuilder.DropTable(
                 name: "Candidate");
 
             migrationBuilder.DropTable(
-                name: "ResultLimits");
+                name: "Module");
 
             migrationBuilder.DropTable(
                 name: "TaskGroups");
-
-            migrationBuilder.DropTable(
-                name: "TestTemplates");
 
             migrationBuilder.DropTable(
                 name: "Test");

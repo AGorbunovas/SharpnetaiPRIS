@@ -104,68 +104,6 @@ namespace PRIS.WEB.Controllers
             return RedirectToAction("List");
         }
 
-        public IActionResult ResultLimit()
-        {
-            TestResultLimitViewModel model = new TestResultLimitViewModel();
-            model.Value.Add(0);
-            model.Value.Add(0);
-            model.Value.Add(0);
-            model.Value.Add(0);
-            model.Value.Add(0);
-
-            _context.ResultsTA.Select(x => x.ResultLimit.Value);
-
-            return View(model);
-        }
-
-        [HttpPost]
-        public IActionResult ResultLimit(TestResultLimitViewModel model)
-        {
-            foreach (var item in model.Value)
-            {
-                var dbModel = new TestResultLimit();
-                dbModel.Date = DateTime.Today;
-                dbModel.Position = item;
-                dbModel.Value = item;
-
-                _context.ResultLimit.Add(dbModel);
-                _context.SaveChanges();
-            }
-
-
-            var candidate = new Candidate
-            {
-                FirstName = "Foo",
-                LastName = "Bar",
-                Email = "asas",
-                PhoneNumber = 1111,
-                Test = _context.Test.FirstOrDefault(x => x.TestId == 1)
-            };
-
-            _context.Candidates.Add(candidate);
-            _context.SaveChanges();
-
-            var ResultLimit = new TestResultLimit {
-                Date = DateTime.Today,
-                Value = 1
-            };
-
-            var result = new TaskResult
-            {
-                Candidate = candidate,
-                TaskResult = 1,
-                ResultLimit = ResultLimit
-
-            };
-
-            _context.ResultsTA.Add(result);
-            _context.SaveChanges();
-
-            return View(model);
-        }
-
-
-
         private AddTestViewModel GetViewModelWithCityList()
         {
             var data = _context.Cities.Select(x => new SelectListItem()
