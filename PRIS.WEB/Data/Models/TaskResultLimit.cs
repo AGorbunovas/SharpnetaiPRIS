@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 
 namespace PRIS.WEB.Data.Models
 {
-    public class ResultLimitTA
+    public class TaskResultLimit
     {
-        public int ResultLimitTAId { get; set; }
+        public int ResultLimitId { get; set; }
         public int Position { get; set; }
         public DateTime Date { get; set; }
         public int Value { get; set; }

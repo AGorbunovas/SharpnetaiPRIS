@@ -104,31 +104,31 @@ namespace PRIS.WEB.Controllers
             return RedirectToAction("List");
         }
 
-        public IActionResult ResultLimitTA()
+        public IActionResult ResultLimit()
         {
-            ResultLimitTAViewModel model = new ResultLimitTAViewModel();
+            TestResultLimitViewModel model = new TestResultLimitViewModel();
             model.Value.Add(0);
             model.Value.Add(0);
             model.Value.Add(0);
             model.Value.Add(0);
             model.Value.Add(0);
 
-            _context.ResultsTA.Select(x => x.ResultLimitTA.Value);
+            _context.ResultsTA.Select(x => x.ResultLimit.Value);
 
             return View(model);
         }
 
         [HttpPost]
-        public IActionResult ResultLimitTA(ResultLimitTAViewModel model)
+        public IActionResult ResultLimit(TestResultLimitViewModel model)
         {
             foreach (var item in model.Value)
             {
-                var dbModel = new ResultLimitTA();
+                var dbModel = new TestResultLimit();
                 dbModel.Date = DateTime.Today;
                 dbModel.Position = item;
                 dbModel.Value = item;
 
-                _context.ResultLimitTA.Add(dbModel);
+                _context.ResultLimit.Add(dbModel);
                 _context.SaveChanges();
             }
 
@@ -145,16 +145,16 @@ namespace PRIS.WEB.Controllers
             _context.Candidates.Add(candidate);
             _context.SaveChanges();
 
-            var ResultLimitTA = new ResultLimitTA {
+            var ResultLimit = new TestResultLimit {
                 Date = DateTime.Today,
                 Value = 1
             };
 
-            var result = new ResultsTA
+            var result = new TaskResult
             {
                 Candidate = candidate,
-                Result = 1,
-                ResultLimitTA = ResultLimitTA
+                TaskResult = 1,
+                ResultLimit = ResultLimit
 
             };
 
