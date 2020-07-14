@@ -1,4 +1,4 @@
-﻿@model PRIS.WEB.ViewModels.ResultLimitViewModel.ResultMaxLimitViewModel
+﻿@*@model PRIS.WEB.ViewModels.ResultLimitViewModel.ResultMaxLimitViewModel
 
 @{
     ViewData["Title"] = "ResultLimits_Create";
@@ -15,8 +15,8 @@
             <div class="form-row mx-0">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group">
-                    <label @*asp-for="ResultLimitsId"*@ class="control-label">Nustatykite užduoties balų rėžius įvesties langeliuose ties kiekvienos užduoties numeriu.</label>
-                    <span @*asp-validation-for="ResultLimitsId"*@ class="text-danger"></span>
+                    <label asp-for="ResultLimitsId" class="control-label">Nustatykite užduoties balų rėžius įvesties langeliuose ties kiekvienos užduoties numeriu.</label>
+                    <span asp-validation-for="ResultLimitsId" class="text-danger"></span>
                 </div>
                 <div class="row">
                     @for (int i = 0; i < Model.TestTasks.Count; i++) { 
@@ -38,5 +38,5 @@
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
     <script src="~/js/validationlocalization.js"></script>
-}
+}*@
 
