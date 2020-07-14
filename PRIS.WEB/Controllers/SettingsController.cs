@@ -10,6 +10,8 @@ using PRIS.WEB.ViewModels.TaskGroupViewModel;
 using PRIS.WEB.ViewModels.ResultLimitViewModel;
 using System;
 using System.Linq;
+using System.Collections.Generic;
+using Microsoft.AspNetCore.Razor.Language;
 
 namespace PRIS.WEB.Controllers
 {
@@ -166,11 +168,11 @@ namespace PRIS.WEB.Controllers
 
         #endregion Module/Delete
 
-
+        #region ResultLimits/Create
 
         public IActionResult ResultLimits_View()
         {
-            return View(_context.ResultLimits.ToList());
+            return View(_context.TestTemplates.ToList());
         }
 
         [HttpGet]
@@ -185,23 +187,35 @@ namespace PRIS.WEB.Controllers
             //TODO rezultatu limitai susije su testo sablonu
             decimal sumTestResults = 0;
 
-            for (int i = 0; i < limits.TestTasks.Count; i++)
+            for (int i = 0; i < limits.TestTemplate.TestTasks.Count; i++)
             {
-                sumTestResults += (decimal)limits.TestTasks[i].MaxResultLimit;
+                sumTestResults += (decimal)limits.TestTemplate.TestTasks[i].MaxResultLimit;
             }
 
-            
+
             if (ModelState.IsValid)
             {
+                //List<TestTask> testTasks = new List<TestTask>();
+
+
                 string timeStamp = GetTimestamp(DateTime.Now);
-                var newRecord = new ResultLimit() { 
-                    ResultLimitsId = limits.ResultLimitsId, 
-                    DateLimitSet = timeStamp, 
-                    TestTasks = limits.TestTasks
+
+                foreach (var task in limits.TestTemplate.TestTasks)
+                {
+                    var maxLimit = from TTask in limits.TestTemplate.TestTasks
+                                   where task.TaskId == limits.TestTemplate.TestTask.TaskId
+                                   select task.MaxResultLimit;
+                }
+
+                var newRecord = new TestTemplate()
+                {
+                    TemplateId = limits.TemplateId,
+                    DateTemplateSet = timeStamp,
+                    TestTasks = 
                 };
                 if (newRecord != null)
                 {
-                    _context.ResultLimits.Add(newRecord);
+                    _context.TestTemplates.Add(newRecord);
                     _context.SaveChanges();
                 }
                 else
@@ -222,5 +236,6 @@ namespace PRIS.WEB.Controllers
             return date.Date.ToString("yyyy/MM/dd");
         }
 
+        #endregion ResultLimits/Create
     }
 }
