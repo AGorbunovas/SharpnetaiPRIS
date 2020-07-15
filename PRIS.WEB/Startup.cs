@@ -23,8 +23,9 @@ namespace PRIS.WEB
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            System.Threading.Thread.CurrentThread.CurrentCulture = new CultureInfo("en-GB");
-            System.Threading.Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-GB");
+            var cultureInfo = new CultureInfo("en-US");
+            CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
+            CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(

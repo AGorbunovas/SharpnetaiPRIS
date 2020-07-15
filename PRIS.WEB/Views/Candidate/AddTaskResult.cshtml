@@ -4,9 +4,7 @@
     Layout = "~/Views/Shared/_LayoutWithNavSectionForCandidateView.cshtml";
 }
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+<div asp-validation-summary="All" class="text-danger"></div>
 
 <form method="post" class="form-horizontal" role="form">
 
@@ -14,8 +12,8 @@
     {
         <fieldset class="form-group">
             <label asp-for="Value"></label>
-            <input value=@item asp-for="Value" class="form-control" />
-            <span asp-validation-for="Value" class="text-danger"></span>
+            <input value=@item asp-for="Value" type="number" class="form-control" min="0" max="18" step="0.5"/>
+            @*<span asp-validation-for="Value" class="text-danger"></span>*@
         </fieldset>
     }
     <input id="submitApplication" type="submit" value="Sukurti" class="btn btn-outline-dark" />

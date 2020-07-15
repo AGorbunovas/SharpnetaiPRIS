@@ -87,7 +87,7 @@ namespace PRIS.WEB.Controllers
             if (ModelState.IsValid)
             {
                 var record = _context.Candidates.Include(t => t.CandidateModules).Where(t => t.CandidateID == id).Single();
-
+                
                 record.FirstName = model.Firstname;
                 record.LastName = model.Lastname;
                 record.Gender = model.Gender;
@@ -157,21 +157,30 @@ namespace PRIS.WEB.Controllers
         {
             TaskResultViewModel model = new TaskResultViewModel();
 
-            var candidate = _context.Candidates.FirstOrDefault(x => x.CandidateID == id);
-            model.Candidate = candidate;
+            model.Value.Add(0.0);
+            model.Value.Add(0.0);
+            model.Value.Add(0.0);
+            model.Value.Add(0.0);
+            model.Value.Add(0.0);
 
-            model.Value.Add(0);
-            model.Value.Add(1);
-            model.Value.Add(2);
-            model.Value.Add(3);
-            model.Value.Add(4);
+            var candidate = _context.Candidates.FirstOrDefault(x => x.CandidateID == id);
+            if(candidate == null)
+            {
+                ModelState.AddModelError(string.Empty, "Kandidatas nerastas");
+                return View(model);
+            }
 
             return View(model);
         }
 
         [HttpPost]
-        public IActionResult AddTaskResult(TaskResultViewModel model)
+        public IActionResult AddTaskResult(TaskResultViewModel model, int id)
         {
+
+            var candidate = _context.Candidates.FirstOrDefault(x => x.CandidateID == id);
+
+            model.Candidate = candidate;
+
             return View(model);
         }
 

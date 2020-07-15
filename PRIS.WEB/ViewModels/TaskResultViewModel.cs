@@ -8,7 +8,7 @@ namespace PRIS.WEB.ViewModels
 {
     public class TaskResultViewModel
     {
-        public List<int> Value { get; set; } = new List<int>();
+        public List<double> Value { get; set; } = new List<double>();
         public Candidate Candidate { get; set; }
     }
 }
