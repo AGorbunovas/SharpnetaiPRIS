@@ -44,8 +44,6 @@ namespace PRIS.WEB.Data
             modelBuilder.ApplyConfiguration(new RoleConfiguration());
             modelBuilder.ApplyConfiguration(new AdminConfiguration());
             modelBuilder.ApplyConfiguration(new UsersWithRolesConfiguration());
-
-            modelBuilder.SeedTasks();
         }
     }
 }
