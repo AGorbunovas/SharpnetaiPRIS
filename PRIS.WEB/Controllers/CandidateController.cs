@@ -60,7 +60,8 @@ namespace PRIS.WEB.Controllers
                 Lastname = x.LastName,
                 TestDate = x.Test.DateOfTest,
                 TestCity = x.Test.City.CityName,
-                FirstModule = x.CandidateModules.Select(t => t.Module.ModuleName).FirstOrDefault()
+                FirstModule = x.CandidateModules.Select(t => t.Module.ModuleName).FirstOrDefault(),
+                TestResult = _context.TaskResult.Where(t => t.CandidateId == x.CandidateID).Sum(t => t.Value)
             }).ToList();
             return View(data);
         }
@@ -143,7 +144,7 @@ namespace PRIS.WEB.Controllers
                     CandidateModules = model.SelectedModuleIds.Where(t => t.HasValue).Distinct().Select(t => new CandidateModule() { ModuleID = t.Value }).ToList()
                 };
                 _context.Candidates.Add(newRecord);
-                _context.SaveChanges();
+                _context.SaveChanges();               
 
                 return RedirectToAction("List");
             }
@@ -179,24 +180,36 @@ namespace PRIS.WEB.Controllers
         [HttpPost]
         public IActionResult AddTaskResult(TaskResultViewModel model, int id)
         {
+            //TODO
+            model.Candidate = _context.Candidates.FirstOrDefault(x => x.CandidateID == id);
+            var CandidateHasTaskResults = _context.TaskResult.Any(x => x.Candidate == model.Candidate);
 
-            var candidate = _context.Candidates.FirstOrDefault(x => x.CandidateID == id);
-
-            model.Candidate = candidate;
-
-            foreach (var item in model.Value)
+            if (CandidateHasTaskResults)
             {
-                var taskResult = new TaskResult
+                var candidateTaskResults = _context.TaskResult.Where(x => x.Candidate == model.Candidate).ToList();
+                for (int i = 0; i < model.Value.Count; i++)
                 {
-                    Value = item,
-                    Candidate = model.Candidate
-                };
-
-                _context.TaskResult.Add(taskResult);
-                _context.SaveChanges();
+                    _context.Attach(candidateTaskResults[i]);
+                    candidateTaskResults[i].Value = model.Value[i];
+                    _context.SaveChanges();
+                }
             }
+            else
+            {
+                foreach (var item in model.Value)
+                {
+                    var taskResult = new TaskResult
+                    {
+                        Value = item,
+                        Candidate = model.Candidate
+                    };
 
-            return View(model);
+                    _context.TaskResult.Add(taskResult);
+                    _context.SaveChanges();
+                }
+            }
+            
+            return RedirectToAction("List");
         }
 
 

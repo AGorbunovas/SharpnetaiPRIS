@@ -18,5 +18,6 @@ namespace PRIS.WEB.ViewModels.CandidateViewModels
         public int? ResultPrc { get; set; }
         public bool IsInterview { get; set; }
         public string FirstModule { get; set; }
+        public double TestResult { get; set; }
     }
 }
