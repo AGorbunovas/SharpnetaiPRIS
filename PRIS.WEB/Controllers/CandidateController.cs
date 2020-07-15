@@ -158,20 +158,24 @@ namespace PRIS.WEB.Controllers
         public IActionResult AddTaskResult(int id)
         {
             TaskResultViewModel model = new TaskResultViewModel();
-
-            for (int i = 0; i < 10; i++)
-            {
-                model.Value.Add(0.0);
-            }
-
             var candidate = _context.Candidates.FirstOrDefault(x => x.CandidateID == id);
+
             if(candidate == null)
             {
                 return RedirectToAction("List");
             }
+           
+            model.Candidate = candidate;
+            if (_context.TaskResult.Where(c => c.Candidate == candidate).Sum(x => x.Value) > 1)
+            {
+                model.Value = _context.TaskResult.Where(c => c.Candidate == model.Candidate).Select(x => x.Value).ToList();
+            }
             else
             {
-                model.Candidate = candidate;
+                for (int i = 0; i < 10; i++)
+                {
+                    model.Value.Add(0.0);
+                }
             }
 
             return View(model);
