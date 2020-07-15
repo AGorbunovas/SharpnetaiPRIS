@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using PRIS.WEB.Data;
+using PRIS.WEB.Data.Models;
 using PRIS.WEB.Models;
 using PRIS.WEB.ViewModels;
 using PRIS.WEB.ViewModels.CandidateViewModels;
@@ -87,7 +88,7 @@ namespace PRIS.WEB.Controllers
             if (ModelState.IsValid)
             {
                 var record = _context.Candidates.Include(t => t.CandidateModules).Where(t => t.CandidateID == id).Single();
-
+                
                 record.FirstName = model.Firstname;
                 record.LastName = model.Lastname;
                 record.Gender = model.Gender;
@@ -157,21 +158,44 @@ namespace PRIS.WEB.Controllers
         {
             TaskResultViewModel model = new TaskResultViewModel();
 
-            var candidate = _context.Candidates.FirstOrDefault(x => x.CandidateID == id);
-            model.Candidate = candidate;
+            for (int i = 0; i < 10; i++)
+            {
+                model.Value.Add(0.0);
+            }
 
-            model.Value.Add(0);
-            model.Value.Add(1);
-            model.Value.Add(2);
-            model.Value.Add(3);
-            model.Value.Add(4);
+            var candidate = _context.Candidates.FirstOrDefault(x => x.CandidateID == id);
+            if(candidate == null)
+            {
+                return RedirectToAction("List");
+            }
+            else
+            {
+                model.Candidate = candidate;
+            }
 
             return View(model);
         }
 
         [HttpPost]
-        public IActionResult AddTaskResult(TaskResultViewModel model)
+        public IActionResult AddTaskResult(TaskResultViewModel model, int id)
         {
+
+            var candidate = _context.Candidates.FirstOrDefault(x => x.CandidateID == id);
+
+            model.Candidate = candidate;
+
+            foreach (var item in model.Value)
+            {
+                var taskResult = new TaskResult
+                {
+                    Value = item,
+                    Candidate = model.Candidate
+                };
+
+                _context.TaskResult.Add(taskResult);
+                _context.SaveChanges();
+            }
+
             return View(model);
         }
 
