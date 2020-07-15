@@ -13,6 +13,7 @@ using System.Linq;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Razor.Language;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System.Security.Cryptography.X509Certificates;
 
 namespace PRIS.WEB.Controllers
 {
@@ -184,18 +185,22 @@ namespace PRIS.WEB.Controllers
 
         public IActionResult ResultLimits_View()
         {
-            var asdasd = _context.TaskResultLimits.ToList();
+            var taskLimits = _context.TaskResultLimits.ToList();
 
             List<TestResultLimitViewModel> model = new List<TestResultLimitViewModel>();
-            //model.Add(new TestResultLimitViewModel { Position = }
 
             return View(model);
         }
 
         [HttpGet]
-        public IActionResult ResultLimits_Create()
+        public IActionResult ResultLimits_Create() 
         {
             TestResultLimitViewModel model = new TestResultLimitViewModel();
+
+            //var taskLimits = _context.TaskResultLimits.FirstOrDefault(x => x.Position == Position);
+
+            model.Position = new List<int>();
+
             model.Position.Add(1);
             model.Position.Add(2);
             model.Position.Add(3);
@@ -206,6 +211,7 @@ namespace PRIS.WEB.Controllers
             model.Position.Add(8);
             model.Position.Add(9);
             model.Position.Add(10);
+
 
             return View(model);
         }
@@ -232,12 +238,22 @@ namespace PRIS.WEB.Controllers
                 _context.TaskResultLimits.Add(limitTask);
                 _context.SaveChanges();
             }
+
+            //TaskResultLimit newRecord = new TaskResultLimit()
+            //{
+            //    Position = model.Position
+            //    Value =
+
+            //};
+
+            //model.Value = _context.TaskResultLimits.Where(x => x.Position).Select()
+
             return View(model);
         }
 
         private string GetTimestamp(DateTime now)
         {
-            throw new NotImplementedException();
+            return now.Date.ToString();
         }
 
 
