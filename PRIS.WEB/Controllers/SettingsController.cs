@@ -11,8 +11,12 @@ using PRIS.WEB.ViewModels;
 using PRIS.WEB.ViewModels.InterviewTaskViewModel;
 using PRIS.WEB.ViewModels.ModuleViewModels;
 using PRIS.WEB.ViewModels.TaskGroupViewModel;
+using PRIS.WEB.ViewModels.ResultLimitViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Collections.Generic;
+using Microsoft.AspNetCore.Razor.Language;
 
 namespace PRIS.WEB.Controllers
 {
@@ -169,7 +173,7 @@ namespace PRIS.WEB.Controllers
 
         #endregion Module/Delete
 
-        //#region ResultLimits/Create
+        #region ResultLimits/Create
 
         //public IActionResult ResultLimits_View()
         //{
@@ -257,55 +261,59 @@ namespace PRIS.WEB.Controllers
         }
 
         [HttpPost]
-        public IActionResult TaskGroupCreate(AddTaskGroupViewModel addTaskGroup)
+        public IActionResult ResultLimits_Create(ResultMaxLimitViewModel limits)
         {
-            var check = _context.TaskGroups.Any(t => t.TaskGroupName == addTaskGroup.TaskGroupName);
+            //TODO rezultatu limitai susije su testo sablonu
+            decimal sumTestResults = 0;
 
-            if (check)
+            for (int i = 0; i < limits.TestTemplate.TestTasks.Count; i++)
             {
-                ModelState.AddModelError(string.Empty, "Tokia užduočių grupė jau yra sukurta");
-                return View();
+                sumTestResults += (decimal)limits.TestTemplate.TestTasks[i].MaxResultLimit;
             }
+
 
             if (ModelState.IsValid)
             {
-                //var newTaskGroup = new TaskGroup() { TaskGroupName = addTaskGroup.TaskGroupName, TaskGroupCount = addTaskGroup.TaskGroupCount };
-                var newTaskGroup = new TaskGroup() { TaskGroupName = addTaskGroup.TaskGroupName };
-                if (newTaskGroup != null)
-                {
-                    _context.TaskGroups.Add(newTaskGroup);
-                    _context.SaveChanges();
-                }
-                return RedirectToAction("TaskGroup");
-            }
-            return View();
-        }
+                //List<TestTask> testTasks = new List<TestTask>();
+
 
         #endregion TaskGroup/Create
 
-        #region TaskGroup/Delete
-
-        public IActionResult TaskGroupDelete(int id)
-        {
-            var testConnected = _context.InterviewTasks.Any(x => x.TaskGroup.TaskGroupID == id);
-
-            if (testConnected)
-            {
-                TempData["IsTestUsedInInterviewTaskModuleTableErrorMessage"] = "Negalima trinti užduočių grupės, nes ji yra susieta su pokalbio užduotimis!";
-                return RedirectToAction("TaskGroup");
-            }
-            else if (ModelState.IsValid)
-            {
-                var data = _context.TaskGroups.SingleOrDefault(t => t.TaskGroupID == id);
-                if (data != null)
+                foreach (var task in limits.TestTemplate.TestTasks)
                 {
-                    _context.Remove(data);
-                    _context.SaveChanges();
+                    var maxLimit = from TTask in limits.TestTemplate.TestTasks
+                                   where task.TaskId == limits.TestTemplate.TestTask.TaskId
+                                   select task.MaxResultLimit;
                 }
-                return RedirectToAction("TaskGroup");
+
+                var newRecord = new TestTemplate()
+                {
+                    TemplateId = limits.TemplateId,
+                    DateTemplateSet = timeStamp,
+                    
+            };
+            if (newRecord != null)
+            {
+                _context.TestTemplates.Add(newRecord);
+                _context.SaveChanges();
             }
-            return RedirectToAction("TaskGroup");
+            else
+            {
+                ModelState.AddModelError(string.Empty, "Įveskite teisingus duomenis.");
+            }
+            return RedirectToAction("ResultLimits_View");
         }
+            else
+            {
+                ModelState.AddModelError(string.Empty, "Pasitikrinkite, ar įvedėte visus duomenis.");
+            }
+            return View();
+}
+
+private string GetTimestamp(DateTime date)
+{
+    return date.Date.ToString("yyyy/MM/dd");
+}
 
         #endregion TaskGroup/Delete
 

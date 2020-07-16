@@ -11,15 +11,12 @@ namespace PRIS.WEB.Data.Models
     public class AddTestResultsViewModel
     {
         public int TestId { get; set; }
-        public Test Test { get; set; }
-
-        public int TemplateId { get; set; }
-        public TestTemplate TestTemplate { get; set; }
-
-        [Column(TypeName = "decimal(18,2)")]
-        public double TestResultAvg { get; set; }
+        public int TaskId { get; set; }
+        public IList<TestTask> TestTasks { get; set; }
+        public double? TaskResult { get; set; }
+        public decimal? MaxResultLimit { get; set; }
 
         public int CandidateID { get; set; }
-        public Candidate Candidates { get; set; } 
+        public IList<Candidate> Candidates { get; set; } 
     }
 }

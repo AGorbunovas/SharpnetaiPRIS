@@ -14,7 +14,7 @@ namespace PRIS.WEB.ViewModels.CandidateViewModels
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime TestDate { get; set; }
         public string TestCity { get; set; }
-        public int? Result { get; set; }
+        public int? Result { get; set; } 
         public int? ResultPrc { get; set; }
         public bool IsInterview { get; set; }
         public string FirstModule { get; set; }

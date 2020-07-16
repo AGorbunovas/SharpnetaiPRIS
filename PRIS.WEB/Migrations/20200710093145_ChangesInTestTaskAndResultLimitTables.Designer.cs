@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PRIS.WEB.Data;
 
 namespace PRIS.WEB.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200710093145_ChangesInTestTaskAndResultLimitTables")]
+    partial class ChangesInTestTaskAndResultLimitTables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -49,7 +51,7 @@ namespace PRIS.WEB.Migrations
                         new
                         {
                             Id = "2301D884-221A-4E7D-B509-0113DCC043E1",
-                            ConcurrencyStamp = "560f1d08-6c0c-4988-8dae-aa2a5dbd8849",
+                            ConcurrencyStamp = "de1cf573-8f74-4506-a607-d6d90ee59817",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -243,40 +245,19 @@ namespace PRIS.WEB.Migrations
                             Id = "B22698B8-42A2-4115-9631-1C2D1E2AC5F7",
                             AccessFailedCount = 0,
                             ChangeInitialPassword = true,
-                            ConcurrencyStamp = "02ecce06-b671-4b9a-bdf8-47b8597215bf",
+                            ConcurrencyStamp = "900bc4bf-c539-4004-9ed3-fba07b69a544",
                             Email = "Admin1@Admin.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@ADMIN.COM",
                             NormalizedUserName = "ADMIN1@ADMIN.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEMiTbaZr3c6OOuNRmNaMXxM+2MMran5G7RmjyVIfedKtuspK3Ut9IgRXtdt5noiVZQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEBkUqjksGg5FYCDd6I9AsS1FoFfbgmYn/GKz+o50H+OuNXHHQ4Tn8hv6TSDJX+swLQ==",
                             PhoneNumber = "XXXXXXXXXXXXX",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "00000000-0000-0000-0000-000000000000",
                             TwoFactorEnabled = false,
                             UserName = "Admin1@Admin.com"
                         });
-                });
-
-            modelBuilder.Entity("PRIS.WEB.Data.Models.InterviewTask", b =>
-                {
-                    b.Property<int>("InterviewTaskID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("InterviewTaskName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("TaskGroupID")
-                        .HasColumnType("int");
-
-                    b.HasKey("InterviewTaskID");
-
-                    b.HasIndex("TaskGroupID");
-
-                    b.ToTable("InterviewTask");
                 });
 
             modelBuilder.Entity("PRIS.WEB.Data.Models.ResultLimit", b =>
@@ -292,12 +273,7 @@ namespace PRIS.WEB.Migrations
                     b.Property<int?>("TaskId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("TestTaskTaskId")
-                        .HasColumnType("int");
-
                     b.HasKey("ResultLimitsId");
-
-                    b.HasIndex("TestTaskTaskId");
 
                     b.ToTable("ResultLimits");
                 });
@@ -532,12 +508,6 @@ namespace PRIS.WEB.Migrations
                     b.Property<int>("CityId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("ClassYearEnd")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("ClassYearStart")
-                        .HasColumnType("datetime2");
-
                     b.Property<DateTime>("DateOfTest")
                         .HasColumnType("datetime2");
 
@@ -599,22 +569,6 @@ namespace PRIS.WEB.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("PRIS.WEB.Data.Models.InterviewTask", b =>
-                {
-                    b.HasOne("PRIS.WEB.Models.TaskGroup", "TaskGroup")
-                        .WithMany("InterviewTasks")
-                        .HasForeignKey("TaskGroupID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("PRIS.WEB.Data.Models.ResultLimit", b =>
-                {
-                    b.HasOne("PRIS.WEB.Data.Models.TestTask", "TestTask")
-                        .WithMany()
-                        .HasForeignKey("TestTaskTaskId");
-                });
-
             modelBuilder.Entity("PRIS.WEB.Data.Models.TestResult", b =>
                 {
                     b.HasOne("PRIS.WEB.Models.Candidate", "Candidates")
@@ -637,7 +591,7 @@ namespace PRIS.WEB.Migrations
                         .HasForeignKey("ResultLimitsId");
 
                     b.HasOne("PRIS.WEB.Models.TaskGroup", "TaskGroups")
-                        .WithMany("TestTasks")
+                        .WithMany("TestTask")
                         .HasForeignKey("TaskGroupsTaskGroupID");
 
                     b.HasOne("PRIS.WEB.Data.Models.TestTemplate", null)
