@@ -215,13 +215,27 @@ namespace PRIS.WEB.Controllers
         [HttpPost]
         public IActionResult AddTaskResult(TaskResultViewModel model, int id)
         {
+            
             //TODO
             model.Candidate = _context.Candidates.FirstOrDefault(x => x.CandidateID == id);
             var CandidateHasTaskResults = _context.TaskResult.Any(x => x.Candidate == model.Candidate);
 
             var testResultLimits = _context.TaskResultLimits.OrderByDescending(x => x.Date).Take(10).ToList();
 
-            if (CandidateHasTaskResults)
+            for (int i = 0; i < testResultLimits.Count; i++)
+            {
+                if (model.Value[i] > testResultLimits[i].MaxValue)
+                {
+                    ModelState.AddModelError(string.Empty, $"Testas numeriu: {i + 1} negali būti didesnis negu {testResultLimits[i].MaxValue}");
+                }
+            }
+
+           if(!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+                if (CandidateHasTaskResults)
             {
                 var candidateTaskResults = _context.TaskResult.Where(x => x.Candidate == model.Candidate).ToList();
                 for (int i = 0; i < model.Value.Count; i++)
