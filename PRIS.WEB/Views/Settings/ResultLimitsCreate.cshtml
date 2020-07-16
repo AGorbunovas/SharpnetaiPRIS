@@ -25,15 +25,15 @@
                         <div class="form-group col-2">
                             <label asp-for="Position" class="control-label">Nr. @(i+1) </label>
                             <input asp-for="MaxValue" class="form-control" type="number" />
-                            <span asp-validation-for="@Model.MaxValue[i]" class="text-danger"></span>
+                            <span asp-validation-for="MaxValue" class="text-danger"></span>
                         </div>
                     }
 
-                <div class="row">
-                    <div class="form-group col-2">
-                        <p asp-for="@Model.LimitSumMax" class="text-danger">Maksimalus balas už visas testo užduotis yra: @Model.LimitSumMax</p>
+                    <div class="row">
+                        <div class="form-group col-2">
+                            <p asp-for="@Model.LimitSumMax" class="text-danger">Maksimalus balas už visas testo užduotis yra: @Model.LimitSumMax</p>
+                        </div>
                     </div>
-                </div>
 
                 </div>
             </div>
