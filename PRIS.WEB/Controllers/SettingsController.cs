@@ -1,22 +1,18 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json.Linq;
 using PRIS.WEB.Data;
 using PRIS.WEB.Data.Models;
 using PRIS.WEB.Models;
 using PRIS.WEB.ViewModels;
 using PRIS.WEB.ViewModels.InterviewTaskViewModel;
 using PRIS.WEB.ViewModels.ModuleViewModels;
-using PRIS.WEB.ViewModels.TaskGroupViewModel;
 using PRIS.WEB.ViewModels.ResultLimitViewModel;
+using PRIS.WEB.ViewModels.TaskGroupViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Collections.Generic;
-using Microsoft.AspNetCore.Razor.Language;
 
 namespace PRIS.WEB.Controllers
 {
@@ -173,7 +169,8 @@ namespace PRIS.WEB.Controllers
 
         #endregion Module/Delete
 
-        #region ResultLimits/Create
+
+        //#region ResultLimits/Create
 
         //public IActionResult ResultLimits_View()
         //{
@@ -236,11 +233,19 @@ namespace PRIS.WEB.Controllers
         ////        return RedirectToAction("ResultLimits_View");
         ////    }
         ////    return RedirectToAction("ResultLimits_View");
-        ////}
+        //}
 
         //#endregion ResultLimits/Create
 
         #region TaskGroup
+
+        //public IActionResult TaskGroup()
+        //{
+        //    var taskGroupModel = _context.TaskGroups
+        //        .ProjectTo<AddTaskGroupViewModel>(_mapper.ConfigurationProvider).ToList();
+
+        //    return View(taskGroupModel);
+        //}
 
         public IActionResult TaskGroup()
         {
@@ -251,7 +256,7 @@ namespace PRIS.WEB.Controllers
             return View("TaskGroup", _context.TaskGroups.OrderBy(m => m.TaskGroupName).ToList());
         }
 
-        #endregion TaskGroup
+        
 
         #region TaskGroup/Create
 
@@ -261,62 +266,59 @@ namespace PRIS.WEB.Controllers
         }
 
         [HttpPost]
-        public IActionResult ResultLimits_Create(ResultMaxLimitViewModel limits)
+        public IActionResult TaskGroupCreate(AddTaskGroupViewModel addTaskGroup)
         {
-            //TODO rezultatu limitai susije su testo sablonu
-            decimal sumTestResults = 0;
+            var check = _context.TaskGroups.Any(t => t.TaskGroupName == addTaskGroup.TaskGroupName);
 
-            for (int i = 0; i < limits.TestTemplate.TestTasks.Count; i++)
+            if (check)
             {
-                sumTestResults += (decimal)limits.TestTemplate.TestTasks[i].MaxResultLimit;
+                ModelState.AddModelError(string.Empty, "Tokia užduočių grupė jau yra sukurta");
+                return View();
             }
-
 
             if (ModelState.IsValid)
             {
-                //List<TestTask> testTasks = new List<TestTask>();
-
-
-        #endregion TaskGroup/Create
-
-                foreach (var task in limits.TestTemplate.TestTasks)
+                //var newTaskGroup = new TaskGroup() { TaskGroupName = addTaskGroup.TaskGroupName, TaskGroupCount = addTaskGroup.TaskGroupCount };
+                var newTaskGroup = new TaskGroup() { TaskGroupName = addTaskGroup.TaskGroupName };
+                if (newTaskGroup != null)
                 {
-                    var maxLimit = from TTask in limits.TestTemplate.TestTasks
-                                   where task.TaskId == limits.TestTemplate.TestTask.TaskId
-                                   select task.MaxResultLimit;
+                    _context.TaskGroups.Add(newTaskGroup);
+                    _context.SaveChanges();
                 }
-
-                var newRecord = new TestTemplate()
-                {
-                    TemplateId = limits.TemplateId,
-                    DateTemplateSet = timeStamp,
-                    
-            };
-            if (newRecord != null)
-            {
-                _context.TestTemplates.Add(newRecord);
-                _context.SaveChanges();
-            }
-            else
-            {
-                ModelState.AddModelError(string.Empty, "Įveskite teisingus duomenis.");
-            }
-            return RedirectToAction("ResultLimits_View");
-        }
-            else
-            {
-                ModelState.AddModelError(string.Empty, "Pasitikrinkite, ar įvedėte visus duomenis.");
+                return RedirectToAction("TaskGroup");
             }
             return View();
-}
+        }
 
-private string GetTimestamp(DateTime date)
-{
-    return date.Date.ToString("yyyy/MM/dd");
-}
+        #endregion
 
-        #endregion TaskGroup/Delete
+        #region TaskGroup/Delete
 
+        public IActionResult TaskGroupDelete(int id)
+        {
+            var testConnected = _context.InterviewTasks.Any(x => x.TaskGroup.TaskGroupID == id);
+
+            if (testConnected)
+            {
+                TempData["IsTestUsedInInterviewTaskModuleTableErrorMessage"] = "Negalima trinti užduočių grupės, nes ji yra susieta su pokalbio užduotimis!";
+                return RedirectToAction("TaskGroup");
+            }
+            else if (ModelState.IsValid)
+            {
+                var data = _context.TaskGroups.SingleOrDefault(t => t.TaskGroupID == id);
+                if (data != null)
+                {
+                    _context.Remove(data);
+                    _context.SaveChanges();
+                }
+                return RedirectToAction("TaskGroup");
+            }
+            return RedirectToAction("TaskGroup");
+        }
+
+        #endregion --- TaskGroup/Delete ---
+
+        #endregion TaskGroup
 
         #region InterviewTask
 

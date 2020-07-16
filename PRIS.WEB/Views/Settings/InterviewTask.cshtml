@@ -1,7 +1,6 @@
-﻿@*@model IEnumerable<PRIS.WEB.Data.Models.InterviewTask>*@
-@*@model IEnumerable<PRIS.WEB.ViewModels.InterviewTaskViewModel.AddInterviewTaskViewModel>*@
+﻿@*@model IEnumerable<PRIS.WEB.ViewModels.InterviewTaskViewModel.AddInterviewTaskViewModel>*@
 @model PRIS.WEB.ViewModels.InterviewTaskViewModel.AddInterviewTaskViewModel
-@*@model PRIS.WEB.ViewModels.TaskGroupViewModel.AddTaskGroupInterviewTaskListViewModel*@
+
 
 @{
     ViewData["Title"] = "InterviewTaskList";
@@ -30,7 +29,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var item in Model)
+                @foreach (var item in Model.TaskGroupName)
                 {
                     <tr>
                         <td>
@@ -40,7 +39,7 @@
                             @Html.DisplayFor(modelItem => item.InterviewTaskDescription)
                         </td>
                         <td>
-                            <a asp-action="InterviewTaskDelete" asp-route-id="@item." class="btn btn-sm btn-outline-danger" role="button">Trinti</a>
+                            <a asp-action="InterviewTaskDelete" asp-route-id="@item.InterviewTaskID" class="btn btn-sm btn-outline-danger" role="button">Trinti</a>
                         </td>
                     </tr>
                 }
