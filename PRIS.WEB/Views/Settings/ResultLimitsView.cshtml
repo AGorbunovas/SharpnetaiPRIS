@@ -17,51 +17,50 @@
 <table class="table table-bordered table-responsive-lg">
     <thead>
         <tr>
-            <th rowspan="1" colspan="1"></th>
             <th rowspan="1" colspan="3" class="text-center">Kompiuterinių sistemų pagrindai</th>
             <th rowspan="1" colspan="3" class="text-center">Logikos pagrindai</th>
             <th rowspan="1" colspan="4" class="text-center">Programavimo pagrindai</th>
-            <th rowspan="1" colspan="1"></th>
-            <th rowspan="1" colspan="1"></th>
+            <th rowspan="3" colspan="1" class="text-center">Bendras testo balas</th>
+            <th rowspan="3" colspan="1" class="text-center">Pridėjimo data</th>
         </tr>
         <tr>
-            <th class="text-center">
+            <th rowspan="1" colspan="10" class="text-center">
                 Užduoties nr.
             </th>
-
-            @foreach (var item in Model)
+        </tr>
+        <tr>
+            @for (int i = 1; i < 11; i++)
             {
-                <th>
-                    @item.Position
-                </th>
+            <th>
+                @(i)
+            </th>
             }
 
-
-            <th class="text-center">Bendras testo balas</th>
-            <th class="text-center">Pridėjimo data</th>
+            @*<th class="text-center">Bendras testo balas</th>
+            <th class="text-center">Pridėjimo data</th>*@
         </tr>
     </thead>
     <tbody>
 
-        <tr>
-            <td></td>
-
-            @foreach (var item in Model)
+        @foreach (var item in Model)
             {
-                <td>
-                    @Html.DisplayFor(modelItem => item.MaxValue)
-                </td>
+        <tr>
+            @for (int i = 0; i < 10; i++)
+                {
+            <td>
+                @Html.DisplayFor(modelItem => item.MaxValue[i])
+            </td>
+                }
+            <td>
+                @Html.DisplayFor(modelItem => item.LimitSumMax)
+            </td>
 
-
-                <td>
-                    @Html.DisplayFor(modelItem => item.LimitSumMax)
-                </td>
-
-                <td>
-                    @Html.DisplayFor(modelItem => item.Date)
-                </td>
-            }
+            <td>
+                @Html.DisplayFor(modelItem => item.Date)
+            </td>
         </tr>
+            }
+
 
     </tbody>
 </table>

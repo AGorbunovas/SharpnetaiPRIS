@@ -180,9 +180,33 @@ namespace PRIS.WEB.Controllers
 
         public IActionResult ResultLimitsView()
         {
-            var taskLimits = _context.TaskResultLimits.ToList();
+            var taskLimits = _context.TaskResultLimits.OrderBy(x => x.Date).ToList();
+            var countOfLimitTemplateForOneTest = taskLimits.Count() / 10;
 
             List<TestResultLimitViewModel> model = new List<TestResultLimitViewModel>();
+
+            for (int i = 0; i < countOfLimitTemplateForOneTest; i++)
+            {
+                var limitTemplate = taskLimits.GetRange(i*10, 10).ToList();
+                var dateOfLimits = limitTemplate.Select(x => x.Date).ToList();
+
+                var limitsSumMax = limitTemplate.Where(t => t.Date == dateOfLimits[0]).Sum(t => t.MaxValue);
+
+                var maxLimitsTemplate = new List<double?>();
+
+                model.Add(new TestResultLimitViewModel()
+                {
+                    MaxValue = new List<double?>(),
+                    Date = dateOfLimits[0],
+                    LimitSumMax = limitsSumMax
+                });
+
+                foreach (var item in limitTemplate)
+                {
+                    model[i].MaxValue.Add(item.MaxValue);
+                };
+                //return View(model);
+            }
 
             return View(model);
         }

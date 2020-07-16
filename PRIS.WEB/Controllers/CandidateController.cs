@@ -218,7 +218,7 @@ namespace PRIS.WEB.Controllers
             model.Candidate = _context.Candidates.FirstOrDefault(x => x.CandidateID == id);
             var CandidateHasTaskResults = _context.TaskResult.Any(x => x.Candidate == model.Candidate);
 
-            var testResultLimits = _context.TaskResultLimits.OrderBy(x => x.Date).Select(x => x).Take(10).ToList();
+            var testResultLimits = _context.TaskResultLimits.Select(x => x).Take(10).ToList();
 
             if (CandidateHasTaskResults)
             {
