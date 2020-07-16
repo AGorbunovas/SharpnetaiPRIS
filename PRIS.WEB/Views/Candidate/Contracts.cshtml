@@ -1,0 +1,64 @@
+﻿@model IEnumerable<PRIS.WEB.ViewModels.CandidateViewModels.ListCandidateViewModel>
+
+@{
+    ViewData["Title"] = "List";
+    Layout = "~/Views/Shared/_LayoutWithNavSectionForCandidateView.cshtml";
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Vardas Pavardė
+            </th>
+            <th>
+                Programa (I-as pasirinkimas)
+            </th>
+            <th>
+                Testo data, vieta
+            </th>
+            <th>
+                Sutarties data
+            </th>
+            <th>
+                Mokslo metai
+            </th>
+            <th>
+                Pasirašė sutartį
+            </th>
+            <th>
+                Valstybės finansuojama / nefinansuojama
+            </th>
+            <th>
+
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Firstname) @Html.DisplayFor(modelItem => item.Lastname)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FirstModule)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TestDate) @Html.DisplayFor(modelItem => item.TestCity)
+            </td>
+            <td></td>
+            <td></td>
+            <td>
+            </td>
+            <td>
+            </td>
+            <td>
+                @*<a asp-action="View" asp-route-id="@item.CandidateID">Peržiūrėti</a>*@
+                <a asp-action="EditCandidate" asp-route-id="@item.CandidateID">Redaguoti</a>
+                <a asp-action="Delete" asp-route-id="@item.CandidateID">Trinti</a>
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
