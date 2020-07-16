@@ -120,7 +120,7 @@ namespace PRIS.WEB.Controllers
             if (ModelState.IsValid)
             {
                 var record = _context.Candidates.Include(t => t.CandidateModules).Where(t => t.CandidateID == id).Single();
-                
+
                 record.FirstName = model.Firstname;
                 record.LastName = model.Lastname;
                 record.Gender = model.Gender;
@@ -175,7 +175,7 @@ namespace PRIS.WEB.Controllers
                     CandidateModules = model.SelectedModuleIds.Where(t => t.HasValue).Distinct().Select(t => new CandidateModule() { ModuleID = t.Value }).ToList()
                 };
                 _context.Candidates.Add(newRecord);
-                _context.SaveChanges();               
+                _context.SaveChanges();
 
                 return RedirectToAction("List");
             }
@@ -190,11 +190,11 @@ namespace PRIS.WEB.Controllers
             TaskResultViewModel model = new TaskResultViewModel();
             var candidate = _context.Candidates.FirstOrDefault(x => x.CandidateID == id);
 
-            if(candidate == null)
+            if (candidate == null)
             {
                 return RedirectToAction("List");
             }
-           
+
             model.Candidate = candidate;
             if (_context.TaskResult.Where(c => c.Candidate == candidate).Sum(x => x.Value) > 1)
             {
@@ -218,6 +218,8 @@ namespace PRIS.WEB.Controllers
             model.Candidate = _context.Candidates.FirstOrDefault(x => x.CandidateID == id);
             var CandidateHasTaskResults = _context.TaskResult.Any(x => x.Candidate == model.Candidate);
 
+            var testResultLimits = _context.TaskResultLimits.Select(x => x).Take(10).ToList();
+
             if (CandidateHasTaskResults)
             {
                 var candidateTaskResults = _context.TaskResult.Where(x => x.Candidate == model.Candidate).ToList();
@@ -225,24 +227,29 @@ namespace PRIS.WEB.Controllers
                 {
                     _context.Attach(candidateTaskResults[i]);
                     candidateTaskResults[i].Value = model.Value[i];
+                    candidateTaskResults[i].TaskResultLimit = testResultLimits[0];
                     _context.SaveChanges();
                 }
             }
             else
             {
+                int i = 0;
                 foreach (var item in model.Value)
                 {
                     var taskResult = new TaskResult
                     {
                         Value = item,
-                        Candidate = model.Candidate
+                        Candidate = model.Candidate,
+                        TaskResultLimit = testResultLimits[i]
                     };
 
                     _context.TaskResult.Add(taskResult);
                     _context.SaveChanges();
+
+                    i++;
                 }
             }
-            
+
             return RedirectToAction("List");
         }
 
