@@ -11,8 +11,8 @@ namespace PRIS.WEB.Data.Models
         public int TaskResultId { get; set; }
         public double Value { get; set; }
 
-        //public TaskResultLimit TaskResultLimit { get; set; }
-        //public int TaskResultLimitId { get; set; }
+        public TaskResultLimit TaskResultLimit { get; set; }
+        public int TaskResultLimitId { get; set; }
 
         public Candidate Candidate { get; set; }
         public int CandidateId { get; set; }
