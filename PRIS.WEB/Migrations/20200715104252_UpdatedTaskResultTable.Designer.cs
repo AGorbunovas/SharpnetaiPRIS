@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PRIS.WEB.Data;
 
 namespace PRIS.WEB.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200715104252_UpdatedTaskResultTable")]
+    partial class UpdatedTaskResultTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -49,7 +51,7 @@ namespace PRIS.WEB.Migrations
                         new
                         {
                             Id = "2301D884-221A-4E7D-B509-0113DCC043E1",
-                            ConcurrencyStamp = "ab9d509a-ec92-4dee-bf50-9ad46eaa0f32",
+                            ConcurrencyStamp = "80d21bfe-4a2a-4ad5-b1de-7bd24bd5aff4",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -243,13 +245,13 @@ namespace PRIS.WEB.Migrations
                             Id = "B22698B8-42A2-4115-9631-1C2D1E2AC5F7",
                             AccessFailedCount = 0,
                             ChangeInitialPassword = true,
-                            ConcurrencyStamp = "4df54ffd-b3cd-4d00-9387-1e458d5c4717",
+                            ConcurrencyStamp = "7b8ec438-15e5-4f4e-8908-dedcfd2e35d6",
                             Email = "Admin1@Admin.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@ADMIN.COM",
                             NormalizedUserName = "ADMIN1@ADMIN.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEDn0B3ZGunzGu2IOVxLtDFQRRmQ4FXfVAp57n/D+aSTTQ5PTpojsx357eQeLl5SbWA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEJkU+Wij8IftId7UCwXkIBBAUloVX6pg2PDx3bEsn0E30av3aZXBLNF0LP0A+xadTA==",
                             PhoneNumber = "XXXXXXXXXXXXX",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "00000000-0000-0000-0000-000000000000",

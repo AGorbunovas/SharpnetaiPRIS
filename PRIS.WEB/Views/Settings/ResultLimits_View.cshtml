@@ -1,4 +1,4 @@
-﻿@model IEnumerable<PRIS.WEB.ViewModels.ResultLimitViewModel.ResultMaxLimitViewModel>
+﻿@model IEnumerable<PRIS.WEB.ViewModels.ResultLimitViewModel.TestResultLimitViewModel>
 
 @{
     ViewData["Title"] = "ResultLimits_View";
@@ -17,22 +17,22 @@
 <table class="table table-bordered table-responsive-lg">
     <thead>
         <tr>
-                <th rowspan="1" colspan="1"></th>
-                <th rowspan="1" colspan="3" class="text-center">@Html.DisplayNameFor(model => model.TaskGroups[0])</th>
-                <th rowspan="1" colspan="3" class="text-center">@Html.DisplayNameFor(model => model.TaskGroups[1])</th>
-                <th rowspan="1" colspan="4" class="text-center">@Html.DisplayNameFor(model => model.TaskGroups[2])</th> 
-                <th rowspan="1" colspan="1"></th>
-                <th rowspan="1" colspan="1"></th>
+            <th rowspan="1" colspan="1"></th>
+            <th rowspan="1" colspan="3" class="text-center">Kompiuterinių sistemų pagrindai</th>
+            <th rowspan="1" colspan="3" class="text-center">Logikos pagrindai</th>
+            <th rowspan="1" colspan="4" class="text-center">Programavimo pagrindai</th>
+            <th rowspan="1" colspan="1"></th>
+            <th rowspan="1" colspan="1"></th>
         </tr>
         <tr>
             <th class="text-center">
                 Užduoties nr.
             </th>
-            
+
             @foreach (var item in Model)
             {
                 <th>
-                    @item.TestTemplate.TestTask.TaskId
+                    @item.Position
                 </th>
             }
 
@@ -45,18 +45,20 @@
 
         <tr>
             <td></td>
+
             @foreach (var item in Model)
             {
                 <td>
-                    @Html.DisplayFor(modelItem => item.TestTemplate.TestTask.MaxResultLimit)
+                    @Html.DisplayFor(modelItem => item.maxValue)
                 </td>
 
-                @*<td>
-                    @Html.DisplayFor(modelItem => item.ResultSumMax)
-                </td>*@
 
                 <td>
-                    @Html.DisplayFor(modelItem => item.TestTemplate.DateTemplateSet)
+                    @Html.DisplayFor(modelItem => item.LimitSumMax)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Date)
                 </td>
             }
         </tr>

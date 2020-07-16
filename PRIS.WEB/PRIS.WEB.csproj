@@ -14,6 +14,10 @@
     <Compile Remove="Migrations\20200710065119__InitialCreate.Designer.cs" />
     <Compile Remove="Migrations\20200710065646_TestResultNullableTypesAdded.cs" />
     <Compile Remove="Migrations\20200710065646_TestResultNullableTypesAdded.Designer.cs" />
+    <Compile Remove="Migrations\20200710065907__InitialCreate.cs" />
+    <Compile Remove="Migrations\20200710065907__InitialCreate.Designer.cs" />
+    <Compile Remove="Migrations\20200710093145_ChangesInTestTaskAndResultLimitTables.cs" />
+    <Compile Remove="Migrations\20200710093145_ChangesInTestTaskAndResultLimitTables.Designer.cs" />
   </ItemGroup>
 
 
