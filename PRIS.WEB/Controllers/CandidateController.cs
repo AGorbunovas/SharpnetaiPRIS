@@ -120,7 +120,7 @@ namespace PRIS.WEB.Controllers
             if (ModelState.IsValid)
             {
                 var record = _context.Candidates.Include(t => t.CandidateModules).Where(t => t.CandidateID == id).Single();
-                
+
                 record.FirstName = model.Firstname;
                 record.LastName = model.Lastname;
                 record.Gender = model.Gender;
@@ -175,7 +175,7 @@ namespace PRIS.WEB.Controllers
                     CandidateModules = model.SelectedModuleIds.Where(t => t.HasValue).Distinct().Select(t => new CandidateModule() { ModuleID = t.Value }).ToList()
                 };
                 _context.Candidates.Add(newRecord);
-                _context.SaveChanges();               
+                _context.SaveChanges();
 
                 return RedirectToAction("List");
             }
@@ -190,11 +190,11 @@ namespace PRIS.WEB.Controllers
             TaskResultViewModel model = new TaskResultViewModel();
             var candidate = _context.Candidates.FirstOrDefault(x => x.CandidateID == id);
 
-            if(candidate == null)
+            if (candidate == null)
             {
                 return RedirectToAction("List");
             }
-           
+
             model.Candidate = candidate;
             if (_context.TaskResult.Where(c => c.Candidate == candidate).Sum(x => x.Value) > 1)
             {
@@ -249,7 +249,7 @@ namespace PRIS.WEB.Controllers
                     i++;
                 }
             }
-            
+
             return RedirectToAction("List");
         }
 

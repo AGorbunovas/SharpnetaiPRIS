@@ -9,6 +9,7 @@ namespace PRIS.WEB.Models
 {
     public class TaskGroup
     {
+        [Key]
         public int TaskGroupID { get; set; }
         [Required]
         public string TaskGroupName { get; set; }
@@ -17,7 +18,7 @@ namespace PRIS.WEB.Models
 
         public TaskGroup()
         {
-            this.InterviewTasks = new List<InterviewTask>();
+            InterviewTasks = new HashSet<InterviewTask>();
         }
     }
 }
