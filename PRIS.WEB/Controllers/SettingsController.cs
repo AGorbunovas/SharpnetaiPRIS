@@ -188,10 +188,10 @@ namespace PRIS.WEB.Controllers
         }
 
         [HttpGet]
-        public IActionResult ResultLimitsCreate() 
+        public IActionResult ResultLimitsCreate()
         {
             TestResultLimitViewModel model = new TestResultLimitViewModel();
- 
+
             for (double i = 0; i < 10; i++)
             {
                 model.MaxValue.Add(0.0);
@@ -211,7 +211,7 @@ namespace PRIS.WEB.Controllers
             {
                 var limitTask = new TaskResultLimit();
                 limitTask.Date = timeStamp;
-                limitTask.Position = i+1;
+                limitTask.Position = i + 1;
                 limitTask.MaxValue = model.MaxValue[i];
 
                 _context.TaskResultLimits.Add(limitTask);
