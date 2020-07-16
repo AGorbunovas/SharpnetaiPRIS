@@ -47,7 +47,9 @@
             <td>
                 @Html.DisplayFor(modelItem => item.TestResult)
             </td>
-            <td></td>
+            <td>
+                @(item.TestResult/item.MaxResult*100) %
+            </td>
             <td>
                 @*<a>Kviesti</a>*@
             </td>

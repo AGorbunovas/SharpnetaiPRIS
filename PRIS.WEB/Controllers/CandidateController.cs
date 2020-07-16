@@ -61,7 +61,8 @@ namespace PRIS.WEB.Controllers
                 TestDate = x.Test.DateOfTest,
                 TestCity = x.Test.City.CityName,
                 FirstModule = x.CandidateModules.Select(t => t.Module.ModuleName).FirstOrDefault(),
-                TestResult = _context.TaskResult.Where(t => t.CandidateId == x.CandidateID).Sum(t => t.Value)
+                TestResult = _context.TaskResult.Where(t => t.CandidateId == x.CandidateID).Sum(t => t.Value),
+                MaxResult = _context.TaskResult.Where(t => t.CandidateId == x.CandidateID).Sum(t => t.TaskResultLimit.MaxValue)
             }).ToList();
             return View(data);
         }
