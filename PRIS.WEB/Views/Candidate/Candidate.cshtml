@@ -6,6 +6,12 @@
 }
 
 
+@if (Model.CandidateID != 0)
+{
+    <a asp-action="AddTaskResult" asp-route-id="@Model.CandidateID" class="btn btn-outline-dark">Pridėti testo balus</a>
+}
+
+
     <form method="post" class="form-horizontal" role="form">
 
         <div asp-validation-summary="All" class="text-danger"></div>

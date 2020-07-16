@@ -1,5 +1,4 @@
-﻿using PRIS.WEB.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -8,18 +7,16 @@ using System.Threading.Tasks;
 
 namespace PRIS.WEB.Data.Models
 {
-    public class TestTask
+
+    public class TaskResultLimit
     {
-        [Key]
-        public int TaskId { get; set; }
+        public int TaskResultLimitId { get; set; }
+        public int Position { get; set; }
+        public string Date { get; set; }
 
-        [Column(TypeName = "decimal(18,1)")]
-        public double? TaskResult { get; set; }
-
-        //[Required(ErrorMessage = "Pasirinkite reikšmę")]
+        [Required(ErrorMessage = "Pasirinkite reikšmę")]
         [RegularExpression(@"^(?:[0-4](?:\.5|\,5)+|[1-5]+)$", ErrorMessage = "Pasirinkite reikšmę nuo 0.5 iki 5, kuri būtų 0.5 kartotinis")]
         [Column(TypeName = "decimal(18,1)")]
-        public decimal? MaxResultLimit { get; set; }
-        public TaskGroup TaskGroups { get; set; }
+        public int? maxValue { get; set; }
     }
 }

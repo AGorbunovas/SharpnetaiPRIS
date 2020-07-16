@@ -12,6 +12,8 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Razor.Language;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System.Security.Cryptography.X509Certificates;
 
 namespace PRIS.WEB.Controllers
 {
@@ -168,73 +170,79 @@ namespace PRIS.WEB.Controllers
 
         #endregion Module/Delete
 
+
+
+
+
+
+
+
+
+
+
+
         #region ResultLimits/Create
 
         public IActionResult ResultLimits_View()
         {
-            return View(/*_context.TestTasks.ToList()*/);
+            var taskLimits = _context.TaskResultLimits.ToList();
+
+            List<TestResultLimitViewModel> model = new List<TestResultLimitViewModel>();
+
+            return View(model);
         }
 
         [HttpGet]
-        public IActionResult ResultLimits_Create()
+        public IActionResult ResultLimits_Create() 
         {
-            return View();
+            TestResultLimitViewModel model = new TestResultLimitViewModel();
+
+            //model.Position = new List<int>();
+
+            //for (int i = 0; i < 10; i++)
+            //{
+            //    model.Position.Add(i+1);
+            //}
+ 
+            for (int i = 0; i < 10; i++)
+            {
+                model.maxValue.Add(1);
+            }
+
+            return View(model);
         }
 
         [HttpPost]
-        public IActionResult ResultLimits_Create(ResultMaxLimitViewModel limits)
+        public IActionResult ResultLimits_Create(TestResultLimitViewModel model)
         {
             //TODO rezultatu limitai susije su testo sablonu
-            decimal sumTestResults = 0;
 
-            for (int i = 0; i < limits.TestTemplate.TestTasks.Count; i++)
+            string timeStamp = GetTimestamp(DateTime.Now);
+
+            for (int i = 0; i < model.maxValue.Count; i++)
             {
-                sumTestResults += (decimal)limits.TestTemplate.TestTasks[i].MaxResultLimit;
-            }
+                var limitTask = new TaskResultLimit();
+                limitTask.Date = timeStamp;
+                limitTask.Position = i+1;
+                limitTask.maxValue = model.maxValue[i];
 
-
-            if (ModelState.IsValid)
-            {
-                //List<TestTask> testTasks = new List<TestTask>();
-
-
-                string timeStamp = GetTimestamp(DateTime.Now);
-
-                foreach (var task in limits.TestTemplate.TestTasks)
-                {
-                    var maxLimit = from TTask in limits.TestTemplate.TestTasks
-                                   where task.TaskId == limits.TestTemplate.TestTask.TaskId
-                                   select task.MaxResultLimit;
-                }
-
-                var newRecord = new TestTemplate()
-                {
-                    TemplateId = limits.TemplateId,
-                    DateTemplateSet = timeStamp,
-                    
-            };
-            if (newRecord != null)
-            {
-                _context.TestTemplates.Add(newRecord);
+                _context.TaskResultLimits.Add(limitTask);
                 _context.SaveChanges();
             }
-            else
-            {
-                ModelState.AddModelError(string.Empty, "Įveskite teisingus duomenis.");
-            }
-            return RedirectToAction("ResultLimits_View");
-        }
-            else
-            {
-                ModelState.AddModelError(string.Empty, "Pasitikrinkite, ar įvedėte visus duomenis.");
-            }
-            return View();
-}
 
-private string GetTimestamp(DateTime date)
-{
-    return date.Date.ToString("yyyy/MM/dd");
-}
+            //skaiciuoju visu uzduociu reziu suma
+            for (int i = 0; i < model.maxValue.Count; i++)
+            {
+                model.LimitSumMax += model.maxValue[i];
+            }
+
+            return View(model);
+        }
+
+        private string GetTimestamp(DateTime now)
+        {
+            return now.Date.ToString();
+        }
 
         #endregion ResultLimits/Create
     }

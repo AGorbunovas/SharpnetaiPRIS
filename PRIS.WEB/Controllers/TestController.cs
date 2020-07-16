@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using PRIS.WEB.Data;
+using PRIS.WEB.Data.Models;
 using PRIS.WEB.Models;
+using PRIS.WEB.ViewModels.ResultLimitViewModel;
 using PRIS.WEB.ViewModels.TestViewModels;
 using System;
 using System.Collections.Generic;

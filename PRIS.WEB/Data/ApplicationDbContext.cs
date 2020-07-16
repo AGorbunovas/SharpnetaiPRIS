@@ -10,18 +10,15 @@ namespace PRIS.WEB.Data
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
-
         public DbSet<Test> Test { get; set; }
         public DbSet<Module> Modules { get; set; }
-        public DbSet<City> Cities { get; set; } 
+        public DbSet<City> Cities { get; set; }
         public DbSet<Candidate> Candidates { get; set; }
         public DbSet<CandidateModule> CandidateModules { get; set; }
         public DbSet<TaskGroup> TaskGroups { get; set; }
-        //public DbSet<ResultLimit> ResultLimits { get; set; }  
-        public DbSet<TestTask> TestTasks { get; set; }    
-        public DbSet<TestTemplate> TestTemplates { get; set; }   
-        public DbSet<TestResult> TestResults { get; set; }
         public DbSet<InterviewTask> InterviewTasks { get; set; }
+        public DbSet<TaskResultLimit> TaskResultLimits { get; set; }
+        public DbSet<TaskResult> TaskResult { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -37,10 +34,7 @@ namespace PRIS.WEB.Data
             modelBuilder.Entity<Candidate>().ToTable("Candidate");
             modelBuilder.Entity<CandidateModule>().ToTable("CandidateModule");
             modelBuilder.Entity<TaskGroup>().ToTable("TaskGroups");
-            //modelBuilder.Entity<ResultLimit>().ToTable("ResultLimits");
-            modelBuilder.Entity<TestTask>().ToTable("TestTasks");
-            modelBuilder.Entity<TestTemplate>().ToTable("TestTemplates");
-            modelBuilder.Entity<TestResult>().ToTable("TestResults");
+            modelBuilder.Entity<TaskResultLimit>().ToTable("TaskResultLimits");
             modelBuilder.Entity<InterviewTask>().ToTable("InterviewTask");
 
             modelBuilder.Entity<CandidateModule>()
@@ -50,8 +44,6 @@ namespace PRIS.WEB.Data
             modelBuilder.ApplyConfiguration(new RoleConfiguration());
             modelBuilder.ApplyConfiguration(new AdminConfiguration());
             modelBuilder.ApplyConfiguration(new UsersWithRolesConfiguration());
-
-            modelBuilder.SeedTasks();
         }
     }
 }

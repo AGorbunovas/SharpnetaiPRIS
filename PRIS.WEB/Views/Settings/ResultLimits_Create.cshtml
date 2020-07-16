@@ -1,4 +1,4 @@
-﻿@model PRIS.WEB.ViewModels.ResultLimitViewModel.ResultMaxLimitViewModel
+﻿@model PRIS.WEB.ViewModels.ResultLimitViewModel.TestResultLimitViewModel
 
 @{
     ViewData["Title"] = "ResultLimits_Create";
@@ -15,17 +15,26 @@
             <div class="form-row mx-0">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group">
-                    <label @*asp-for="ResultLimitsId"*@ class="control-label">Nustatykite užduoties balų rėžius įvesties langeliuose ties kiekvienos užduoties numeriu.</label>
-                    <span @*asp-validation-for="ResultLimitsId"*@ class="text-danger"></span>
+                    <label class="control-label">Nustatykite užduoties balų rėžius įvesties langeliuose ties kiekvienos užduoties numeriu.</label>
+                    <span class="text-danger"></span>
                 </div>
                 <div class="row">
-                    @for (int i = 0; i < Model.TestTemplate.TestTasks.Count; i++) { 
-                    <div class="form-group col-2">
-                        <label asp-for="@Model.TestTemplate.TestTasks[i].TaskId" class="control-label">Nr. @Model.TestTemplate.TestTasks[i].TaskId</label>
-                        <input asp-for="@Model.TestTemplate.TestTasks[i].MaxResultLimit" class="form-control" type="number" />
-                        <span asp-validation-for="@Model.TestTemplate.TestTasks[i].MaxResultLimit" class="text-danger"></span>
-                    </div>
+
+                    @for (int i = 0; i < Model.maxValue.Count; i++)
+                    {
+                        <div class="form-group col-2">
+                            <label asp-for="Position" class="control-label">Nr. @(i+1) </label>
+                            <input asp-for="maxValue" class="form-control" type="number" />
+                            <span asp-validation-for="maxValue" class="text-danger"></span>
+                        </div>
                     }
+
+                <div class="row">
+                    <div class="form-group col-2">
+                        <p asp-for="@Model.LimitSumMax" class="text-danger">Maksimalus balas už visas testo užduotis yra: @Model.LimitSumMax</p>
+                    </div>
+                </div>
+
                 </div>
             </div>
             <div class="form-group">

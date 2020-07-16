@@ -19,6 +19,5 @@ namespace PRIS.WEB.Models
         {
             this.InterviewTasks = new List<InterviewTask>();
         }
-        public IList<TestTask> TestTasks { get; set; }
     }
 }
