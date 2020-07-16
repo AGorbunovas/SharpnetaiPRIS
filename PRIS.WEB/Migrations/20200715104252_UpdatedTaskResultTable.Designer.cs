@@ -314,7 +314,7 @@ namespace PRIS.WEB.Migrations
                     b.Property<int>("Position")
                         .HasColumnType("int");
 
-                    b.Property<decimal>("maxValue")
+                    b.Property<decimal>("MaxValue")
                         .HasColumnType("decimal(18,1)");
 
                     b.HasKey("TaskResultLimitId");

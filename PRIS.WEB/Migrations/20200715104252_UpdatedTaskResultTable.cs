@@ -11,7 +11,7 @@ namespace PRIS.WEB.Migrations
                 table: "TaskResultLimits");
 
             migrationBuilder.AddColumn<decimal>(
-                name: "maxValue",
+                name: "MaxValue",
                 table: "TaskResultLimits",
                 type: "decimal(18,1)",
                 nullable: false,
@@ -63,7 +63,7 @@ namespace PRIS.WEB.Migrations
                 name: "TaskResult");
 
             migrationBuilder.DropColumn(
-                name: "maxValue",
+                name: "MaxValue",
                 table: "TaskResultLimits");
 
             migrationBuilder.AddColumn<decimal>(

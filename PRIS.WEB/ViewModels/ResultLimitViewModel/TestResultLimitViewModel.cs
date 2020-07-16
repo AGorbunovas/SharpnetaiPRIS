@@ -15,9 +15,9 @@ namespace PRIS.WEB.ViewModels.ResultLimitViewModel
 
         [Required(ErrorMessage = "Pasirinkite reikšmę")]
         [RegularExpression(@"^(?:[0-4](?:\.5|\,5)+|[1-5]+)$", ErrorMessage = "Pasirinkite reikšmę nuo 0.5 iki 5, kuri būtų 0.5 kartotinis")]
-        [Column(TypeName = "decimal(18,1)")]
-        public List<int> maxValue { get; set; } = new List<int>();
-        public string Date { get; set; } 
-        public int LimitSumMax { get; set; }
+        //[Column(TypeName = "decimal(18,1)")]
+        public List<double> MaxValue { get; set; } = new List<double>();
+        public DateTime Date { get; set; } 
+        public double LimitSumMax { get; set; } 
     }
 }

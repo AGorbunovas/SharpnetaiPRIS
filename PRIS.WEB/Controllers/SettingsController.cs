@@ -172,9 +172,13 @@ namespace PRIS.WEB.Controllers
 
         #endregion Module/Delete
 
+
+
+
+
         #region ResultLimits/Create
 
-        public IActionResult ResultLimits_View()
+        public IActionResult ResultLimitsView()
         {
             var taskLimits = _context.TaskResultLimits.ToList();
 
@@ -184,55 +188,43 @@ namespace PRIS.WEB.Controllers
         }
 
         [HttpGet]
-        public IActionResult ResultLimits_Create()
+        public IActionResult ResultLimitsCreate() 
         {
             TestResultLimitViewModel model = new TestResultLimitViewModel();
-
-            //model.Position = new List<int>();
-
-            //for (int i = 0; i < 10; i++)
-            //{
-            //    model.Position.Add(i+1);
-            //}
-
-            for (int i = 0; i < 10; i++)
+ 
+            for (double i = 0; i < 10; i++)
             {
-                model.maxValue.Add(1);
+                model.MaxValue.Add(0.0);
             }
 
             return View(model);
         }
 
         [HttpPost]
-        public IActionResult ResultLimits_Create(TestResultLimitViewModel model)
+        public IActionResult ResultLimitsCreate(TestResultLimitViewModel model)
         {
             //TODO rezultatu limitai susije su testo sablonu
 
-            string timeStamp = GetTimestamp(DateTime.Now);
+            DateTime timeStamp = DateTime.Now;
 
-            for (int i = 0; i < model.maxValue.Count; i++)
+            for (int i = 0; i < model.MaxValue.Count; i++)
             {
                 var limitTask = new TaskResultLimit();
                 limitTask.Date = timeStamp;
-                limitTask.Position = i + 1;
-                limitTask.maxValue = model.maxValue[i];
+                limitTask.Position = i+1;
+                limitTask.MaxValue = model.MaxValue[i];
 
                 _context.TaskResultLimits.Add(limitTask);
                 _context.SaveChanges();
             }
 
             //skaiciuoju visu uzduociu reziu suma
-            for (int i = 0; i < model.maxValue.Count; i++)
+            for (int i = 0; i < model.MaxValue.Count; i++)
             {
-                model.LimitSumMax += model.maxValue[i];
+                model.LimitSumMax += model.MaxValue[i];
             }
 
-            return View(model);
-        }
-
-        private string GetTimestamp(DateTime now)
-        {
-            return now.Date.ToString();
+            return RedirectToAction("ResultLimitsView");
         }
 
         #endregion ResultLimits/Create

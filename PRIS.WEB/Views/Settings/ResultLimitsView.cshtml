@@ -1,8 +1,8 @@
 ﻿@model IEnumerable<PRIS.WEB.ViewModels.ResultLimitViewModel.TestResultLimitViewModel>
 
 @{
-    ViewData["Title"] = "ResultLimits_View";
-    ViewData["ActivePage"] = PRIS.WEB.Views.Shared.ManageCollumnNavPages.ResultLimits_View;
+    ViewData["Title"] = "ResultLimitsView";
+    ViewData["ActivePage"] = PRIS.WEB.Views.Shared.ManageCollumnNavPages.ResultLimitsView;
     Layout = "~/Views/Shared/_LayoutNavSectionForSettings.cshtml";
 }
 
@@ -11,7 +11,7 @@
 <br />
 
 <p>
-    <a asp-action="ResultLimits_Create" class="btn btn-outline-dark" role="button">Pridėti balų rėžius</a>
+    <a asp-action="ResultLimitsCreate" class="btn btn-outline-dark" role="button">Pridėti balų rėžius</a>
 </p>
 
 <table class="table table-bordered table-responsive-lg">
@@ -49,7 +49,7 @@
             @foreach (var item in Model)
             {
                 <td>
-                    @Html.DisplayFor(modelItem => item.maxValue)
+                    @Html.DisplayFor(modelItem => item.MaxValue)
                 </td>
 
 
