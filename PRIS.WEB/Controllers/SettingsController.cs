@@ -197,21 +197,17 @@ namespace PRIS.WEB.Controllers
         {
             TestResultLimitViewModel model = new TestResultLimitViewModel();
 
-            //var taskLimits = _context.TaskResultLimits.FirstOrDefault(x => x.Position == Position);
+            //model.Position = new List<int>();
 
-            model.Position = new List<int>();
-
-            model.Position.Add(1);
-            model.Position.Add(2);
-            model.Position.Add(3);
-            model.Position.Add(4);
-            model.Position.Add(5);
-            model.Position.Add(6);
-            model.Position.Add(7);
-            model.Position.Add(8);
-            model.Position.Add(9);
-            model.Position.Add(10);
-
+            //for (int i = 0; i < 10; i++)
+            //{
+            //    model.Position.Add(i+1);
+            //}
+ 
+            for (int i = 0; i < 10; i++)
+            {
+                model.maxValue.Add(1);
+            }
 
             return View(model);
         }
@@ -221,32 +217,24 @@ namespace PRIS.WEB.Controllers
         {
             //TODO rezultatu limitai susije su testo sablonu
 
-            for (int i = 0; i < model.Value.Count; i++)
-            {
-                model.LimitSumMax += model.Value[i];
-            }
-
             string timeStamp = GetTimestamp(DateTime.Now);
 
-            foreach (var item in model.Value)
+            for (int i = 0; i < model.maxValue.Count; i++)
             {
                 var limitTask = new TaskResultLimit();
                 limitTask.Date = timeStamp;
-                limitTask.Position = model.Position[item];
-                limitTask.Value = item;
+                limitTask.Position = i+1;
+                limitTask.maxValue = model.maxValue[i];
 
                 _context.TaskResultLimits.Add(limitTask);
                 _context.SaveChanges();
             }
 
-            //TaskResultLimit newRecord = new TaskResultLimit()
-            //{
-            //    Position = model.Position
-            //    Value =
-
-            //};
-
-            //model.Value = _context.TaskResultLimits.Where(x => x.Position).Select()
+            //skaiciuoju visu uzduociu reziu suma
+            for (int i = 0; i < model.maxValue.Count; i++)
+            {
+                model.LimitSumMax += model.maxValue[i];
+            }
 
             return View(model);
         }
@@ -255,46 +243,6 @@ namespace PRIS.WEB.Controllers
         {
             return now.Date.ToString();
         }
-
-
-        //            if (ModelState.IsValid)
-        //            {
-        //                //List<TestTask> testTasks = new List<TestTask>();
-
-
-        //                string timeStamp = GetTimestamp(DateTime.Now);
-
-
-        //    var newRecord = new TaskResultLimit()
-        //    {
-        //        TemplateId = limits.TemplateId,
-        //        Date = timeStamp,
-        //        TestTasks =
-        //                };
-
-
-        //                if (newRecord != null)
-        //                {
-        //                    _context.TaskResultLimits.Add(newRecord);
-        //                    _context.SaveChanges();
-        //                }
-        //                else
-        //                {
-        //                    ModelState.AddModelError(string.Empty, "Įveskite teisingus duomenis.");
-        //                }
-        //                return RedirectToAction("ResultLimits_View");
-        //            }
-        //            else
-        //            {
-        //                ModelState.AddModelError(string.Empty, "Pasitikrinkite, ar įvedėte visus duomenis.");
-        //            }
-        //            return View();
-        //        }
-
-        //        private string GetTimestamp(DateTime date)
-        //{
-        //    return date.Date.ToString("yyyy/MM/dd");
-        //}
 
         #endregion ResultLimits/Create
     }

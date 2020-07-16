@@ -34,18 +34,6 @@
                 <th>
                     @item.Position
                 </th>
-                <th>
-                    @item.Position
-                </th>
-                <th>
-                    @item.Position
-                </th>
-                <th>
-                    @item.Position
-                </th>
-                <th>
-                    @item.Position
-                </th>
             }
 
 
@@ -60,12 +48,10 @@
 
             @foreach (var item in Model)
             {
-                foreach (var input in Model)
-                {
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Value)
-                    </td>
-                }
+                <td>
+                    @Html.DisplayFor(modelItem => item.maxValue)
+                </td>
+
 
                 <td>
                     @Html.DisplayFor(modelItem => item.LimitSumMax)
