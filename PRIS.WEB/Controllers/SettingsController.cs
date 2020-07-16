@@ -174,13 +174,6 @@ namespace PRIS.WEB.Controllers
 
 
 
-
-
-
-
-
-
-
         #region ResultLimits/Create
 
         public IActionResult ResultLimitsView()
@@ -197,9 +190,9 @@ namespace PRIS.WEB.Controllers
         {
             TestResultLimitViewModel model = new TestResultLimitViewModel();
  
-            for (double i = 0.0; i < 10.0; i++)
+            for (double i = 0; i < 10; i++)
             {
-                model.MaxValue.Add(1.0);
+                model.MaxValue.Add(0.0);
             }
 
             return View(model);
@@ -210,7 +203,7 @@ namespace PRIS.WEB.Controllers
         {
             //TODO rezultatu limitai susije su testo sablonu
 
-            string timeStamp = GetTimestamp(DateTime.Now);
+            DateTime timeStamp = DateTime.Now;
 
             for (int i = 0; i < model.MaxValue.Count; i++)
             {
@@ -229,12 +222,7 @@ namespace PRIS.WEB.Controllers
                 model.LimitSumMax += model.MaxValue[i];
             }
 
-            return View(model);
-        }
-
-        private string GetTimestamp(DateTime now)
-        {
-            return now.Date.ToString();
+            return RedirectToAction("ResultLimitsView");
         }
 
         #endregion ResultLimits/Create

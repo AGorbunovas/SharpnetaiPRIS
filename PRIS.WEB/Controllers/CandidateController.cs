@@ -180,10 +180,9 @@ namespace PRIS.WEB.Controllers
                 return RedirectToAction("List");
             }
 
-
-
             return View(viewModel);
         }
+
 
         [HttpGet("Candidate/AddTaskResult/{id}")]
         public IActionResult AddTaskResult(int id)
