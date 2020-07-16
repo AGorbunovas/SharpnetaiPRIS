@@ -172,85 +172,70 @@ namespace PRIS.WEB.Controllers
 
         #endregion Module/Delete
 
-
-
-
-
-
-
-
-
-
-
-
         #region ResultLimits/Create
 
-        //#region ResultLimits/Create
+        public IActionResult ResultLimits_View()
+        {
+            var taskLimits = _context.TaskResultLimits.ToList();
 
-        //public IActionResult ResultLimits_View()
-        //{
-        //    return View(_context.ResultLimits.ToList());
-        //}
+            List<TestResultLimitViewModel> model = new List<TestResultLimitViewModel>();
 
-        //[HttpGet]
-        //public IActionResult ResultLimits_Create()
-        //{
-        //    return View();
-        //}
+            return View(model);
+        }
 
-        //[HttpPost]
-        //public IActionResult ResultLimits_Create(AddResultLimitsViewModel limits)
-        //{
-        //    //TODO rezultatu limitai susije su testo sablonu
+        [HttpGet]
+        public IActionResult ResultLimits_Create()
+        {
+            TestResultLimitViewModel model = new TestResultLimitViewModel();
 
-        //    var sumTestResults = limits.Task1 + limits.Task2 + limits.Task3 + limits.Task4 + limits.Task5 + limits.Task6 + limits.Task7 + limits.Task8 + limits.Task9 + limits.Task10;
-        //    if (sumTestResults != limits.ResultSumMax)
-        //    {
-        //        ModelState.AddModelError(string.Empty, "Testo balų suma turi atitikti bendrą testo balą. Pasitikrinkite įvestis, jų sumą ir bendrą testo balą.");
-        //    }
-        //    if (ModelState.IsValid)
-        //    {
-        //        string timeStamp = GetTimestamp(DateTime.Now);
-        //        var newRecord = new ResultLimits() { ResultLimitsId = limits.ResultLimitsId, DateLimitSet = timeStamp, Task1 = limits.Task1, Task2 = limits.Task2, Task3 = limits.Task3, Task4 = limits.Task4, Task5 = limits.Task5, Task6 = limits.Task6, Task7 = limits.Task7, Task8 = limits.Task8, Task9 = limits.Task9, Task10 = limits.Task10, ResultSumMax = limits.ResultSumMax };
-        //        if (newRecord != null)
-        //        {
-        //            _context.ResultLimits.Add(newRecord);
-        //            _context.SaveChanges();
-        //        }
-        //        else
-        //        {
-        //            ModelState.AddModelError(string.Empty, "Įveskite teisingus duomenis.");
-        //        }
-        //        return RedirectToAction("ResultLimits_View");
-        //    }
-        //    else
-        //    {
-        //        ModelState.AddModelError(string.Empty, "Pasitikrinkite, ar įvedėte visus duomenis.");
-        //    }
-        //    return View();
-        //}
+            //model.Position = new List<int>();
 
-        //private string GetTimestamp(DateTime date)
-        //{
-        //    return date.Date.ToString("yyyy/MM/dd");
-        //}
+            //for (int i = 0; i < 10; i++)
+            //{
+            //    model.Position.Add(i+1);
+            //}
 
-        ////public IActionResult LimitsDelete(int id)
-        ////{
-        ////    if (ModelState.IsValid)
-        ////    {
-        ////        var data = _context.ResultLimits.SingleOrDefault(x => x.ResultLimitsId == id);
-        ////        if (data != null)
-        ////        {
-        ////            _context.Remove(data);
-        ////            _context.SaveChanges();
-        ////        }
-        ////        return RedirectToAction("ResultLimits_View");
-        ////    }
-        ////    return RedirectToAction("ResultLimits_View");
-        //}
+            for (int i = 0; i < 10; i++)
+            {
+                model.maxValue.Add(1);
+            }
 
-        //#endregion ResultLimits/Create
+            return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult ResultLimits_Create(TestResultLimitViewModel model)
+        {
+            //TODO rezultatu limitai susije su testo sablonu
+
+            string timeStamp = GetTimestamp(DateTime.Now);
+
+            for (int i = 0; i < model.maxValue.Count; i++)
+            {
+                var limitTask = new TaskResultLimit();
+                limitTask.Date = timeStamp;
+                limitTask.Position = i + 1;
+                limitTask.maxValue = model.maxValue[i];
+
+                _context.TaskResultLimits.Add(limitTask);
+                _context.SaveChanges();
+            }
+
+            //skaiciuoju visu uzduociu reziu suma
+            for (int i = 0; i < model.maxValue.Count; i++)
+            {
+                model.LimitSumMax += model.maxValue[i];
+            }
+
+            return View(model);
+        }
+
+        private string GetTimestamp(DateTime now)
+        {
+            return now.Date.ToString();
+        }
+
+        #endregion ResultLimits/Create
 
         #region TaskGroup
 
@@ -395,8 +380,6 @@ namespace PRIS.WEB.Controllers
                 }
                 return RedirectToAction("InterviewTaskList");
             }
-
-            //ViewData["TaskGroupName"] = new SelectList(_context.TaskGroups, "TaskGroupID", "TaskGroupName", addInterviewTaskViewModel.TaskGroupName);
 
             AddInterviewTaskViewModel viewModel = GetViewModelWithTaskGroupList();
             return View(viewModel);

@@ -1,7 +1,6 @@
 ﻿@*@model IEnumerable<PRIS.WEB.ViewModels.InterviewTaskViewModel.AddInterviewTaskViewModel>*@
 @model PRIS.WEB.ViewModels.InterviewTaskViewModel.AddInterviewTaskViewModel
 
-
 @{
     ViewData["Title"] = "InterviewTaskList";
     ViewData["ActivePage"] = PRIS.WEB.Views.Shared.ManageCollumnNavPages.InterviewTask;
@@ -17,6 +16,7 @@
         <p>
             <a asp-action="InterviewTaskCreate" class="btn btn-outline-dark" role="button">Sukurti</a>
         </p>
+
         <table class="table">
             <thead>
                 <tr>
@@ -33,13 +33,26 @@
                 {
                     <tr>
                         <td>
-                            @Html.DisplayFor(modelItem => item.TaskGroup.TaskGroupName)
+                            <select>
+                                @Model.TaskGroupName
+                            </select>
+                            @*<fieldset class="form-group">
+                                <label asp-for="TaskGroupName">Užduočių grupė</label>
+                                <select asp-for="TaskGroupName" asp-items="Model.TaskGroups" class="form-control"></select>
+                                <span asp-validation-for="TaskGroupName" class="text-danger"></span>
+                                </fieldset>*@
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.InterviewTaskDescription)
+                            <input @Model.InterviewTaskDescription/>
+                            @*<fieldset class="form-group">
+                                    <label asp-for="InterviewTaskDescription"></label>
+                                    <input asp-for="InterviewTaskDescription" class="form-control" />
+                                    <span asp-validation-for="InterviewTaskDescription" class="text-danger"></span>
+                                </fieldset>*@
                         </td>
                         <td>
-                            <a asp-action="InterviewTaskDelete" asp-route-id="@item.InterviewTaskID" class="btn btn-sm btn-outline-danger" role="button">Trinti</a>
+                            @*<input id="submitApplication" type="submit" value="Sukurti" class="btn btn-outline-dark" />*@
+                            <a asp-action="InterviewTaskDelete" value="@item" asp-for="InterviewTaskID" class="btn btn-sm btn-outline-danger" role="button">Trinti</a>
                         </td>
                     </tr>
                 }
@@ -47,34 +60,3 @@
         </table>
     </div>
 </div>
-@*//============================
-    <h5>Akademija.IT pokalbio klausimų sudarymo forma</h5>
-    <hr />
-    <br />
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    <div class="row">
-        <div class="col-md-6">
-            <p>
-                <a asp-action="InterviewTaskCreate" class="btn btn-outline-dark" role="button">Sukurti</a>
-            </p>
-
-            <form method="post" class="form-horizontal" role="form">
-
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
-                <fieldset class="form-group">
-                    <label asp-for="InterviewTaskDescription"></label>
-                    <input asp-for="InterviewTaskDescription" class="form-control" />
-                    <span asp-validation-for="InterviewTaskDescription" class="text-danger"></span>
-                </fieldset>
-
-                <fieldset class="form-group">
-                    <label asp-for="TaskGroupName">Užduočių grupė</label>
-                    <select asp-for="TaskGroupName" asp-items="Model.TaskGroups" class="form-control"></select>
-                    <span asp-validation-for="TaskGroupName" class="text-danger"></span>
-                </fieldset>
-
-                <input id="submitApplication" type="submit" value="Sukurti" class="btn btn-outline-dark" />
-        </form>
-    </div>
-</div>*@
