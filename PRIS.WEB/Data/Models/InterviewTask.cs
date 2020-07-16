@@ -9,11 +9,20 @@ namespace PRIS.WEB.Data.Models
 {
     public class InterviewTask
     {
+        public InterviewTask()
+        {
+            InterviewTemplates = new HashSet<InterviewTemplate>();
+        }
+
         public int InterviewTaskID { get; set; }
         [Required]
-        public string InterviewTaskName { get; set; }
-
+        public string InterviewTaskDescription { get; set; }
+        
+        [Required]
         public int TaskGroupID { get; set; }
         public virtual TaskGroup TaskGroup { get; set; }
+
+        public virtual ICollection<InterviewTemplate> InterviewTemplates { get; set; }
+
     }
 }

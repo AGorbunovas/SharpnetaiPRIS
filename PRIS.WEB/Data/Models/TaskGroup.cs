@@ -9,15 +9,16 @@ namespace PRIS.WEB.Models
 {
     public class TaskGroup
     {
+        [Key]
         public int TaskGroupID { get; set; }
         [Required]
         public string TaskGroupName { get; set; }
 
-        public virtual ICollection<InterviewTask> InterviewTasks { get; set; }
+        public virtual IList<InterviewTask> InterviewTasks { get; set; }
 
-        public TaskGroup()
-        {
-            this.InterviewTasks = new List<InterviewTask>();
-        }
+        //public TaskGroup()
+        //{
+        //    InterviewTasks = new HashSet<InterviewTask>();
+        //}
     }
 }

@@ -1,12 +1,17 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json.Linq;
 using PRIS.WEB.Data;
+using PRIS.WEB.Data.Models;
 using PRIS.WEB.Models;
 using PRIS.WEB.ViewModels;
+using PRIS.WEB.ViewModels.InterviewTaskViewModel;
 using PRIS.WEB.ViewModels.ModuleViewModels;
 using PRIS.WEB.ViewModels.TaskGroupViewModel;
-using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace PRIS.WEB.Controllers
@@ -233,14 +238,6 @@ namespace PRIS.WEB.Controllers
 
         #region TaskGroup
 
-        //public IActionResult TaskGroup()
-        //{
-        //    var taskGroupModel = _context.TaskGroups
-        //        .ProjectTo<AddTaskGroupViewModel>(_mapper.ConfigurationProvider).ToList();
-
-        //    return View(taskGroupModel);
-        //}
-
         public IActionResult TaskGroup()
         {
             if (TempData["IsTestUsedInTaskGroupModuleTableErrorMessage"] != null)
@@ -250,7 +247,7 @@ namespace PRIS.WEB.Controllers
             return View("TaskGroup", _context.TaskGroups.OrderBy(m => m.TaskGroupName).ToList());
         }
 
-        #endregion
+        #endregion TaskGroup
 
         #region TaskGroup/Create
 
@@ -284,7 +281,7 @@ namespace PRIS.WEB.Controllers
             return View();
         }
 
-        #endregion
+        #endregion TaskGroup/Create
 
         #region TaskGroup/Delete
 
@@ -310,6 +307,129 @@ namespace PRIS.WEB.Controllers
             return RedirectToAction("TaskGroup");
         }
 
-        #endregion --- TaskGroup/Delete ---
+        #endregion TaskGroup/Delete
+
+
+        #region InterviewTask
+
+        public IActionResult InterviewTask()
+        {
+            AddInterviewTaskViewModel viewModel = GetViewModelWithTaskGroupList();
+            return View("InterviewTask", viewModel);
+        }
+
+        #region InterviewTask/List
+
+        public IActionResult InterviewTaskList()
+        {
+            IEnumerable<AddInterviewTaskViewModel> data = _context.InterviewTasks.Select(i =>
+            new AddInterviewTaskViewModel()
+            {
+                InterviewTaskDescription = i.InterviewTaskDescription,
+                TaskGroup = i.TaskGroup,
+                InterviewTaskID = i.InterviewTaskID
+            }).ToList();
+
+            if (TempData["IsInterviewTaskUsedInCandidateTableErrorMessage"] != null)
+            {
+                ModelState.AddModelError(string.Empty, TempData["IsInterviewTaskUsedInCandidateTableErrorMessage"].ToString());
+            }
+
+            return View(data);
+        }
+
+        #endregion InterviewTask/List
+
+        #region InterviewTask/Create
+
+        //public IActionResult InterviewTaskCreate()
+        //{
+        //    ViewData["TaskGroupName"] = new SelectList(_context.TaskGroups, "TaskGroupName");
+        //    return View();
+        //}
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult InterviewTaskCreate([Bind("InterviewTaskID, InterviewTaskName, TaskGroupName")] AddInterviewTaskViewModel addInterviewTaskViewModel)
+        {
+            var isNotUnique = _context.InterviewTasks.Any(t => t.TaskGroup.TaskGroupName == addInterviewTaskViewModel.TaskGroupName);
+
+            if (isNotUnique)
+            {
+                ModelState.AddModelError(string.Empty, "Tokia užduočių grupė jau yra sukurta");
+            }
+
+            if (ModelState.IsValid)
+            {
+                TaskGroup taskGroup = _context.TaskGroups.FirstOrDefault(t => t.TaskGroupName == addInterviewTaskViewModel.TaskGroupName);
+                if (taskGroup != null)
+                {
+                    InterviewTask newRecord = new InterviewTask() { TaskGroup = taskGroup, InterviewTaskDescription = addInterviewTaskViewModel.InterviewTaskDescription };
+                    _context.InterviewTasks.Add(newRecord);
+                    _context.SaveChanges();
+                }
+                return RedirectToAction("InterviewTaskList");
+            }
+
+            //ViewData["TaskGroupName"] = new SelectList(_context.TaskGroups, "TaskGroupID", "TaskGroupName", addInterviewTaskViewModel.TaskGroupName);
+
+            AddInterviewTaskViewModel viewModel = GetViewModelWithTaskGroupList();
+            return View(viewModel);
+        }
+
+        #endregion InterviewTask/Create
+
+        #region InterviewTask/Delete
+
+        public IActionResult InterviewTaskDelete(int id)
+        {
+            //TODO patikrinimas jei užduotis jau yra priskirta pokalbio šablonui
+            //var testConnected = _context.Candidates.Any(x => x.TaskGroup.TaskGroupID == id);
+
+            //if (testConnected)
+            //{
+            //    TempData["IsTestUsedInInterviewTaskModuleTableErrorMessage"] = "Negalima trinti užduočių grupės, nes ji yra susieta su pokalbio užduotimis!";
+            //    return RedirectToAction("TaskGroup");
+            //}
+            //else
+            if (ModelState.IsValid)
+            {
+                var data = _context.TaskGroups.SingleOrDefault(t => t.TaskGroupID == id);
+                if (data != null)
+                {
+                    _context.Remove(data);
+                    _context.SaveChanges();
+                }
+                return RedirectToAction("InterviewTask");
+            }
+            return RedirectToAction("InterviewTask");
+        }
+
+        #endregion InterviewTask/Delete
+        
+        private AddInterviewTaskViewModel GetViewModelWithTaskGroupList()
+        {
+            var taskGroupsData = _context.TaskGroups.Select(x => new SelectListItem()
+            {
+                Value = x.TaskGroupName,
+                Text = x.TaskGroupName
+            }).ToList();
+
+            var viewModel = new AddInterviewTaskViewModel()
+            {
+                TaskGroups = taskGroupsData
+            };
+
+            return viewModel;
+        }
+
+        //=========================================================
+
+        //private bool InterviewTasksExists(int id)
+        //{
+        //    return _context.InterviewTasks.Any(e => e.InterviewTaskID == id);
+        //}
+
+        #endregion InterviewTask
     }
 }

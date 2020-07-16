@@ -1,5 +1,6 @@
 ﻿using PRIS.WEB.Data.Models;
 using PRIS.WEB.Models;
+using PRIS.WEB.ViewModels.InterviewTaskViewModel;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace PRIS.WEB.ViewModels.TaskGroupViewModel
 {
-    public class AddTaskGroupViewModel
+    public class AddTaskGroupInterviewTaskListViewModel
     {
         [Display(Name = "Užduočių grupė")]
         [Required(ErrorMessage = "Įvedimo laukas negali būti tuščias")]
@@ -19,7 +20,10 @@ namespace PRIS.WEB.ViewModels.TaskGroupViewModel
         //[RegularExpression(@"^(?:[0-9]{1,2})$", ErrorMessage = "Pasirinkite reikšmę nuo 0 iki 20")]
         //public int TaskGroupCount { get; set; }
 
-        public IList<TaskGroup> TaskGroups { get; set; }
-        public IList<InterviewTask> InterviewTasks { get; set; }
+        public string InterviewTask { get; set; }
+
+
+        //public IList<TaskGroup> TaskGroups { get; set; }
+        //public IList<AddInterviewTaskViewModel> InterviewTasks { get; set; }
     }
 }
