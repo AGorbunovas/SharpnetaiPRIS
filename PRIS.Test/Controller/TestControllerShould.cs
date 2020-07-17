@@ -106,6 +106,41 @@ namespace PRIS.Test.Controller
             Assert.Equal(0, testCount);
         }
 
+        [Fact]
+        public void NotAddTestRecordIfDateOfTestIsAfterClassYearStartDate()
+        {
+            // arrange
+            City city = new City { CityName = "Vilnius" };
+            _context.Cities.Add(city);
+            _context.SaveChanges();
+            var viewModel = new AddTestViewModel { CityName = "Vilnius", DateOfTest = DateTime.Today.AddDays(1), ClassYearStart = DateTime.Today, ClassYearEnd = DateTime.Today.AddMonths(10) };
+
+            //act
+            _sut.Test(viewModel);
+
+            //assert
+            var testCount = _context.Test.Count();
+            Assert.Equal(0, testCount);
+
+        }
+
+        [Fact]
+        public void NotAddTestRecordIfClassYearStartIsAfterClassYearEnd()
+        {
+            // arrange
+            City city = new City { CityName = "Vilnius" };
+            _context.Cities.Add(city);
+            _context.SaveChanges();
+            var viewModel = new AddTestViewModel { CityName = "Vilnius", DateOfTest = DateTime.Today.AddDays(1), ClassYearStart = DateTime.Today, ClassYearEnd = DateTime.Today.AddMonths(-10) };
+
+            //act
+            _sut.Test(viewModel);
+
+            //assert
+            var testCount = _context.Test.Count();
+            Assert.Equal(0, testCount);
+        }
+
     }
 
 

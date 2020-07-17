@@ -340,7 +340,8 @@ namespace PRIS.WEB.Controllers
         public IActionResult InterviewTask()
         {
             AddInterviewTaskViewModel viewModel = GetViewModelWithTaskGroupList();
-            return View("InterviewTask", viewModel);
+
+            return View("InterviewTaskList", viewModel);
         }
 
         #region InterviewTask/List
@@ -367,22 +368,22 @@ namespace PRIS.WEB.Controllers
 
         #region InterviewTask/Create
 
-        //public IActionResult InterviewTaskCreate()
-        //{
-        //    ViewData["TaskGroupName"] = new SelectList(_context.TaskGroups, "TaskGroupName");
-        //    return View();
-        //}
+        public IActionResult InterviewTaskCreate()
+        {
+            AddInterviewTaskViewModel viewModel = GetViewModelWithTaskGroupList();
+            return View("InterviewTaskCreate", viewModel);
+        }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult InterviewTaskCreate([Bind("InterviewTaskID, InterviewTaskName, TaskGroupName")] AddInterviewTaskViewModel addInterviewTaskViewModel)
+        public IActionResult InterviewTaskCreate([Bind("InterviewTaskID, InterviewTaskDescription, TaskGroupName")] AddInterviewTaskViewModel addInterviewTaskViewModel)        
         {
-            var isNotUnique = _context.InterviewTasks.Any(t => t.TaskGroup.TaskGroupName == addInterviewTaskViewModel.TaskGroupName);
+            //var isNotUnique = _context.InterviewTasks.Any(t => t.TaskGroup.TaskGroupName == addInterviewTaskViewModel.TaskGroupName);
 
-            if (isNotUnique)
-            {
-                ModelState.AddModelError(string.Empty, "Tokia užduočių grupė jau yra sukurta");
-            }
+            //if (isNotUnique)
+            //{
+            //    ModelState.AddModelError(string.Empty, "Tokia užduočių grupė jau yra sukurta");
+            //}
 
             if (ModelState.IsValid)
             {
@@ -393,6 +394,7 @@ namespace PRIS.WEB.Controllers
                     _context.InterviewTasks.Add(newRecord);
                     _context.SaveChanges();
                 }
+                //return View(viewModel);
                 return RedirectToAction("InterviewTaskList");
             }
 
@@ -417,15 +419,15 @@ namespace PRIS.WEB.Controllers
             //else
             if (ModelState.IsValid)
             {
-                var data = _context.TaskGroups.SingleOrDefault(t => t.TaskGroupID == id);
+                var data = _context.InterviewTasks.SingleOrDefault(i => i.InterviewTaskID == id);
                 if (data != null)
                 {
                     _context.Remove(data);
                     _context.SaveChanges();
                 }
-                return RedirectToAction("InterviewTask");
+                return RedirectToAction("InterviewTaskList");
             }
-            return RedirectToAction("InterviewTask");
+            return RedirectToAction("InterviewTaskList");
         }
 
         #endregion InterviewTask/Delete

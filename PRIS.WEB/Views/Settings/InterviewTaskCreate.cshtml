@@ -1,38 +1,31 @@
-﻿@model PRIS.WEB.Data.Models.InterviewTask
-@*@model IEnumerable<PRIS.WEB.Data.Models.InterviewTask>*@
-
-@*@model PRIS.WEB.ViewModels.InterviewTaskViewModel.AddInterviewTaskViewModel*@
+﻿@model PRIS.WEB.ViewModels.InterviewTaskViewModel.AddInterviewTaskViewModel
 
 @{
-    ViewData["Title"] = "InterviewTask";
-    ViewData["ActivePage"] = PRIS.WEB.Views.Shared.ManageCollumnNavPages.InterviewTask;
+    ViewData["Title"] = "InterviewTaskCreate";
+    ViewData["ActivePage"] = PRIS.WEB.Views.Shared.ManageCollumnNavPages.InterviewTaskList;
     Layout = "~/Views/Shared/_LayoutNavSectionForSettings.cshtml";
 }
 
-<h4>InterviewTask</h4>
+<h4>Užduočių sudarymo forma</h4>
 <hr />
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-6">
         <form asp-action="InterviewTaskCreate">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="InterviewTaskDescription" class="control-label"></label>
-                <input asp-for="InterviewTaskDescription" class="form-control" />
+                <label asp-for="InterviewTaskDescription" class="control-label">Pokalbio klausimas</label>
+                <textarea asp-for="InterviewTaskDescription" rows="5" class="form-control"></textarea>
                 <span asp-validation-for="InterviewTaskDescription" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="TaskGroupID" class="control-label"></label>
-                <select asp-for="TaskGroupID" class="form-control" asp-items="ViewBag.TaskGroupID"></select>
+                <label asp-for="TaskGroupName" class="control-label">Užduočių grupė</label>
+                <select asp-for="TaskGroupName" class="form-control" asp-items="Model.TaskGroups"></select>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Išsaugoti" class="btn btn-primary" />
             </div>
         </form>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {

@@ -14,11 +14,11 @@ namespace PRIS.WEB.Models
         [Required]
         public string TaskGroupName { get; set; }
 
-        public virtual ICollection<InterviewTask> InterviewTasks { get; set; }
+        //public virtual ICollection<InterviewTask> InterviewTasks { get; set; }
 
-        public TaskGroup()
-        {
-            InterviewTasks = new HashSet<InterviewTask>();
-        }
+        //public TaskGroup()
+        //{
+        //    InterviewTasks = new HashSet<InterviewTask>();
+        //}
     }
 }

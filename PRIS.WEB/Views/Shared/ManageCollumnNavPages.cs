@@ -15,7 +15,7 @@ namespace PRIS.WEB.Views.Shared
         public static string List => "TestList";
         public static string Test => "TestCreate";
         public static string TaskGroup => "TaskGroup";
-        public static string InterviewTask => "InterviewTask";
+        public static string InterviewTaskList => "InterviewTaskList";
 
 
         public static string CityNavClass(ViewContext viewContext) => PageNavClass(viewContext, City);
@@ -24,7 +24,7 @@ namespace PRIS.WEB.Views.Shared
         public static string TestListNavClass(ViewContext viewContext) => PageNavClass(viewContext, List);
         public static string TestCreateNavClass(ViewContext viewContext) => PageNavClass(viewContext, Test);
         public static string TaskGroupNavClass(ViewContext viewContext) => PageNavClass(viewContext, TaskGroup);
-        public static string InterviewTaskNavClass(ViewContext viewContext) => PageNavClass(viewContext, InterviewTask);
+        public static string InterviewTaskNavClass(ViewContext viewContext) => PageNavClass(viewContext, InterviewTaskList);
 
         private static string PageNavClass(ViewContext viewContext, string page)
         {

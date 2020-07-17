@@ -33,7 +33,7 @@ namespace PRIS.WEB.Data
             modelBuilder.Entity<City>().ToTable("City");
             modelBuilder.Entity<Candidate>().ToTable("Candidate");
             modelBuilder.Entity<CandidateModule>().ToTable("CandidateModule");
-            modelBuilder.Entity<TaskGroup>().ToTable("TaskGroups");
+            modelBuilder.Entity<TaskGroup>().ToTable("TaskGroup");
             modelBuilder.Entity<TaskResultLimit>().ToTable("TaskResultLimits");
             modelBuilder.Entity<InterviewTask>().ToTable("InterviewTask");
 
