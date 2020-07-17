@@ -19,9 +19,7 @@ namespace PRIS.WEB.ViewModels.InterviewTemplateViewModel
 
         public List<SelectListItem> InterviewTasks { get; set; }
 
-        [Required(ErrorMessage = "Įveskite užduočių grupę")]
         public string TaskGroupName { get; set; }
         public TaskGroup TaskGroup { get; set; }
-
     }
 }
