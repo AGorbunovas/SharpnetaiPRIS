@@ -205,7 +205,6 @@ namespace PRIS.WEB.Controllers
                 {
                     model[i].MaxValue.Add(item.MaxValue);
                 };
-                //return View(model);
             }
 
             return View(model);
