@@ -50,7 +50,7 @@
                 @Html.DisplayFor(modelItem => item.TestResult)
             </td>
             <td>
-                @(Math.Round((decimal)item.TestResult/(decimal)item.MaxResult,2)*100) %
+                @(Math.Round((decimal)item.TestResult/(decimal)item.MaxResult,4)*100) %
             </td>
             <td>
                 @*<a>Kviesti</a>*@
