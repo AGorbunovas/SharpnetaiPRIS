@@ -457,5 +457,11 @@ namespace PRIS.WEB.Controllers
         //}
 
         #endregion InterviewTask
+
+        #region InterviewTemplate
+
+
+
+        #endregion InterviewTemplate
     }
 }
