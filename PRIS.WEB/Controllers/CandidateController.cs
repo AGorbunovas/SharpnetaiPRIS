@@ -201,7 +201,8 @@ namespace PRIS.WEB.Controllers
             }
 
             model.Candidate = candidate;
-            if (_context.TaskResult.Where(c => c.Candidate == candidate).Sum(x => x.Value) > 1)
+
+            if (_context.TaskResult.Any(c => c.Candidate == candidate))
             {
                 model.Value = _context.TaskResult.Where(c => c.Candidate == model.Candidate).Select(x => x.Value).ToList();
             }
