@@ -1,4 +1,6 @@
-﻿using PRIS.WEB.Data.Models;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using PRIS.WEB.Data.Models;
+using PRIS.WEB.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -18,6 +20,13 @@ namespace PRIS.WEB.ViewModels.ResultLimitViewModel
         //[Column(TypeName = "decimal(18,1)")]
         public List<double?> MaxValue { get; set; } = new List<double?>();
         public DateTime Date { get; set; } 
-        public double? LimitSumMax { get; set; } 
-    }
+        public double? LimitSumMax { get; set; }
+
+        [Display(Name = "Užduočių grupė")]
+        public List<TaskGroup> TaskGroupList { get; set; } = new List<TaskGroup>(); 
+        public List<SelectListItem> TaskGroups { get; set; }
+
+        [Required(ErrorMessage = "Pasirinkite užduočių grupę")]
+        public string[] TaskGroupName { get; set; } 
+    } 
 }
