@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using PRIS.WEB.Data;
 using PRIS.WEB.Data.Models;
+using PRIS.WEB.Logic;
 using PRIS.WEB.Models;
 using PRIS.WEB.ViewModels;
 using PRIS.WEB.ViewModels.CandidateViewModels;
@@ -16,9 +17,12 @@ namespace PRIS.WEB.Controllers
     {
         private readonly ApplicationDbContext _context;
 
-        public CandidateController(ApplicationDbContext context)
+        private readonly ICandidateTestResultProcessor _candidateTestResultProcessor;
+
+        public CandidateController(ApplicationDbContext context, ICandidateTestResultProcessor candidateTestResultProcessor)
         {
             _context = context;
+            _candidateTestResultProcessor = candidateTestResultProcessor;
         }
 
         [HttpGet("Candidate/Edit/{id}")]
@@ -64,6 +68,7 @@ namespace PRIS.WEB.Controllers
                 TestResult = _context.TaskResult.Where(t => t.CandidateId == x.CandidateID).Sum(t => t.Value),
                 MaxResult = _context.TaskResult.Where(t => t.CandidateId == x.CandidateID).Sum(t => t.TaskResultLimit.MaxValue)
             }).OrderByDescending(x=>x.TestResult).ToList();
+
             return View(data);
         }
 
@@ -215,53 +220,38 @@ namespace PRIS.WEB.Controllers
         [HttpPost]
         public IActionResult AddTaskResult(TaskResultViewModel model, int id)
         {
-            
-            //TODO
             model.Candidate = _context.Candidates.FirstOrDefault(x => x.CandidateID == id);
             var CandidateHasTaskResults = _context.TaskResult.Any(x => x.Candidate == model.Candidate);
 
-            var testResultLimits = _context.TaskResultLimits.OrderByDescending(x => x.Date).Take(10).ToList();
-
-            for (int i = 0; i < testResultLimits.Count; i++)
-            {
-                if (model.Value[i] > testResultLimits[i].MaxValue)
-                {
-                    ModelState.AddModelError(string.Empty, $"Testas numeriu: {i + 1} negali būti didesnis negu {testResultLimits[i].MaxValue}");
-                }
-            }
-
-           if(!ModelState.IsValid)
-            {
-                return View(model);
-            }
-
-                if (CandidateHasTaskResults)
+            if (CandidateHasTaskResults)
             {
                 var candidateTaskResults = _context.TaskResult.Where(x => x.Candidate == model.Candidate).ToList();
-                for (int i = 0; i < model.Value.Count; i++)
+                var candidateTestResultsLimits = _context.TaskResult.Where(x => x.Candidate == model.Candidate).Select(x => x.TaskResultLimit).ToList();
+
+                var validationResultMessage = _candidateTestResultProcessor.ValidateTestResultsToTestResultLimits(candidateTestResultsLimits, model);
+
+                if (validationResultMessage != null)
                 {
-                    _context.Attach(candidateTaskResults[i]);
-                    candidateTaskResults[i].Value = model.Value[i];
-                    _context.SaveChanges();
+                    ModelState.AddModelError(string.Empty, validationResultMessage);
+                    return View(model);
                 }
+
+                _candidateTestResultProcessor.UpdateExistingCandidateResults(model, _context, candidateTaskResults);
+
             }
             else
             {
-                int i = 0;
-                foreach (var item in model.Value)
+                List<TaskResultLimit> currentTestResultLimits = _context.TaskResultLimits.OrderByDescending(x => x.Date).Take(10).ToList();
+
+                var validationResultMessage = _candidateTestResultProcessor.ValidateTestResultsToTestResultLimits(currentTestResultLimits, model);
+
+                if (validationResultMessage != null)
                 {
-                    var taskResult = new TaskResult
-                    {
-                        Value = item,
-                        Candidate = model.Candidate,
-                        TaskResultLimit = testResultLimits[i]
-                    };
-
-                    _context.TaskResult.Add(taskResult);
-                    _context.SaveChanges();
-
-                    i++;
+                    ModelState.AddModelError(string.Empty, validationResultMessage);
+                    return View(model);
                 }
+
+                _candidateTestResultProcessor.SaveInitialCandidateResults(model, currentTestResultLimits, _context);
             }
 
             return RedirectToAction("List");

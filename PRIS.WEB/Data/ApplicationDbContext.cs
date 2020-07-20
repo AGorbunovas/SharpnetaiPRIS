@@ -19,6 +19,7 @@ namespace PRIS.WEB.Data
         public DbSet<InterviewTask> InterviewTasks { get; set; }
         public DbSet<TaskResultLimit> TaskResultLimits { get; set; }
         public DbSet<TaskResult> TaskResult { get; set; }
+        public DbSet<InterviewTemplate> InterviewTemplates { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -36,6 +37,7 @@ namespace PRIS.WEB.Data
             modelBuilder.Entity<TaskGroup>().ToTable("TaskGroup");
             modelBuilder.Entity<TaskResultLimit>().ToTable("TaskResultLimits");
             modelBuilder.Entity<InterviewTask>().ToTable("InterviewTask");
+            modelBuilder.Entity<InterviewTemplate>().ToTable("InterviewTemplate");
 
             modelBuilder.Entity<CandidateModule>()
                 .HasKey(candidateModule => new { candidateModule.CandidateID, candidateModule.ModuleID });

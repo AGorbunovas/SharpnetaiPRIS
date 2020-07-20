@@ -12,18 +12,20 @@ testo balo suvedimas
 
 <form method="post" class="form-horizontal" role="form">
 
+    <div class="row">
+        @{int positionOfTask = 1;}
 
-    @{int positionOfTask = 1;}
-
-    @foreach (var item in Model.Value)
-    {
-        <fieldset class="form-group">
-            <label asp-for="Value">Testo užduotis: @positionOfTask</label>
-            <input value=@item asp-for="Value" type="number" class="form-control" min="0" max="18" step="0.5" />
-            <span asp-validation-for="Value" class="text-danger"></span>
-        </fieldset>
-
-        positionOfTask++;
-    }
-    <input id="submitApplication" type="submit" value="Sukurti" class="btn btn-outline-dark" />
+        @foreach (var item in Model.Value)
+        {
+        <div class="col-6">
+            <fieldset class="form-group">
+                <label asp-for="Value">Testo užduotis: @positionOfTask</label>
+                <input value=@item asp-for="Value" type="number" class="form-control" min="0" max="18" step="0.5" />
+                <span asp-validation-for="Value" class="text-danger"></span>
+            </fieldset>
+        </div>
+            positionOfTask++;
+        }
+    </div>
+            <input id="submitApplication" type="submit" value="Sukurti" class="btn btn-outline-dark" />
 </form>
