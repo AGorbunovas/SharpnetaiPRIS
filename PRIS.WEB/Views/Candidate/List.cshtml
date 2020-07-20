@@ -50,7 +50,11 @@
                 @Html.DisplayFor(modelItem => item.TestResult)
             </td>
             <td>
-                @(Math.Round((item.TestResult/item.MaxResult)*100,2)) %                
+Lis                @if (item.MaxResult != 0)
+                {
+                    @Math.Round((item.TestResult / item.MaxResult) * 100, 2)
+                }
+                %
             </td>
             <td>
                 @*<a>Kviesti</a>*@
