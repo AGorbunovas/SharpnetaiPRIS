@@ -190,7 +190,7 @@ namespace PRIS.WEB.Controllers
 
                 model.Add(new TestResultLimitViewModel()
                 {
-                    MaxValue = new List<double?>(),
+                    MaxValue = new List<double>(),
                     TaskGroupList = new List<TaskGroup>(),
                     Date = dateOfLimits.First(),
                     LimitSumMax = limitTemplate.Sum(y => y.MaxValue)
