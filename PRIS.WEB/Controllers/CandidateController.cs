@@ -68,6 +68,7 @@ namespace PRIS.WEB.Controllers
                 TestResult = _context.TaskResult.Where(t => t.CandidateId == x.CandidateID).Sum(t => t.Value),
                 MaxResult = _context.TaskResult.Where(t => t.CandidateId == x.CandidateID).Sum(t => t.TaskResultLimit.MaxValue)
             }).OrderByDescending(x=>x.TestResult).ToList();
+
             return View(data);
         }
 
