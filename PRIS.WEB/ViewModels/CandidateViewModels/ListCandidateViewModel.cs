@@ -20,6 +20,6 @@ namespace PRIS.WEB.ViewModels.CandidateViewModels
         public string FirstModule { get; set; }
         public double TestResult { get; set; }
         //TODO
-        public double? MaxResult { get; set; }
+        public double MaxResult { get; set; }
     }
 }
