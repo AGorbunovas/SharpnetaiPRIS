@@ -56,7 +56,9 @@ namespace PRIS.WEB.Controllers
 
         public IActionResult List()
         {
-            var data = _context.Candidates.Select(x =>
+            var newestTest = _context.Test.OrderByDescending(x => x.TestId).Take(1).Select(x => x).FirstOrDefault();
+
+            var data = _context.Candidates.Where(c => c.TestId == newestTest.TestId).Select(x =>
             new ListCandidateViewModel()
             {
                 CandidateID = x.CandidateID,
