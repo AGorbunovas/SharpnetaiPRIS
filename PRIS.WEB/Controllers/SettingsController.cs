@@ -174,9 +174,6 @@ namespace PRIS.WEB.Controllers
         #endregion Module/Delete
 
 
-
-
-
         #region ResultLimits/Create
 
         public IActionResult ResultLimitsView()
@@ -188,68 +185,76 @@ namespace PRIS.WEB.Controllers
 
             for (int i = 0; i < countOfLimitTemplateForOneTest; i++)
             {
-                var limitTemplate = taskLimits.GetRange(i*10, 10).ToList();
+                var limitTemplate = taskLimits.GetRange(i * 10, 10).ToList();
                 var dateOfLimits = limitTemplate.Select(x => x.Date).ToList();
-
-                var limitsSumMax = limitTemplate.Where(t => t.Date == dateOfLimits[0]).Sum(t => t.MaxValue);
-
-                var maxLimitsTemplate = new List<double?>();
 
                 model.Add(new TestResultLimitViewModel()
                 {
                     MaxValue = new List<double?>(),
-                    Date = dateOfLimits[0],
-                    LimitSumMax = limitsSumMax
-                });
+                    TaskGroupList = new List<TaskGroup>(),
+                    Date = dateOfLimits.First(),
+                    LimitSumMax = limitTemplate.Sum(y => y.MaxValue)
+                }); 
 
                 foreach (var item in limitTemplate)
                 {
                     model[i].MaxValue.Add(item.MaxValue);
+                    model[i].TaskGroupList.Add(item.TaskGroup);
                 };
-                //return View(model);
             }
-
             return View(model);
         }
 
         [HttpGet]
         public IActionResult ResultLimitsCreate()
         {
-            TestResultLimitViewModel model = new TestResultLimitViewModel();
-
-            for (double i = 0; i < 10; i++)
-            {
-                model.MaxValue.Add(0.0);
-            }
+            TestResultLimitViewModel model = GetLimitViewModelWithTaskGroupList();
 
             return View(model);
         }
 
         [HttpPost]
-        public IActionResult ResultLimitsCreate(TestResultLimitViewModel model)
+        public IActionResult ResultLimitsCreate(TestResultLimitViewModel resultLimitModel)
         {
-            //TODO rezultatu limitai susije su testo sablonu
-
+            
             DateTime timeStamp = DateTime.Now;
 
-            for (int i = 0; i < model.MaxValue.Count; i++)
+            for (int i = 0; i < resultLimitModel.MaxValue.Count; i++)
             {
+                
+                TaskGroup taskGroup = _context.TaskGroups.FirstOrDefault(t => t.TaskGroupName == resultLimitModel.TaskGroupName[i]);
+                
                 var limitTask = new TaskResultLimit();
+
                 limitTask.Date = timeStamp;
                 limitTask.Position = i + 1;
-                limitTask.MaxValue = model.MaxValue[i];
+                limitTask.MaxValue = resultLimitModel.MaxValue[i];
+                limitTask.TaskGroup = taskGroup;
 
                 _context.TaskResultLimits.Add(limitTask);
                 _context.SaveChanges();
             }
 
-            //skaiciuoju visu uzduociu reziu suma
-            for (int i = 0; i < model.MaxValue.Count; i++)
+            return RedirectToAction("ResultLimitsView");
+        }
+
+        private TestResultLimitViewModel GetLimitViewModelWithTaskGroupList()
+        {
+            var testTaskGroupData = _context.TaskGroups.Select(x => new SelectListItem()
             {
-                model.LimitSumMax += model.MaxValue[i];
+                Value = x.TaskGroupName,
+                Text = x.TaskGroupName
+            }).ToList();
+
+            var viewModel = new TestResultLimitViewModel();
+            viewModel.TaskGroups = testTaskGroupData;
+
+            for (double i = 0; i < 10; i++)
+            {
+                viewModel.MaxValue.Add(0.0);
             }
 
-            return RedirectToAction("ResultLimitsView");
+            return viewModel;
         }
 
         #endregion ResultLimits/Create
@@ -273,7 +278,7 @@ namespace PRIS.WEB.Controllers
             return View("TaskGroup", _context.TaskGroups.OrderBy(m => m.TaskGroupName).ToList());
         }
 
-        
+
 
         #region TaskGroup/Create
 
@@ -378,7 +383,7 @@ namespace PRIS.WEB.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult InterviewTaskCreate([Bind("InterviewTaskID, InterviewTaskDescription, TaskGroupName")] AddInterviewTaskViewModel addInterviewTaskViewModel)        
+        public IActionResult InterviewTaskCreate([Bind("InterviewTaskID, InterviewTaskDescription, TaskGroupName")] AddInterviewTaskViewModel addInterviewTaskViewModel)
         {
             //var isNotUnique = _context.InterviewTasks.Any(t => t.TaskGroup.TaskGroupName == addInterviewTaskViewModel.TaskGroupName);
 
@@ -433,7 +438,7 @@ namespace PRIS.WEB.Controllers
         }
 
         #endregion InterviewTask/Delete
-        
+
         private AddInterviewTaskViewModel GetViewModelWithTaskGroupList()
         {
             var taskGroupsData = _context.TaskGroups.Select(x => new SelectListItem()
