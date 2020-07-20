@@ -459,89 +459,7 @@ namespace PRIS.WEB.Controllers
 
         #endregion InterviewTask
 
-        //#region AcademicYear
-
-        //public IActionResult AcademicYear()
-        //{
-        //    if (TempData["IsTestUsedInAcademicYearTableErrorMessage"] != null)
-        //    {
-        //        ModelState.AddModelError(string.Empty, TempData["IsTestUsedInAcademicYearTableErrorMessage"].ToString());
-        //    }
-        //    return View("AcademicYear", _context.AcademicYears.OrderBy(a => a.AcademicYearPeriod).ToList());
-        //}
-
-
-
-        //#region AcademicYear/Create
-
-        //public IActionResult AcademicYearCreate()
-        //{
-        //    return View();
-        //}
-
-        //[HttpPost]
-        //public IActionResult AcademicYearCreate(AddAcademicYearViewModel addAcademicYear)
-        //{
-        //    var check = _context.AcademicYears.Any(t => t.AcademicYearPeriod == addAcademicYear.AcademicYearPeriod);
-
-        //    if (check)
-        //    {
-        //        ModelState.AddModelError(string.Empty, "Toks mokslo metų periodas jau yra sukurtas");
-        //        return View();
-        //    }
-
-        //    if (ModelState.IsValid)
-        //    {
-        //        //var newTaskGroup = new TaskGroup() { TaskGroupName = addTaskGroup.TaskGroupName, TaskGroupCount = addTaskGroup.TaskGroupCount };
-        //        var newAcademicYear = new AcademicYear() { AcademicYearStart = addAcademicYear.AcademicYearStart, AcademicYearEnd = addAcademicYear.AcademicYearEnd};
-        //        if (newAcademicYear != null)
-        //        {
-        //            _context.AcademicYears.Add(newAcademicYear);
-        //            _context.SaveChanges();
-        //        }
-        //        return RedirectToAction("AcademicYear");
-        //    }
-        //    return View();
-        //}
-
-        //#endregion
-
-        //#region AcademicYear/Delete
-
-        //public IActionResult AcademicYearDelete(int id)
-        //{
-        //    var testConnected = _context.Test.Any(x => x.AcademicYear.AcademicYearID == id);
-
-        //    if (testConnected)
-        //    {
-        //        TempData["IsTestUsedInAcademicYearTableErrorMessage"] = "Negalima trinti mokslo metų periodo, nes jis yra susietas su testo įvykiu!";
-        //        return RedirectToAction("AcademicYear");
-        //    }
-        //    else if (ModelState.IsValid)
-        //    {
-        //        var data = _context.AcademicYears.SingleOrDefault(t => t.AcademicYearID == id);
-        //        if (data != null)
-        //        {
-        //            _context.Remove(data);
-        //            _context.SaveChanges();
-        //        }
-        //        return RedirectToAction("AcademicYear");
-        //    }
-        //    return RedirectToAction("AcademicYear");
-        //}
-
-        //#endregion --- AcademicYear/Delete ---
-
-        //#endregion AcademicYear
-
         #region AcademicYear
-
-        //public IActionResult AcademicYear()
-        //{
-        //    AddInterviewTaskViewModel viewModel = GetViewModelWithTaskGroupList();
-
-        //    return View("InterviewTaskList", viewModel);
-        //}
 
         #region AcademicYear/List
 
@@ -550,14 +468,15 @@ namespace PRIS.WEB.Controllers
             IEnumerable<AddAcademicYearViewModel> data = _context.AcademicYears.Select(i =>
             new AddAcademicYearViewModel()
             {
+                AcademicYearID = i.AcademicYearID,
                 AcademicYearStart = i.AcademicYearStart,
                 AcademicYearEnd = i.AcademicYearEnd
             }).ToList();
 
-            if (TempData["IsTestUsedInAcademicYearTableErrorMessage"] != null)
-            {
-                ModelState.AddModelError(string.Empty, TempData["IsTestUsedInAcademicYearTableErrorMessage"].ToString());
-            }
+            //if (TempData["IsTestUsedInAcademicYearTableErrorMessage"] != null)
+            //{
+            //    ModelState.AddModelError(string.Empty, TempData["IsTestUsedInAcademicYearTableErrorMessage"].ToString());
+            //}
 
             return View(data);
         }
@@ -573,7 +492,7 @@ namespace PRIS.WEB.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult AcademicYearCreate([Bind("AcademicYearID, AcademicYearStart, AcademicYearEnd")] AddAcademicYearViewModel addAcademicYearViewModel)
+        public IActionResult AcademicYearCreate([Bind("AcademicYearStart, AcademicYearEnd")] AddAcademicYearViewModel addAcademicYearViewModel)
         {
             //var isNotUnique = _context.InterviewTasks.Any(t => t.TaskGroup.TaskGroupName == addInterviewTaskViewModel.TaskGroupName);
 
@@ -586,17 +505,15 @@ namespace PRIS.WEB.Controllers
             {                
                     AcademicYear newAcademicYear = new AcademicYear() 
                     { 
-                        AcademicYearID = addAcademicYearViewModel.AcademicYearID, 
                         AcademicYearStart = addAcademicYearViewModel.AcademicYearStart, 
                         AcademicYearEnd = addAcademicYearViewModel.AcademicYearEnd 
                     };
                     _context.AcademicYears.Add(newAcademicYear);
                     _context.SaveChanges();
-                //return View(viewModel);
+
                 return RedirectToAction("AcademicYear");
             }
 
-            //AddInterviewTaskViewModel viewModel = GetViewModelWithTaskGroupList();
             return View();
         }
 
