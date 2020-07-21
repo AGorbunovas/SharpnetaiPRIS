@@ -6,6 +6,7 @@ using PRIS.WEB.Data.Models;
 using PRIS.WEB.Logic;
 using PRIS.WEB.Models;
 using PRIS.WEB.ViewModels;
+using PRIS.WEB.ViewModels.CandidateViewModels;
 using System.Collections.Generic;
 using System.Linq;
 using Xunit;
@@ -19,7 +20,6 @@ namespace PRIS.Test.Controller
 
         public CandidateControllerShould()
         {
-            //ICandidateTestResultProcessor candidateTestResultProcessor = new CandidateTestResultProcessor();
             var MockCandidateTestResultProcessor = new Mock<ICandidateTestResultProcessor>();
             MockCandidateTestResultProcessor.Setup(x => x.ValidateTestResultsToTestResultLimits(It.IsAny<List<TaskResultLimit>>(), It.IsAny<TaskResultViewModel>())).Returns(value: null);
 
@@ -72,6 +72,56 @@ namespace PRIS.Test.Controller
             }
 
             IActionResult result = _sut.AddTaskResult(taskResultViewModel, 1);
+        }
+
+        [Fact]
+        public void DisplayListWithNewestTestOnly()
+        {
+            //Arrange
+            City city = new City { CityName = "Vilnius" };
+            _context.Cities.Add(city);
+
+            var firstTest = new PRIS.WEB.Models.Test { City = city };
+            var secondTest = new PRIS.WEB.Models.Test { City = city };
+            _context.AddRange(firstTest, secondTest);
+
+            Candidate candidateFirst = new Candidate { CandidateID = 1, FirstName = "Foo", LastName = "Bar", PhoneNumber = 11111111, Test = firstTest };
+            Candidate candidateSecond = new Candidate { CandidateID = 2, FirstName = "Foo", LastName = "Bar", PhoneNumber = 11111111, Test = secondTest };
+            _context.AddRange(candidateFirst, candidateSecond);
+            _context.SaveChanges();
+
+            //Act
+            IActionResult result = _sut.List();
+            ViewResult viewResult = Assert.IsType<ViewResult>(result);
+            List<ListCandidateViewModel> test = viewResult.ViewData.Model as List<ListCandidateViewModel>;
+            
+            Assert.Equal(candidateSecond.CandidateID, test[0].CandidateID);
+        }
+
+        [Fact]
+        public void NotDisplayListWithOldTests()
+        {
+            //Arrange
+            City city = new City { CityName = "Vilnius" };
+            _context.Cities.Add(city);
+
+            var firstTest = new PRIS.WEB.Models.Test { City = city };
+            var secondTest = new PRIS.WEB.Models.Test { City = city };
+            _context.AddRange(firstTest, secondTest);
+
+            Candidate candidateFirst = new Candidate { CandidateID = 1, FirstName = "Foo", LastName = "Bar", PhoneNumber = 11111111, Test = firstTest };
+            Candidate candidateSecond = new Candidate { CandidateID = 2, FirstName = "Foo", LastName = "Bar", PhoneNumber = 11111111, Test = secondTest };
+            _context.AddRange(candidateFirst, candidateSecond);
+            _context.SaveChanges();
+
+            //Act
+            IActionResult result = _sut.List();
+
+            //Assert
+            ViewResult viewResult = Assert.IsType<ViewResult>(result);
+            List<ListCandidateViewModel> test = viewResult.ViewData.Model as List<ListCandidateViewModel>;
+
+            Assert.NotEqual(candidateFirst.CandidateID, test[0].CandidateID);
         }
 
 
