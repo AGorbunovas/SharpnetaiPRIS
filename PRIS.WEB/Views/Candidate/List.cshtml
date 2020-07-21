@@ -26,10 +26,13 @@
                 Surinktų balų % nuo maksimalaus
             </th>
             @*<th>
-                Kvietimas į pokalbį
-            </th>*@
+            Kvietimas į pokalbį
+        </th>*@
             <th>
-
+                Kandidato duomenų redagavimas
+            </th>
+            <th>
+                Testo rezultatų redagavimas
             </th>
         </tr>
     </thead>
@@ -56,13 +59,15 @@
                 }
                 %
             </td>
+            @*<td>
+                <a>Kviesti</a>
+            </td>*@
             <td>
-                @*<a>Kviesti</a>*@
-            </td>
-            <td>
-                @*<a asp-action="View" asp-route-id="@item.CandidateID">Peržiūrėti</a>*@
                 <a asp-action="EditCandidate" asp-route-id="@item.CandidateID">Redaguoti</a>
-                @*<a asp-action="Delete" asp-route-id="@item.CandidateID">Trinti</a>*@
+            </td>
+
+            <td>
+                <a asp-action="AddTaskResult" asp-route-id="@item.CandidateID">Pridėti balus</a>
             </td>
         </tr>
         }
