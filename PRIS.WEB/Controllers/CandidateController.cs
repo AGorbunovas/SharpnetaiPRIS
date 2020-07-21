@@ -208,12 +208,19 @@ namespace PRIS.WEB.Controllers
             if (_context.TaskResult.Any(c => c.Candidate == candidate))
             {
                 model.Value = _context.TaskResult.Where(c => c.Candidate == model.Candidate).Select(x => x.Value).ToList();
+                model.TaskGroupName = _context.TaskResult.Where(c => c.Candidate == model.Candidate).Select(x => x.TaskResultLimit.TaskGroup.TaskGroupName).ToList();
             }
             else
             {
+                List<TaskResultLimit> currentTestResultLimits = _context.TaskResultLimits.OrderByDescending(x => x.Date).Take(10).ToList();
+                
                 for (int i = 0; i < 10; i++)
                 {
+                    //TODO fix ugly code
                     model.Value.Add(0.0);
+                    int TaskGroupID = currentTestResultLimits[i].TaskGroupID;
+                    string TaskGroupName = _context.TaskGroups.Where(x => x.TaskGroupID == TaskGroupID).Select(x => x.TaskGroupName).FirstOrDefault();
+                    model.TaskGroupName.Add(TaskGroupName);
                 }
             }
 

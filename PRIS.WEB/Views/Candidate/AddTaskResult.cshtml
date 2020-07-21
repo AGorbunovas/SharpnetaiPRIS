@@ -19,6 +19,7 @@ testo balo suvedimas
         {
         <div class="col-6">
             <fieldset class="form-group">
+                <b>@Model.TaskGroupName[positionOfTask - 1]</b>
                 <label asp-for="Value">Testo užduotis: @positionOfTask</label>
                 <input value=@item asp-for="Value" type="number" class="form-control" min="0" max="18" step="0.5" />
                 <span asp-validation-for="Value" class="text-danger"></span>
