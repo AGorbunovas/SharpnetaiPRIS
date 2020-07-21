@@ -50,7 +50,7 @@
                 @Html.DisplayFor(modelItem => item.TestResult)
             </td>
             <td>
-Lis                @if (item.MaxResult != 0)
+                @if (item.MaxResult != 0)
                 {
                     @Math.Round((item.TestResult / item.MaxResult) * 100, 2)
                 }
