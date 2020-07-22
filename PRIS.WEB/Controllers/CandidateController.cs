@@ -268,7 +268,7 @@ namespace PRIS.WEB.Controllers
                 Text = x.ModuleName
             }).ToList();
 
-            viewModel.Tests = _context.Test.Select(x => new SelectListItem()
+            viewModel.Tests = _context.Test.OrderByDescending(x => x.DateOfTest).Select(x => new SelectListItem()
             {
                 Value = x.TestId.ToString(),
                 Text = x.DateOfTest.ToString("yyyy-MM-dd") + " " + x.City.CityName
