@@ -105,17 +105,6 @@ namespace PRIS.WEB.Controllers
             return View(data);
         }
 
-        public IActionResult Delete(int id)
-        {
-            var data = _context.Candidates.SingleOrDefault(x => x.CandidateID == id);
-            if (data != null)
-            {
-                _context.Remove(data);
-                _context.SaveChanges();
-            }
-
-            return RedirectToAction("List");
-        }
 
         [HttpPost("Candidate/Edit/{id}")]
         public IActionResult EditCandidate(int id, AddCandidateViewModel model)
@@ -237,6 +226,7 @@ namespace PRIS.WEB.Controllers
             {
                 var candidateTaskResults = _context.TaskResult.Where(x => x.Candidate == model.Candidate).ToList();
                 var candidateTestResultsLimits = _context.TaskResult.Where(x => x.Candidate == model.Candidate).Select(x => x.TaskResultLimit).ToList();
+                model.TaskGroupName = _context.TaskResult.Where(c => c.Candidate == model.Candidate).Select(x => x.TaskResultLimit.TaskGroup.TaskGroupName).ToList();
 
                 var validationResultMessage = _candidateTestResultProcessor.ValidateTestResultsToTestResultLimits(candidateTestResultsLimits, model);
 
