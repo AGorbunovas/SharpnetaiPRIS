@@ -16,6 +16,7 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Razor.Language;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.Security.Cryptography.X509Certificates;
+using System.Diagnostics.CodeAnalysis;
 
 namespace PRIS.WEB.Controllers
 {
@@ -172,12 +173,11 @@ namespace PRIS.WEB.Controllers
 
         #endregion Module/Delete
 
-
-        #region ResultLimits/Create
+        #region ResultLimits/Create/Delete
 
         public IActionResult ResultLimitsView()
         {
-            var taskLimits = _context.TaskResultLimits.OrderBy(x => x.Date).ToList();
+            var taskLimits = _context.TaskResultLimits.OrderByDescending(x => x.Date).ToList();
             var countOfLimitTemplateForOneTest = taskLimits.Count() / 10;
 
             List<TestResultLimitViewModel> model = new List<TestResultLimitViewModel>();
@@ -185,20 +185,22 @@ namespace PRIS.WEB.Controllers
             for (int i = 0; i < countOfLimitTemplateForOneTest; i++)
             {
                 var limitTemplate = taskLimits.GetRange(i * 10, 10).ToList();
-                var dateOfLimits = limitTemplate.Select(x => x.Date).ToList();
+                var dateOfLimits = limitTemplate.Select(x => x.Date).First();
 
                 model.Add(new TestResultLimitViewModel()
                 {
-                    MaxValue = new List<double?>(),
+                    MaxValue = new List<double>(),
                     TaskGroupList = new List<TaskGroup>(),
-                    Date = dateOfLimits.First(),
+                    TaskResultLimitId = new List<int>(),
+                    Date = dateOfLimits,
                     LimitSumMax = limitTemplate.Sum(y => y.MaxValue)
-                }); 
+                });
 
                 foreach (var item in limitTemplate)
                 {
                     model[i].MaxValue.Add(item.MaxValue);
                     model[i].TaskGroupList.Add(item.TaskGroup);
+                    model[i].TaskResultLimitId.Add(item.TaskResultLimitId);
                 };
             }
             return View(model);
@@ -215,14 +217,12 @@ namespace PRIS.WEB.Controllers
         [HttpPost]
         public IActionResult ResultLimitsCreate(TestResultLimitViewModel resultLimitModel)
         {
-            
             DateTime timeStamp = DateTime.Now;
 
             for (int i = 0; i < resultLimitModel.MaxValue.Count; i++)
             {
-                
                 TaskGroup taskGroup = _context.TaskGroups.FirstOrDefault(t => t.TaskGroupName == resultLimitModel.TaskGroupName[i]);
-                
+
                 var limitTask = new TaskResultLimit();
 
                 limitTask.Date = timeStamp;
@@ -233,7 +233,6 @@ namespace PRIS.WEB.Controllers
                 _context.TaskResultLimits.Add(limitTask);
                 _context.SaveChanges();
             }
-
             return RedirectToAction("ResultLimitsView");
         }
 
@@ -242,21 +241,22 @@ namespace PRIS.WEB.Controllers
             var testTaskGroupData = _context.TaskGroups.Select(x => new SelectListItem()
             {
                 Value = x.TaskGroupName,
-                Text = x.TaskGroupName
+                Text = x.TaskGroupName.ToString()
             }).ToList();
 
-            var viewModel = new TestResultLimitViewModel();
-            viewModel.TaskGroups = testTaskGroupData;
-
-            for (double i = 0; i < 10; i++)
+            var viewModel = new TestResultLimitViewModel()
             {
-                viewModel.MaxValue.Add(0.0);
-            }
+                TaskGroups = testTaskGroupData
+            };
 
+            for (int i = 0; i < 10; i++)
+            {
+                viewModel.MaxValue.Add(0.5);
+            }
             return viewModel;
         }
 
-        #endregion ResultLimits/Create
+        #endregion ResultLimits/Create/Delete
 
         #region TaskGroup
 
@@ -276,8 +276,6 @@ namespace PRIS.WEB.Controllers
             }
             return View("TaskGroup", _context.TaskGroups.OrderBy(m => m.TaskGroupName).ToList());
         }
-
-
 
         #region TaskGroup/Create
 
