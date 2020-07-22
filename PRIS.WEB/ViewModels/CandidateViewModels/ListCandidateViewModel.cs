@@ -20,5 +20,6 @@ namespace PRIS.WEB.ViewModels.CandidateViewModels
         public string FirstModule { get; set; }
         public double TestResult { get; set; }
         public double MaxResult { get; set; }
+        public bool InvitedToInterview { get; set; }
     }
 }
