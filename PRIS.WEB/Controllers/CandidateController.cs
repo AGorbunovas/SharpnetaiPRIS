@@ -81,9 +81,24 @@ namespace PRIS.WEB.Controllers
                 TestResult = _context.TaskResult.Where(t => t.CandidateId == x.CandidateID).Sum(t => t.Value),
                 MaxResult = _context.TaskResult.Where(t => t.CandidateId == x.CandidateID).Sum(t => t.TaskResultLimit.MaxValue),
                 InvitedToInterview = x.InvitedToInterview
-            }).OrderByDescending(x=>x.TestResult).ToList();
+            }).OrderByDescending(x => x.TestResult).ToList();
 
             return View(data);
+        }
+
+        [HttpPost]
+        public IActionResult List(IEnumerable<ListCandidateViewModel> model)
+        {
+            foreach (var item in model)
+            {
+                Candidate candidate = _context.Candidates.FirstOrDefault(x => x.CandidateID == item.CandidateID);
+                _context.Attach(candidate);
+                candidate.InvitedToInterview = item.InvitedToInterview;
+                _context.SaveChanges();
+            }
+
+
+            return RedirectToAction("List");
         }
 
         public IActionResult Interviews()
@@ -213,7 +228,7 @@ namespace PRIS.WEB.Controllers
             else
             {
                 List<TaskResultLimit> currentTestResultLimits = _context.TaskResultLimits.OrderByDescending(x => x.Date).Take(10).ToList();
-                
+
                 for (int i = 0; i < 10; i++)
                 {
                     //TODO fix ugly code
@@ -253,7 +268,7 @@ namespace PRIS.WEB.Controllers
             else
             {
                 List<TaskResultLimit> currentTestResultLimits = _context.TaskResultLimits.OrderByDescending(x => x.Date).Take(10).ToList();
-                model.TaskGroupName =_context.TaskResultLimits.OrderByDescending(x => x.Date).Select(x => x.TaskGroup.TaskGroupName.ToString()).Take(10).ToList();
+                model.TaskGroupName = _context.TaskResultLimits.OrderByDescending(x => x.Date).Select(x => x.TaskGroup.TaskGroupName.ToString()).Take(10).ToList();
 
 
                 var validationResultMessage = _candidateTestResultProcessor.ValidateTestResultsToTestResultLimits(currentTestResultLimits, model);

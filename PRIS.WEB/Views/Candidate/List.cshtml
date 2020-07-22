@@ -1,4 +1,4 @@
-﻿@model IEnumerable<PRIS.WEB.ViewModels.CandidateViewModels.ListCandidateViewModel>
+﻿@model IList<PRIS.WEB.ViewModels.CandidateViewModels.ListCandidateViewModel>
 
 @{
     ViewData["Title"] = "List";
@@ -7,69 +7,85 @@
 
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                Vardas Pavardė
-            </th>
-            <th>
-                Programa (I-as pasirinkimas)
-            </th>
-            <th>
-                Testo data, vieta
-            </th>
-            <th>
-                Testo balas
-            </th>
-            <th>
-                Surinktų balų % nuo maksimalaus
-            </th>
-            @*<th>
-            Kvietimas į pokalbį
-        </th>*@
-            <th>
-                Kandidato duomenų redagavimas
-            </th>
-            <th>
-                Testo rezultatų redagavimas
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Firstname) @Html.DisplayFor(modelItem => item.Lastname)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FirstModule)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TestDate) @Html.DisplayFor(modelItem => item.TestCity)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TestResult)
-            </td>
-            <td>
-                @if (item.MaxResult != 0)
-                {
-                    @Math.Round((item.TestResult / item.MaxResult) * 100, 2)
-                }
-                %
-            </td>
-            @*<td>
-                <a>Kviesti</a>
-            </td>*@
-            <td>
-                <a asp-action="EditCandidate" asp-route-id="@item.CandidateID">Redaguoti</a>
-            </td>
+    <form asp-action="List" method="get">
+        <div class="form-actions no-color">
+            <p>
+                Miesto filtras: <input type="text" name="City" value="@ViewData["currentFilter"]" />
+                <input type="submit" value="Ieškoti" class="btn btn-default" /> |
 
-            <td>
-                <a asp-action="AddTaskResult" asp-route-id="@item.CandidateID">Pridėti balus</a>
-            </td>
-        </tr>
-        }
-    </tbody>
-</table>
+            </p>
+        </div>
+    </form>
+
+    <form method="post" class="form-horizontal" role="form">
+
+
+
+
+
+        <input type="submit" value="BOOM" class="btn btn-default" /> |
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        Vardas Pavardė
+                    </th>
+                    <th>
+                        Programa (I-as pasirinkimas)
+                    </th>
+                    <th>
+                        Testo data, vieta
+                    </th>
+                    <th>
+                        Testo balas
+                    </th>
+                    <th>
+                        Surinktų balų % nuo maksimalaus
+                    </th>
+                    <th>
+                        Kvietimas į pokalbį
+                    </th>
+                    <th>
+                        Kandidato duomenų redagavimas
+                    </th>
+                    <th>
+                        Testo rezultatų redagavimas
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (var i = 0; i < Model.Count(); i++)
+                {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => modelItem[i].Firstname) @Html.DisplayFor(modelItem => modelItem[i].Lastname)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => modelItem[i].FirstModule)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => modelItem[i].TestDate) @Html.DisplayFor(modelItem => modelItem[i].TestCity)
+                    </td>
+                    <td>
+                        @if (Model[i].MaxResult != 0)
+                        {
+                            @Math.Round((Model[i].TestResult / Model[i].MaxResult) * 100, 2)
+                        }
+                        %
+                     </td>
+                     <td>
+                        @Html.HiddenFor(it => it[i].CandidateID)
+                        @Html.CheckBoxFor(it => it[i].InvitedToInterview)
+                     </td>
+                     <td>
+                        <a asp-action="EditCandidate" asp-route-id="@Model[i].CandidateID">Redaguoti</a>
+                    </td>
+                    <td>
+                        <a asp-action="AddTaskResult" asp-route-id="@Model[i].CandidateID">Pridėti balus</a>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </form>
+
