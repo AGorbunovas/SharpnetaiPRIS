@@ -10,5 +10,6 @@ namespace PRIS.WEB.ViewModels
     {
         public List<double> Value { get; set; } = new List<double>();
         public Candidate Candidate { get; set; }
+        public List<string> TaskGroupName { get; set; } = new List<string>();
     }
 }

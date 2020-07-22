@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using PRIS.WEB.Data.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -16,5 +17,8 @@ namespace PRIS.WEB.Models
 
         public int CityId { get; set; }
         public City City { get; set; }
+
+        //public int AcademicYearID { get; set; }
+        //public AcademicYear AcademicYear { get; set; }
     }
 }

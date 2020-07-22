@@ -1,0 +1,45 @@
+﻿@model IEnumerable<PRIS.WEB.ViewModels.AcademicYearViewModel.AddAcademicYearViewModel>
+
+@{
+    ViewData["Title"] = "AcademicYear";
+    ViewData["ActivePage"] = PRIS.WEB.Views.Shared.ManageCollumnNavPages.AcademicYear;
+    Layout = "~/Views/Shared/_LayoutNavSectionForSettings.cshtml";
+}
+
+<h5>Akademija.IT mokslo metų periodai</h5>
+<hr />
+<br />
+<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+<div class="row">
+    <div class="col-md-8">
+        <p>
+            <a asp-action="AcademicYearCreate" class="btn btn-outline-dark" role="button">Sukurti</a>
+        </p>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">
+                        Mokslo metų pradžia
+                    </th>
+                    <th scope="col">
+                        Mokslo metų pabaiga
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AcademicYearPeriod)
+                    </td>
+                    <td>
+                        <a asp-action="AcademicYearDelete" asp-route-id="@item.AcademicYearID" class="btn btn-sm btn-outline-danger" role="button">Trinti</a>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

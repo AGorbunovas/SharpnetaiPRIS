@@ -21,5 +21,10 @@ namespace PRIS.WEB.ViewModels.InterviewTemplateViewModel
 
         public string TaskGroupName { get; set; }
         public TaskGroup TaskGroup { get; set; }
+        public List<SelectListItem> TaskGroups { get; set; }
+
+
+        public string AcademicYearInterval { get; set; }
+        public List<SelectListItem> AcademicYear { get; set; }
     }
 }

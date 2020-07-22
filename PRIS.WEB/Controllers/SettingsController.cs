@@ -16,6 +16,7 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Razor.Language;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.Security.Cryptography.X509Certificates;
+using PRIS.WEB.ViewModels.AcademicYearViewModel;
 using System.Diagnostics.CodeAnalysis;
 
 namespace PRIS.WEB.Controllers
@@ -460,5 +461,119 @@ namespace PRIS.WEB.Controllers
         //}
 
         #endregion InterviewTask
+
+        #region AcademicYear
+
+        #region AcademicYear/List
+
+        public IActionResult AcademicYear()
+        {
+            IEnumerable<AddAcademicYearViewModel> data = _context.AcademicYears.Select(i =>
+            new AddAcademicYearViewModel()
+            {
+                AcademicYearID = i.AcademicYearID,
+                AcademicYearStart = i.AcademicYearStart,
+                AcademicYearEnd = i.AcademicYearEnd
+            }).ToList();
+
+            //if (TempData["IsTestUsedInAcademicYearTableErrorMessage"] != null)
+            //{
+            //    ModelState.AddModelError(string.Empty, TempData["IsTestUsedInAcademicYearTableErrorMessage"].ToString());
+            //}
+
+            return View(data);
+        }
+
+        #endregion AcademicYear/List
+
+        #region AcademicYear/Create
+
+        public IActionResult AcademicYearCreate()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult AcademicYearCreate([Bind("AcademicYearStart, AcademicYearEnd")] AddAcademicYearViewModel addAcademicYearViewModel)
+        {
+            //var isNotUnique = _context.InterviewTasks.Any(t => t.TaskGroup.TaskGroupName == addInterviewTaskViewModel.TaskGroupName);
+
+            //if (isNotUnique)
+            //{
+            //    ModelState.AddModelError(string.Empty, "Tokia užduočių grupė jau yra sukurta");
+            //}
+
+            if (ModelState.IsValid)
+            {                
+                    AcademicYear newAcademicYear = new AcademicYear() 
+                    { 
+                        AcademicYearStart = addAcademicYearViewModel.AcademicYearStart, 
+                        AcademicYearEnd = addAcademicYearViewModel.AcademicYearEnd 
+                    };
+                    _context.AcademicYears.Add(newAcademicYear);
+                    _context.SaveChanges();
+
+                return RedirectToAction("AcademicYear");
+            }
+
+            return View();
+        }
+
+        #endregion AcademicYear/Create
+
+        #region AcademicYear/Delete
+
+        public IActionResult AcademicYearDelete(int id)
+        {
+            //TODO patikrinimas jei užduotis jau yra priskirta pokalbio šablonui
+            //var testConnected = _context.Candidates.Any(x => x.TaskGroup.TaskGroupID == id);
+
+            //if (testConnected)
+            //{
+            //    TempData["IsTestUsedInAcademicYearTableErrorMessage"] = "Negalima trinti užduočių grupės, nes ji yra susieta su pokalbio užduotimis!";
+            //    return RedirectToAction("TaskGroup");
+            //}
+            //else
+            if (ModelState.IsValid)
+            {
+                var data = _context.AcademicYears.SingleOrDefault(i => i.AcademicYearID == id);
+                if (data != null)
+                {
+                    _context.Remove(data);
+                    _context.SaveChanges();
+                }
+                return RedirectToAction("AcademicYear");
+            }
+            return RedirectToAction("AcademicYear");
+        }
+
+        #endregion AcademicYear/Delete
+
+        //private AddInterviewTaskViewModel GetViewModelWithTaskGroupList()
+        //{
+        //    var taskGroupsData = _context.TaskGroups.Select(x => new SelectListItem()
+        //    {
+        //        Value = x.TaskGroupName,
+        //        Text = x.TaskGroupName
+        //    }).ToList();
+
+        //    var viewModel = new AddInterviewTaskViewModel()
+        //    {
+        //        TaskGroups = taskGroupsData
+        //    };
+
+        //    return viewModel;
+        //}
+
+        #endregion AcademicYear
+
+        #region InterviewTemplate
+
+
+
+        #endregion InterviewTemplate
+
+
     }
 }

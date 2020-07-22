@@ -56,7 +56,9 @@ namespace PRIS.WEB.Controllers
 
         public IActionResult List()
         {
-            var data = _context.Candidates.Select(x =>
+            var newestTest = _context.Test.OrderByDescending(x => x.TestId).Take(1).Select(x => x).FirstOrDefault();
+
+            var data = _context.Candidates.Where(c => c.TestId == newestTest.TestId).Select(x =>
             new ListCandidateViewModel()
             {
                 CandidateID = x.CandidateID,
@@ -103,17 +105,6 @@ namespace PRIS.WEB.Controllers
             return View(data);
         }
 
-        public IActionResult Delete(int id)
-        {
-            var data = _context.Candidates.SingleOrDefault(x => x.CandidateID == id);
-            if (data != null)
-            {
-                _context.Remove(data);
-                _context.SaveChanges();
-            }
-
-            return RedirectToAction("List");
-        }
 
         [HttpPost("Candidate/Edit/{id}")]
         public IActionResult EditCandidate(int id, AddCandidateViewModel model)
@@ -202,15 +193,23 @@ namespace PRIS.WEB.Controllers
             }
 
             model.Candidate = candidate;
-            if (_context.TaskResult.Where(c => c.Candidate == candidate).Sum(x => x.Value) > 1)
+
+            if (_context.TaskResult.Any(c => c.Candidate == candidate))
             {
                 model.Value = _context.TaskResult.Where(c => c.Candidate == model.Candidate).Select(x => x.Value).ToList();
+                model.TaskGroupName = _context.TaskResult.Where(c => c.Candidate == model.Candidate).Select(x => x.TaskResultLimit.TaskGroup.TaskGroupName).ToList();
             }
             else
             {
+                List<TaskResultLimit> currentTestResultLimits = _context.TaskResultLimits.OrderByDescending(x => x.Date).Take(10).ToList();
+                
                 for (int i = 0; i < 10; i++)
                 {
+                    //TODO fix ugly code
                     model.Value.Add(0.0);
+                    int TaskGroupID = currentTestResultLimits[i].TaskGroupID;
+                    string TaskGroupName = _context.TaskGroups.Where(x => x.TaskGroupID == TaskGroupID).Select(x => x.TaskGroupName).FirstOrDefault();
+                    model.TaskGroupName.Add(TaskGroupName);
                 }
             }
 
@@ -227,6 +226,7 @@ namespace PRIS.WEB.Controllers
             {
                 var candidateTaskResults = _context.TaskResult.Where(x => x.Candidate == model.Candidate).ToList();
                 var candidateTestResultsLimits = _context.TaskResult.Where(x => x.Candidate == model.Candidate).Select(x => x.TaskResultLimit).ToList();
+                model.TaskGroupName = _context.TaskResult.Where(c => c.Candidate == model.Candidate).Select(x => x.TaskResultLimit.TaskGroup.TaskGroupName).ToList();
 
                 var validationResultMessage = _candidateTestResultProcessor.ValidateTestResultsToTestResultLimits(candidateTestResultsLimits, model);
 
