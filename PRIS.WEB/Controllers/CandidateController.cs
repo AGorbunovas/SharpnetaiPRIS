@@ -242,11 +242,14 @@ namespace PRIS.WEB.Controllers
             else
             {
                 List<TaskResultLimit> currentTestResultLimits = _context.TaskResultLimits.OrderByDescending(x => x.Date).Take(10).ToList();
+                model.TaskGroupName =_context.TaskResultLimits.OrderByDescending(x => x.Date).Select(x => x.TaskGroup.TaskGroupName.ToString()).Take(10).ToList();
+
 
                 var validationResultMessage = _candidateTestResultProcessor.ValidateTestResultsToTestResultLimits(currentTestResultLimits, model);
 
                 if (validationResultMessage != null)
                 {
+
                     ModelState.AddModelError(string.Empty, validationResultMessage);
                     return View(model);
                 }
