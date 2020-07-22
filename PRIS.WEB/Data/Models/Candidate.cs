@@ -26,5 +26,7 @@ namespace PRIS.WEB.Models
         public ICollection<CandidateModule> CandidateModules { get; set; }
         public int TestId { get; set; }
         public Test Test { get; set; }
+
+        public bool InvitedToInterview { get; set; }
     }
 }
