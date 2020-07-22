@@ -58,10 +58,10 @@ namespace PRIS.WEB.Controllers
         {
             //https://docs.microsoft.com/en-us/aspnet/core/data/ef-mvc/sort-filter-page?view=aspnetcore-3.1
             var newestTest = new List<int>();
-
-            if (City != null)
+            City city = _context.Cities.FirstOrDefault(x => x.CityName == City);
+            if (city != null)
             {
-                City city = _context.Cities.FirstOrDefault(x => x.CityName == City);
+                
                 newestTest = _context.Test.Where(x => x.DateOfTest == _context.Test.Max(x => x.DateOfTest) && x.CityId == city.CityId).Select(x => x.TestId).ToList();
             }
             else
