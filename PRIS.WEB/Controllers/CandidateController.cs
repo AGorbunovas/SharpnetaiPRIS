@@ -54,11 +54,12 @@ namespace PRIS.WEB.Controllers
             return View("Candidate", viewModel);
         }
 
-        public IActionResult List()
+        public IActionResult List(ListCandidateViewModel test)
         {
-            var newestTest = _context.Test.OrderByDescending(x => x.TestId).Take(1).Select(x => x).FirstOrDefault();
+            //https://docs.microsoft.com/en-us/aspnet/core/data/ef-mvc/sort-filter-page?view=aspnetcore-3.1
+            var newestTest = _context.Test.Where(x => x.DateOfTest == _context.Test.Max(x => x.DateOfTest)).Select(x => x.TestId).ToList();
 
-            var data = _context.Candidates.Where(c => c.TestId == newestTest.TestId).Select(x =>
+            var data = _context.Candidates.Where(c => newestTest.Contains(c.TestId)).Select(x =>
             new ListCandidateViewModel()
             {
                 CandidateID = x.CandidateID,
@@ -68,12 +69,12 @@ namespace PRIS.WEB.Controllers
                 TestCity = x.Test.City.CityName,
                 FirstModule = x.CandidateModules.Select(t => t.Module.ModuleName).FirstOrDefault(),
                 TestResult = _context.TaskResult.Where(t => t.CandidateId == x.CandidateID).Sum(t => t.Value),
-                MaxResult = _context.TaskResult.Where(t => t.CandidateId == x.CandidateID).Sum(t => t.TaskResultLimit.MaxValue)
+                MaxResult = _context.TaskResult.Where(t => t.CandidateId == x.CandidateID).Sum(t => t.TaskResultLimit.MaxValue),
+                InvitedToInterview = x.InvitedToInterview
             }).OrderByDescending(x=>x.TestResult).ToList();
 
             return View(data);
         }
-
 
         public IActionResult Interviews()
         {
