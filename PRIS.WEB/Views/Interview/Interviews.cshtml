@@ -2,7 +2,7 @@
 
 @{
     ViewData["Title"] = "List";
-    Layout = "~/Views/Shared/_LayoutWithNavSectionForCandidateView.cshtml";
+    Layout = "~/Views/Shared/_LayoutNavSectionForInterview.cshtml";
 }
 
 <table class="table">
@@ -30,7 +30,7 @@
                 Komentaras
             </th>
             <th>
-                Sutarties pasirašymas
+                Sutartis
             </th>
             <th>
 
@@ -50,7 +50,9 @@
             <td>
                 @Html.DisplayFor(modelItem => item.TestDate) @Html.DisplayFor(modelItem => item.TestCity)
             </td>
-            <td></td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TestResult)
+            </td>
             <td></td>
             <td>
             </td>
