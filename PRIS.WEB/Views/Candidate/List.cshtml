@@ -14,14 +14,23 @@
 
 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-<form asp-action="List" method="get">
-    <div class="form-actions no-color">
-        <p>
-            Miesto filtras: <input type="text" name="City"  />
-            @*<input type="submit" value="Ieškoti" class="btn btn-default" />*@
-        </p>
-    </div>
-</form>
+<div class="col-4">
+    <form asp-action="List" method="get">
+        <div class="form-actions no-color">
+            <p>
+                Miesto filtras: @*<input type="text" name="City" />*@
+
+                <select name="City" id="City" class="form-control mb-2">
+                    <option value=null></option>
+                    <option value="Vilnius">Vilnius</option>
+                    <option value="Kaunas">Kaunas</option>
+                </select>
+
+                <input type="submit" value="Ieškoti" class="btn btn-outline-dark mb-2" />
+            </p>
+        </div>
+    </form>
+</div>
 
 <form method="post" class="form-horizontal" role="form">
     <input id="submitApplication" type="submit" value="Patvirtinti kandidatus pokalbiui" class="btn btn-outline-dark mb-2" />
