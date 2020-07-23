@@ -54,11 +54,22 @@ namespace PRIS.WEB.Controllers
             return View("Candidate", viewModel);
         }
 
-        public IActionResult List()
+        public IActionResult List(string City)
         {
-            var newestTest = _context.Test.OrderByDescending(x => x.TestId).Take(1).Select(x => x).FirstOrDefault();
+            //https://docs.microsoft.com/en-us/aspnet/core/data/ef-mvc/sort-filter-page?view=aspnetcore-3.1
+            var newestTest = new List<int>();
+            City city = _context.Cities.FirstOrDefault(x => x.CityName == City);
+            if (city != null)
+            {
+                
+                newestTest = _context.Test.Where(x => x.DateOfTest == _context.Test.Max(x => x.DateOfTest) && x.CityId == city.CityId).Select(x => x.TestId).ToList();
+            }
+            else
+            {
+                newestTest = _context.Test.Where(x => x.DateOfTest == _context.Test.Max(x => x.DateOfTest)).Select(x => x.TestId).ToList();
+            }
 
-            var data = _context.Candidates.Where(c => c.TestId == newestTest.TestId).Select(x =>
+            var data = _context.Candidates.Where(c => newestTest.Contains(c.TestId)).Select(x =>
             new ListCandidateViewModel()
             {
                 CandidateID = x.CandidateID,
@@ -68,9 +79,40 @@ namespace PRIS.WEB.Controllers
                 TestCity = x.Test.City.CityName,
                 FirstModule = x.CandidateModules.Select(t => t.Module.ModuleName).FirstOrDefault(),
                 TestResult = _context.TaskResult.Where(t => t.CandidateId == x.CandidateID).Sum(t => t.Value),
-                MaxResult = _context.TaskResult.Where(t => t.CandidateId == x.CandidateID).Sum(t => t.TaskResultLimit.MaxValue)
-            }).OrderByDescending(x=>x.TestResult).ToList();
+                MaxResult = _context.TaskResult.Where(t => t.CandidateId == x.CandidateID).Sum(t => t.TaskResultLimit.MaxValue),
+                InvitedToInterview = x.InvitedToInterview
+            }).OrderByDescending(x => x.TestResult).ToList();
 
+            return View(data);
+        }
+
+        [HttpPost]
+        public IActionResult List(IEnumerable<ListCandidateViewModel> model)
+        {
+            foreach (var item in model)
+            {
+                Candidate candidate = _context.Candidates.FirstOrDefault(x => x.CandidateID == item.CandidateID);
+                _context.Attach(candidate);
+                candidate.InvitedToInterview = item.InvitedToInterview;
+                _context.SaveChanges();
+            }
+
+
+            return RedirectToAction("List");
+        }
+
+        public IActionResult Interviews()
+        {
+            var data = _context.Candidates.Select(x =>
+            new ListCandidateViewModel()
+            {
+                CandidateID = x.CandidateID,
+                Firstname = x.FirstName,
+                Lastname = x.LastName,
+                TestDate = x.Test.DateOfTest,
+                TestCity = x.Test.City.CityName,
+                FirstModule = x.CandidateModules.Select(t => t.Module.ModuleName).FirstOrDefault()
+            }).ToList();
             return View(data);
         }
 
@@ -186,7 +228,7 @@ namespace PRIS.WEB.Controllers
             else
             {
                 List<TaskResultLimit> currentTestResultLimits = _context.TaskResultLimits.OrderByDescending(x => x.Date).Take(10).ToList();
-                
+
                 for (int i = 0; i < 10; i++)
                 {
                     //TODO fix ugly code
@@ -226,7 +268,7 @@ namespace PRIS.WEB.Controllers
             else
             {
                 List<TaskResultLimit> currentTestResultLimits = _context.TaskResultLimits.OrderByDescending(x => x.Date).Take(10).ToList();
-                model.TaskGroupName =_context.TaskResultLimits.OrderByDescending(x => x.Date).Select(x => x.TaskGroup.TaskGroupName.ToString()).Take(10).ToList();
+                model.TaskGroupName = _context.TaskResultLimits.OrderByDescending(x => x.Date).Select(x => x.TaskGroup.TaskGroupName.ToString()).Take(10).ToList();
 
 
                 var validationResultMessage = _candidateTestResultProcessor.ValidateTestResultsToTestResultLimits(currentTestResultLimits, model);

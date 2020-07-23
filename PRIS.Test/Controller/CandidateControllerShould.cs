@@ -91,7 +91,7 @@ namespace PRIS.Test.Controller
             _context.SaveChanges();
 
             //Act
-            IActionResult result = _sut.List();
+            IActionResult result = _sut.List("Vilnius");
             ViewResult viewResult = Assert.IsType<ViewResult>(result);
             List<ListCandidateViewModel> test = viewResult.ViewData.Model as List<ListCandidateViewModel>;
             
@@ -115,7 +115,7 @@ namespace PRIS.Test.Controller
             _context.SaveChanges();
 
             //Act
-            IActionResult result = _sut.List();
+            IActionResult result = _sut.List("Vilnius");
 
             //Assert
             ViewResult viewResult = Assert.IsType<ViewResult>(result);
