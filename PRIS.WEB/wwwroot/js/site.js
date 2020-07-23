@@ -22,3 +22,10 @@
 //        })
 //    })
 //})
+
+function name(last) {
+    var i;
+    for (i = 0; i < last; i++) {
+        document.getElementById(i).checked = true;
+    }
+}
