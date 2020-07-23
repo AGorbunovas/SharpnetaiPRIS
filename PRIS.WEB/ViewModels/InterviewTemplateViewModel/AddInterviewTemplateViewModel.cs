@@ -11,20 +11,16 @@ namespace PRIS.WEB.ViewModels.InterviewTemplateViewModel
         [Key]
         public int InterviewTemplateID { get; set; }
 
-        public string InterviewTaskDescription { get; set; }
-
-        [Required(ErrorMessage = "Įveskite užduočių grupę")]
-        [Display(Name = "Klausimas")]
-        public InterviewTask InterviewTask { get; set; }
-
+        [Display(Name = "Klausimai")]
+        public int?[] SelectedInterviewTasks { get; set; }
+     
         public List<SelectListItem> InterviewTasks { get; set; }
 
-        public string TaskGroupName { get; set; }
-        public TaskGroup TaskGroup { get; set; }
-        public List<SelectListItem> TaskGroups { get; set; }
+        public int? AcademicYearID { get; set; }
 
 
-        public string AcademicYearInterval { get; set; }
-        public List<SelectListItem> AcademicYear { get; set; }
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}")]
+        public AcademicYear AcademicYear { get; set; }
+        public List<SelectListItem> AcademicYears { get; set; }
     }
 }

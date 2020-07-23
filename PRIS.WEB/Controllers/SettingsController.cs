@@ -18,6 +18,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.Security.Cryptography.X509Certificates;
 using PRIS.WEB.ViewModels.AcademicYearViewModel;
 using System.Diagnostics.CodeAnalysis;
+using PRIS.WEB.ViewModels.InterviewTemplateViewModel;
 
 namespace PRIS.WEB.Controllers
 {
@@ -570,7 +571,112 @@ namespace PRIS.WEB.Controllers
 
         #region InterviewTemplate
 
+        #region InterviewTemplate/List
 
+        public IActionResult InterviewTemplateList()
+        {
+            IEnumerable<AddInterviewTemplateViewModel> data = _context.InterviewTemplates.Select(i =>
+            new AddInterviewTemplateViewModel()
+            {
+                InterviewTemplateID = i.InterviewTemplateID,
+                AcademicYear = i.AcademicYear
+            }).ToList();
+
+            return View(data);
+        }
+
+        #endregion InterviewTemplate/List
+
+        #region InterviewTemplate/Create
+
+        public IActionResult InterviewTemplateCreate()
+        {
+            AddInterviewTemplateViewModel viewModel = GetViewModelWithInterviewTaskList();
+            return View("InterviewTemplateCreate", viewModel);
+        }
+
+        [HttpPost]
+        //[ValidateAntiForgeryToken]
+        public IActionResult InterviewTemplateCreate(AddInterviewTemplateViewModel addInterviewTemplateViewModel)
+        {
+            if (addInterviewTemplateViewModel.SelectedInterviewTasks.Any(i => i == null))
+            {
+                ModelState.AddModelError("SelectedInterviewTasks", "Klausimo laukas turi būti užpildytas");
+            }
+
+            AddInterviewTemplateViewModel interviewTemplateViewModel = GetViewModelWithInterviewTaskList(addInterviewTemplateViewModel);
+
+            if (addInterviewTemplateViewModel.SelectedInterviewTasks[0] == null)
+            {
+                ModelState.AddModelError("SelectedModulesAreNotDistinct", "Bent vienas klausimas turi būti įtrauktas į formą");
+                return View(addInterviewTemplateViewModel);
+            }
+
+            if (ModelState.IsValid)
+            {
+                InterviewTemplate newInterviewTemplateRecord = new InterviewTemplate()
+                {
+                    AcademicYearID = addInterviewTemplateViewModel.AcademicYearID.Value,
+                    InterviewTemplateTasks = addInterviewTemplateViewModel.SelectedInterviewTasks.Where(s => s.HasValue).Distinct().Select(s => new InterviewTemplateTask()
+                    {
+                        InterviewTaskID = s.Value
+                    }).ToList()
+                };
+                _context.InterviewTemplates.Add(newInterviewTemplateRecord);
+                _context.SaveChanges();
+
+                return RedirectToAction("InterviewTemplateList");
+            }
+
+            return View(interviewTemplateViewModel);
+        }
+
+        #endregion InterviewTemplate/Create
+
+        #region InterviewTemplate/Delete
+
+        public IActionResult InterviewTemplateDelete(int id)
+        {
+            if (ModelState.IsValid)
+            {
+                var data = _context.InterviewTemplates.SingleOrDefault(i => i.InterviewTemplateID == id);
+                if (data != null)
+                {
+                    _context.Remove(data);
+                    _context.SaveChanges();
+                }
+                return RedirectToAction("InterviewTemplateList");
+            }
+            return RedirectToAction("InterviewTemplateList");
+        }
+
+        #endregion InterviewTemplate/Delete
+
+        private AddInterviewTemplateViewModel GetViewModelWithInterviewTaskList(AddInterviewTemplateViewModel addInterviewTemplateViewModel = null)
+        {
+            if (addInterviewTemplateViewModel == null) addInterviewTemplateViewModel = new AddInterviewTemplateViewModel() { SelectedInterviewTasks = new int?[] { } };
+
+            addInterviewTemplateViewModel.InterviewTasks = _context.InterviewTasks.Where(i => i.InterviewTaskDescription != null).Select(i => new SelectListItem()
+            {
+                Value = i.InterviewTaskID.ToString(),
+                Text = i.InterviewTaskDescription
+            }).ToList();
+
+            addInterviewTemplateViewModel.AcademicYears = _context.AcademicYears.Select(i => new SelectListItem()
+            {
+                Value = i.AcademicYearID.ToString(),
+                Text = i.AcademicYearStart.ToString("yyyy-MM-dd") + "  ||  " + i.AcademicYearEnd.ToString("yyyy-MM-dd")
+            }).ToList();
+
+            var selectedInterviewTasks = addInterviewTemplateViewModel.SelectedInterviewTasks.Take(9).ToList();
+            while (selectedInterviewTasks.Count < 9)
+                selectedInterviewTasks.Add(null);
+            addInterviewTemplateViewModel.SelectedInterviewTasks = selectedInterviewTasks.ToArray();
+
+            addInterviewTemplateViewModel.InterviewTasks.Insert(0, new SelectListItem());
+
+            return addInterviewTemplateViewModel;
+        }
 
         #endregion InterviewTemplate
 

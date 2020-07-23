@@ -21,6 +21,7 @@ namespace PRIS.WEB.Data
         public DbSet<TaskResult> TaskResult { get; set; }
         public DbSet<InterviewTemplate> InterviewTemplates { get; set; }
         public DbSet<AcademicYear> AcademicYears { get; set; }
+        public DbSet<InterviewTemplateTask> InterviewTemplateTasks { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -40,12 +41,13 @@ namespace PRIS.WEB.Data
             modelBuilder.Entity<InterviewTask>().ToTable("InterviewTask");
             modelBuilder.Entity<InterviewTemplate>().ToTable("InterviewTemplate");
             modelBuilder.Entity<AcademicYear>().ToTable("AcademicYear");
+            modelBuilder.Entity<InterviewTemplateTask>().ToTable("InterviewTemplateTask");
 
             modelBuilder.Entity<CandidateModule>()
                 .HasKey(candidateModule => new { candidateModule.CandidateID, candidateModule.ModuleID });
 
-            //modelBuilder.Entity<InterviewTask>()
-            //    .HasKey(interviewTask => new { interviewTask.TaskGroupID });
+            modelBuilder.Entity<InterviewTemplateTask>()
+                .HasKey(interviewTemplateTask => new { interviewTemplateTask.InterviewTaskID, interviewTemplateTask.InterviewTemplateID });
 
             //https://stackoverflow.com/questions/50785009/how-to-seed-an-admin-user-in-ef-core-2-1-0
             modelBuilder.ApplyConfiguration(new RoleConfiguration());

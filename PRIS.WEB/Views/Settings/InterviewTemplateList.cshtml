@@ -1,0 +1,44 @@
+﻿@model IEnumerable<PRIS.WEB.ViewModels.InterviewTemplateViewModel.AddInterviewTemplateViewModel>
+
+@{
+    ViewData["Title"] = "InterviewTemplateList";
+    ViewData["ActivePage"] = PRIS.WEB.Views.Shared.ManageCollumnNavPages.InterviewTemplateList;
+    Layout = "~/Views/Shared/_LayoutNavSectionForSettings.cshtml";
+}
+
+<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+<h5>Akademija.IT mokymo programos</h5>
+<hr />
+<br />
+<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+<div class="row">
+    <div class="col-md-8">
+        <p>
+            <a asp-action="InterviewTemplateCreate" class="btn btn-outline-dark" role="button">Sukurti</a>
+        </p>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">
+                        Pokalbio klausimyno forma
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            Pokalbio forma @Html.DisplayFor(modelItem => item.AcademicYear.AcademicYearStart)  ||  @Html.DisplayFor(modelItem => item.AcademicYear.AcademicYearEnd) metų laikotarpiui
+                        </td>
+                        <td>
+                            <a asp-action="InterviewTemplateDelete" asp-route-id="@item.InterviewTemplateID" class="btn btn-sm btn-outline-danger" role="button">Trinti</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

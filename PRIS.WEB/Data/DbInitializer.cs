@@ -49,15 +49,20 @@ namespace PRIS.WEB.Data
             }
             context.SaveChanges();
 
-            var candidates = new Candidate[]
+            var taskGroups = new TaskGroup[]
             {
-                new Candidate{FirstName = "Vardas", LastName = "Pavardenis", Email = "vardas@meilas.com", PhoneNumber = 860012345}
+                new TaskGroup{TaskGroupName="Loginės užduotys"},
+                new TaskGroup{TaskGroupName="Pokalbio klausimai"},
+                new TaskGroup{TaskGroupName="Kompiuteriniai pagrindai"},
+                new TaskGroup{TaskGroupName="Programavimo pagrindai"}
             };
-            foreach (Candidate candidate in candidates)
+            foreach (TaskGroup taskGroup in taskGroups)
             {
-                context.Candidates.Add(candidate);
+                context.TaskGroups.Add(taskGroup);
             }
             context.SaveChanges();
+
+
 
             var candidateModules = new CandidateModule[]
             {
@@ -69,13 +74,15 @@ namespace PRIS.WEB.Data
             }
             context.SaveChanges();
 
-            var taskGroups = new TaskGroup[]
+
+
+            var candidates = new Candidate[]
             {
-                new TaskGroup{TaskGroupName="Loginės užduotys"}
+                new Candidate{FirstName = "Vardas", LastName = "Pavardenis", Email = "vardas@meilas.com", PhoneNumber = 860012345}
             };
-            foreach (TaskGroup taskGroup in taskGroups)
+            foreach (Candidate candidate in candidates)
             {
-                context.TaskGroups.Add(taskGroup);
+                context.Candidates.Add(candidate);
             }
             context.SaveChanges();
         }
