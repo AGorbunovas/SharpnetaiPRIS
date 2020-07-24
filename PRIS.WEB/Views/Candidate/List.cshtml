@@ -91,7 +91,7 @@
             {
                 <tr>
                     <td>
-                        @Html.DisplayFor(modelItem => modelItem[i].Firstname) @Html.DisplayFor(modelItem => modelItem[i].Lastname)
+                       @(i + 1)   @Html.DisplayFor(modelItem => modelItem[i].Firstname) @Html.DisplayFor(modelItem => modelItem[i].Lastname)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => modelItem[i].FirstModule)
