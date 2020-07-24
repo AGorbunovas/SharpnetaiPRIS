@@ -56,8 +56,8 @@ namespace PRIS.WEB.Controllers
 
         public IActionResult List(string City)
         {
-            //https://docs.microsoft.com/en-us/aspnet/core/data/ef-mvc/sort-filter-page?view=aspnetcore-3.1
             var newestTest = new List<int>();
+
             City city = _context.Cities.FirstOrDefault(x => x.CityName == City);
             if (city != null)
             {
@@ -95,6 +95,7 @@ namespace PRIS.WEB.Controllers
                 _context.Attach(candidate);
                 candidate.InvitedToInterview = item.InvitedToInterview;
                 _context.SaveChanges();
+                TempData["CandidateInvitedToInterviewUpdated"] = "Kandidatai pokalbiui patvirtinti";
             }
             return RedirectToAction("List");
         }
@@ -196,7 +197,7 @@ namespace PRIS.WEB.Controllers
             TaskResultViewModel model = new TaskResultViewModel();
             var candidate = _context.Candidates.FirstOrDefault(x => x.CandidateID == id);
 
-            if (candidate == null)
+            if (candidate == null || candidate.InvitedToInterview == true)
             {
                 return RedirectToAction("List");
             }

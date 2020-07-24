@@ -5,57 +5,74 @@
     Layout = "~/Views/Shared/_LayoutWithNavSectionForCandidateView.cshtml";
 }
 
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+@if (TempData["CandidateInvitedToInterviewUpdated"] != null)
+{
+    <div class="alert alert-success" role="alert">
+        @TempData["CandidateInvitedToInterviewUpdated"].ToString()
+    </div>
+}
 
+<select id="ddl" name="ddl" onmousedown="this.value='';" onchange="name1(this.value);">
+    <option value=1>One</option>
+    <option value=2>Two</option>
+    <option value=3>Three</option>
+    <option value=10>10</option>
+</select>
+
+<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+<div class="col-4">
     <form asp-action="List" method="get">
         <div class="form-actions no-color">
             <p>
-                Miesto filtras: <input type="text" name="City" value="@ViewData["currentFilter"]" />
-                <input type="submit" value="Ieškoti" class="btn btn-default" /> |
+                Miesto filtras: @*<input type="text" name="City" />*@
 
+                <select name="City" id="City" class="form-control mb-2">
+                    <option value=null></option>
+                    <option value="Vilnius">Vilnius</option>
+                    <option value="Kaunas">Kaunas</option>
+                </select>
+
+                <input type="submit" value="Ieškoti" class="btn btn-outline-dark mb-2" />
             </p>
         </div>
     </form>
+</div>
 
-    <form method="post" class="form-horizontal" role="form">
-
-
-
-
-
-        <input type="submit" value="BOOM" class="btn btn-default" /> |
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>
-                        Vardas Pavardė
-                    </th>
-                    <th>
-                        Programa (I-as pasirinkimas)
-                    </th>
-                    <th>
-                        Testo data, vieta
-                    </th>
-                    <th>
-                        Testo balas
-                    </th>
-                    <th>
-                        Surinktų balų % nuo maksimalaus
-                    </th>
-                    <th>
-                        Kvietimas į pokalbį
-                    </th>
-                    <th>
-                        Kandidato duomenų redagavimas
-                    </th>
-                    <th>
-                        Testo rezultatų redagavimas
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                @for (var i = 0; i < Model.Count(); i++)
-                {
+<form method="post" class="form-horizontal" role="form">
+    <input id="submitApplication" type="submit" value="Patvirtinti kandidatus pokalbiui" class="btn btn-outline-dark mb-2" />
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Vardas Pavardė
+                </th>
+                <th>
+                    Programa (I-as pasirinkimas)
+                </th>
+                <th>
+                    Testo data, vieta
+                </th>
+                <th>
+                    Testo balas
+                </th>
+                <th>
+                    Surinktų balų % nuo maksimalaus
+                </th>
+                <th>
+                    Kvietimas į pokalbį
+                </th>
+                <th>
+                    Kandidato duomenų redagavimas
+                </th>
+                <th>
+                    Testo rezultatų redagavimas
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (var i = 0; i < Model.Count(); i++)
+            {
                 <tr>
                     <td>
                         @Html.DisplayFor(modelItem => modelItem[i].Firstname) @Html.DisplayFor(modelItem => modelItem[i].Lastname)
@@ -79,17 +96,36 @@
                     </td>
                     <td>
                         @Html.HiddenFor(it => it[i].CandidateID)
-                        @Html.CheckBoxFor(it => it[i].InvitedToInterview)
+                        @Html.CheckBoxFor(it => it[i].InvitedToInterview, new { id=i})
                     </td>
                     <td>
                         <a asp-action="EditCandidate" asp-route-id="@Model[i].CandidateID">Redaguoti</a>
                     </td>
                     <td>
-                        <a asp-action="AddTaskResult" asp-route-id="@Model[i].CandidateID">Pridėti balus</a>
+                        @if (Model[i].InvitedToInterview == true)
+                        {
+                            <text>Kandidatas patvirtintas</text>
+                        }
+                        else
+                        {
+                            <a asp-action="AddTaskResult" asp-route-id="@Model[i].CandidateID">Pridėti balus</a>
+                        }
                     </td>
                 </tr>
-                }
-            </tbody>
-        </table>
-    </form>
+            }
+        </tbody>
+    </table>
+</form>
 
+<script>
+    function name1(last) {
+        var i;
+        for (i = 0; i < last; i++) {
+            document.getElementById(i).checked = true;
+        }
+    }
+
+
+
+
+</script>
