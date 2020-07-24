@@ -79,7 +79,8 @@ namespace PRIS.WEB.Controllers
                 FirstModule = x.CandidateModules.Select(t => t.Module.ModuleName).FirstOrDefault(),
                 TestResult = _context.TaskResult.Where(t => t.CandidateId == x.CandidateID).Sum(t => t.Value),
                 MaxResult = _context.TaskResult.Where(t => t.CandidateId == x.CandidateID).Sum(t => t.TaskResultLimit.MaxValue),
-                InvitedToInterview = x.InvitedToInterview
+                InvitedToInterview = x.InvitedToInterview,
+                InvitedToStudy = x.InvitedToStudy
             }).OrderByDescending(x => x.TestResult).ToList();
 
             return View(data);
@@ -96,23 +97,7 @@ namespace PRIS.WEB.Controllers
                 _context.SaveChanges();
                 TempData["CandidateInvitedToInterviewUpdated"] = "Kandidatai pokalbiui patvirtinti";
             }
-
             return RedirectToAction("List");
-        }
-
-        public IActionResult Interviews()
-        {
-            var data = _context.Candidates.Select(x =>
-            new ListCandidateViewModel()
-            {
-                CandidateID = x.CandidateID,
-                Firstname = x.FirstName,
-                Lastname = x.LastName,
-                TestDate = x.Test.DateOfTest,
-                TestCity = x.Test.City.CityName,
-                FirstModule = x.CandidateModules.Select(t => t.Module.ModuleName).FirstOrDefault()
-            }).ToList();
-            return View(data);
         }
 
         public IActionResult Contracts()

@@ -28,5 +28,6 @@ namespace PRIS.WEB.Models
         public Test Test { get; set; }
 
         public bool InvitedToInterview { get; set; }
+        public bool InvitedToStudy { get; set; }
     }
 }

@@ -1,0 +1,26 @@
+﻿
+@{
+    ViewData["Title"] = "_LayoutNavSectionForContract";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+    <hr />
+    <div class="row">
+        <div class="col-md-3">
+            <ul class="nav nav-pills flex-column">
+                <li class="nav-item"><a class="nav-link @PRIS.WEB.Views.Shared.ManageCollumnNavPages.ContractNavClass(ViewContext)" id="Contract" href="/Contract/Contracts">Pakviesti studijuoti</a></li>
+            </ul>
+            <ul class="nav nav-pills flex-column">
+                <li class="nav-item"><a class="nav-link @PRIS.WEB.Views.Shared.ManageCollumnNavPages.ContractNavClass(ViewContext)" id="interview" href="/Contract/ContractsSigned">Pasirašę sutratis</a></li>
+            </ul>
+        </div>
+        <div class="col-md-9">
+            @RenderBody()
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @RenderSection("Scripts", required: false)
+}
