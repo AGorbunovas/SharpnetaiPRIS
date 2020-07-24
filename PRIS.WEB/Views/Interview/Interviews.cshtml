@@ -1,72 +1,90 @@
-﻿@model IEnumerable<PRIS.WEB.ViewModels.CandidateViewModels.ListCandidateViewModel>
+﻿@model IList<PRIS.WEB.ViewModels.CandidateViewModels.ListCandidateViewModel>
 
 @{
-    ViewData["Title"] = "List";
+    ViewData["Title"] = "Interviews";
     Layout = "~/Views/Shared/_LayoutNavSectionForInterview.cshtml";
 }
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                Vardas Pavardė
-            </th>
-            <th>
-                Programa (I-as pasirinkimas)
-            </th>
-            <th>
-                Testo data, vieta
-            </th>
-            <th>
-                Testo balas
-            </th>
-            <th>
-                Pokalbio balas
-            </th>
-            <th>
-                Bendras balas
-            </th>
-            <th>
-                Komentaras
-            </th>
-            <th>
-                Sutartis
-            </th>
-            <th>
+<form asp-action="Interviews" method="get">
+    <div class="form-actions no-color">
+        <ul>
+            Filtruoti pagal:
+            <li>
+                Miestą <input type="text" name="City"/>
+                <input type="submit" value="Filtruoti" class="btn btn-outline-dark" />
+            </li>
+            <li>
+                Mokymosi programą <input type="text" name="Module"/>
+                <input type="submit" value="Filtruoti" class="btn btn-outline-dark" />
+            </li>
+        </ul>
+    </div>
+</form>
 
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Firstname) @Html.DisplayFor(modelItem => item.Lastname)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FirstModule)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TestDate) @Html.DisplayFor(modelItem => item.TestCity)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TestResult)
-            </td>
-            <td></td>
-            <td>
-            </td>
-            <td>
-            </td>
-            <td>
-                Kviesti
-            </td>
-            <td>
-                @*<a asp-action="View" asp-route-id="@item.CandidateID">Peržiūrėti</a>*@
-                <a asp-action="EditCandidate" asp-route-id="@item.CandidateID">Redaguoti</a>
-                <a asp-action="Delete" asp-route-id="@item.CandidateID">Trinti</a>
-            </td>
-        </tr>
-        }
-    </tbody>
-</table>
+<form method="post" class="form-horizontal" role="form">
+    <p>Kviesti pasirašyti sutartis pažymėtus kandidatus <input type="submit" value="Kviesti" class="btn btn-outline-dark" /></p>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Vardas Pavardė
+                </th>
+                <th>
+                    Programa (I-as pasirinkimas)
+                </th>
+                <th>
+                    Testo data, vieta
+                </th>
+                <th>
+                    Testo balas
+                </th>
+                <th>
+                    Pokalbio balas
+                </th>
+                <th>
+                    Bendras balas
+                </th>
+                <th>
+                    Komentaras
+                </th>
+                <th>
+                    Kviesti studijuoti
+                </th>
+                <th>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < Model.Count(); i++)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => modelItem[i].Firstname) @Html.DisplayFor(modelItem => modelItem[i].Lastname)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => modelItem[i].FirstModule)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => modelItem[i].TestDate) @Html.DisplayFor(modelItem => modelItem[i].TestCity)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => modelItem[i].TestResult)
+                    </td>
+                    <td></td>
+                    <td>
+                    </td>
+                    <td>
+                    </td>
+                    <td>
+                        @Html.HiddenFor(modelItem => modelItem[i].CandidateID)
+                        @Html.CheckBoxFor(modelItem => modelItem[i].InvitedToStudy)
+                    </td>
+                    <td>
+                        @*<a asp-action="EditCandidate" asp-route-id="@Model[i].CandidateID">Redaguoti</a>*@
+                        @*<a asp-action="Delete" asp-route-id="@item.CandidateID">Trinti</a>*@
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</form>

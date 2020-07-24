@@ -38,9 +38,10 @@ namespace PRIS.WEB.Data
             }
             context.SaveChanges();
 
+
             var tests = new Test[]
             {
-                new Test { CityId = cities.Single(c=>c.CityName == "Vilnius").CityId, DateOfTest = DateTime.Parse("2020-07-30"), ClassYearStart = DateTime.Today, ClassYearEnd = DateTime.Today.AddMonths(10) }               
+                new Test { CityId = cities.Single(c=>c.CityName == "Vilnius").CityId, DateOfTest = DateTime.Today, ClassYearStart = DateTime.Today.AddDays(5), ClassYearEnd = DateTime.Today.AddMonths(10) }               
             };
 
             foreach (Test test in tests)
@@ -48,6 +49,18 @@ namespace PRIS.WEB.Data
                 context.Test.Add(test);
             }
             context.SaveChanges();
+
+            var taskGroups = new TaskGroup[]
+            {
+                new TaskGroup{TaskGroupName="Logikos pagrindai"},
+                new TaskGroup{TaskGroupName="Programavimo pagrindai"},
+            };
+            foreach (TaskGroup taskGroup in taskGroups)
+            {
+                context.TaskGroups.Add(taskGroup);
+            }
+            context.SaveChanges();
+
 
             var candidates = new Candidate[]
             {
@@ -66,16 +79,6 @@ namespace PRIS.WEB.Data
             foreach (CandidateModule candidateModule in candidateModules)
             {
                 context.CandidateModules.Add(candidateModule);
-            }
-            context.SaveChanges();
-
-            var taskGroups = new TaskGroup[]
-            {
-                new TaskGroup{TaskGroupName="Loginės užduotys"}
-            };
-            foreach (TaskGroup taskGroup in taskGroups)
-            {
-                context.TaskGroups.Add(taskGroup);
             }
             context.SaveChanges();
         }

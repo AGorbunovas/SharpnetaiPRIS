@@ -21,5 +21,6 @@ namespace PRIS.WEB.ViewModels.CandidateViewModels
         public double TestResult { get; set; }
         public double MaxResult { get; set; }
         public bool InvitedToInterview { get; set; }
+        public bool InvitedToStudy { get; set; } 
     }
 }
