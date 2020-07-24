@@ -21,32 +21,18 @@ namespace PRIS.WEB.Controllers
 
         public IActionResult Interviews(string City, string Module)
         {
-
-
             City city = _context.Cities.FirstOrDefault(x => x.CityName == City);
-            Module module = _context.Modules.FirstOrDefault(x => x.ModuleName == Module);
 
             var candidateByCity = new List<int>();
 
             if (city != null)
             {
-                candidateByCity = _context.Test.Where(x => x.CityId == city.CityId).Select(x => x.TestId).ToList();
+                candidateByCity = _context.Test.Where(x => x.DateOfTest == _context.Test.Max(x => x.DateOfTest) && x.CityId == city.CityId).Select(x => x.TestId).ToList();
             }
             else
             {
-                candidateByCity = _context.Test.Select(x => x.TestId).ToList();
+                candidateByCity = _context.Test.Where(x=> x.DateOfTest == _context.Test.Max(x => x.DateOfTest)).Select(x => x.TestId).ToList();
             }
-
-            //var candidateByModule = new List<int>();
-
-            //if (module != null)
-            //{
-            //    candidateByModule = _context.CandidateModules.Where(x => x.Module.ModuleName == module.ModuleName).Select(x => x.ModuleID).ToList();
-            //}
-            //else
-            //{
-            //    candidateByModule = _context.CandidateModules.Select(x => x.ModuleID).ToList();
-            //}
 
             var data = _context.Candidates.Where(y => y.InvitedToInterview == true && candidateByCity.Contains(y.TestId)).Select(x =>
             new ListCandidateViewModel()
@@ -65,7 +51,7 @@ namespace PRIS.WEB.Controllers
         }
 
         [HttpPost]
-        public IActionResult Interviews(IEnumerable<ListCandidateViewModel> model) 
+        public IActionResult Interviews(IEnumerable<ListCandidateViewModel> model)
         {
             foreach (var item in model)
             {
@@ -73,8 +59,16 @@ namespace PRIS.WEB.Controllers
                 _context.Attach(candidate);
                 candidate.InvitedToStudy = item.InvitedToStudy;
                 _context.SaveChanges();
+                TempData["CandidateInvitedToStudyUpdated"] = "Jūsų pasirinkimas išsaugotas";
             }
             return RedirectToAction("Interviews");
+        }
+
+
+        public IActionResult AddInterviewData()
+        {
+            return View();
+            //return RedirectToAction("Interviews");
         }
     }
 }

@@ -5,24 +5,58 @@
     Layout = "~/Views/Shared/_LayoutNavSectionForInterview.cshtml";
 }
 
-<form asp-action="Interviews" method="get">
-    <div class="form-actions no-color">
-        <ul>
-            Filtruoti pagal:
-            <li>
-                Miestą <input type="text" name="City"/>
-                <input type="submit" value="Filtruoti" class="btn btn-outline-dark" />
-            </li>
-            @*<li>
-                Mokymosi programą <input type="text" name="Module"/>
-                <input type="submit" value="Filtruoti" class="btn btn-outline-dark" />
-            </li>*@
-        </ul>
+<div class="row">
+    <div class="col-4">
+        @if (TempData["CandidateInvitedToStudyUpdated"] != null)
+        {
+            <div class="alert alert-success" role="alert">
+                @TempData["CandidateInvitedToStudyUpdated"].ToString()
+            </div>
+        }
     </div>
-</form>
+</div>
+
+<div class="row">
+    <div class="col-4">
+        <form asp-action="Interviews" method="get">
+            <div class="form-actions no-color">
+                <p>
+                    Miesto filtras:
+
+                    <select name="City" id="City" class="form-control mb-2">
+                        <option value=null>Visi</option>
+                        <option value="Vilnius">Vilnius</option>
+                        <option value="Kaunas">Kaunas</option>
+                    </select>
+
+                    <input type="submit" value="Filtruoti" class="btn btn-outline-dark mb-2 d-inline" />
+                </p>
+            </div>
+        </form>
+    </div>
+    <div class="col-4">
+
+        <div class="form-actions no-color">
+            <p>
+                Kandidatų imties sutartims skaičius:
+
+                <select id="ddl" name="ddl" onmousedown="this.value='';" onchange="name2(this.value);" class="form-control mb-2">
+
+                    @for (int i = 1; i <= Model.Count; i++)
+                    {
+                        <option value=@i>@i</option>
+                    }
+
+                </select>
+            </p>
+        </div>
+
+    </div>
+</div>
+
 
 <form method="post" class="form-horizontal" role="form">
-    <p>Kviesti pasirašyti sutartis pažymėtus kandidatus <input type="submit" value="Kviesti" class="btn btn-outline-dark" /></p>
+    <p><input type="submit" value="Patvirtinti kandidatus sutartims" class="btn btn-outline-dark" /></p>
     <table class="table">
         <thead>
             <tr>
@@ -48,9 +82,10 @@
                     Komentaras
                 </th>
                 <th>
-                    Kviesti studijuoti
+                    Kviečiami studijuoti
                 </th>
                 <th>
+
                 </th>
             </tr>
         </thead>
@@ -77,14 +112,30 @@
                     </td>
                     <td>
                         @Html.HiddenFor(modelItem => modelItem[i].CandidateID)
-                        @Html.CheckBoxFor(modelItem => modelItem[i].InvitedToStudy)
+                        @Html.CheckBoxFor(modelItem => modelItem[i].InvitedToStudy, new { id = i })
                     </td>
                     <td>
-                        @*<a asp-action="EditCandidate" asp-route-id="@Model[i].CandidateID">Redaguoti</a>*@
-                        @*<a asp-action="Delete" asp-route-id="@item.CandidateID">Trinti</a>*@
+                        @if (Model[i].InvitedToStudy == true)
+                        {
+                            <text>Kandidatas patvirtintas</text>
+                        }
+                        else
+                        {
+                            <a asp-action="AddInterviewData" asp-route-id="@Model[i].CandidateID">Pokalbio duomenys</a>
+                        }
                     </td>
                 </tr>
             }
         </tbody>
     </table>
 </form>
+
+<script>
+    function name2(last) {
+        var i;
+        for (i = 0; i < last; i++) {
+            document.getElementById(i).checked = true;
+        }
+    }
+</script>
+

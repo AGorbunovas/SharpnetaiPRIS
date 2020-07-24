@@ -2,15 +2,17 @@
     ViewData["Title"] = "Pradinis puslapis";
 }
 
-    <div class="text-center">
-        <h1 class="display-4">Sveiki</h1>
+    <div class="text-center row">
+        <div class="offset-2 col-8">
+            <h1 class="display-4">Sveiki</h1>
 
-        @if (TempData["NeedToChangedInitialPassword"] != null)
-        {
-            <div class="alert alert-danger" role="alert">
-                <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/ChangePassword">@TempData["NeedToChangedInitialPassword"].ToString()</a>
-            </div>
-        }
+            @if (TempData["NeedToChangedInitialPassword"] != null)
+            {
+                <div class="alert alert-danger" role="alert">
+                    <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/ChangePassword">@TempData["NeedToChangedInitialPassword"].ToString()</a>
+                </div>
+            }
 
-        <p>Sėkmingai prisijungėte prie kandidatų priėmimo sistemos į Akademija.IT organizuojamus mokymo kursus.</p>
+            <p>Sėkmingai prisijungėte prie kandidatų priėmimo sistemos į Akademija.IT organizuojamus mokymo kursus.</p>
+        </div>
     </div>

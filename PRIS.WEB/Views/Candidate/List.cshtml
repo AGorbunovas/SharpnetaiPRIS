@@ -36,20 +36,20 @@
 
     <div class="col-4">
 
-            <div class="form-actions no-color">
-                <p>
-                    Balų rėžis filtras:
+        <div class="form-actions no-color">
+            <p>
+                Balų rėžis filtras:
 
-                    <select id="ddl" name="ddl" onmousedown="this.value='';" onchange="name1(this.value);" class="form-control mb-2">
+                <select id="ddl" name="ddl" onmousedown="this.value='';" onchange="name1(this.value);" class="form-control mb-2">
 
-                        @for (int i = 1; i <= Model.Count; i++)
-                        {
-                            <option value=@i>@i</option>
-                        }
+                    @for (int i = 1; i <= Model.Count; i++)
+                    {
+                        <option value=@i>@i</option>
+                    }
 
-                    </select>
-                </p>
-            </div>
+                </select>
+            </p>
+        </div>
 
     </div>
 
@@ -91,7 +91,7 @@
             {
                 <tr>
                     <td>
-                       @(i + 1)   @Html.DisplayFor(modelItem => modelItem[i].Firstname) @Html.DisplayFor(modelItem => modelItem[i].Lastname)
+                        @(i + 1)   @Html.DisplayFor(modelItem => modelItem[i].Firstname) @Html.DisplayFor(modelItem => modelItem[i].Lastname)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => modelItem[i].FirstModule)
@@ -112,7 +112,7 @@
                     </td>
                     <td>
                         @Html.HiddenFor(it => it[i].CandidateID)
-                        @Html.CheckBoxFor(it => it[i].InvitedToInterview, new { id=i})
+                        @Html.CheckBoxFor(it => it[i].InvitedToInterview, new { id = i })
                     </td>
                     <td>
                         <a asp-action="EditCandidate" asp-route-id="@Model[i].CandidateID">Redaguoti</a>

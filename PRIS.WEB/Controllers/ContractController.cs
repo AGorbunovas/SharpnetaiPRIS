@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using PRIS.WEB.Data;
+using PRIS.WEB.Models;
 using PRIS.WEB.ViewModels.CandidateViewModels;
 
 namespace PRIS.WEB.Controllers
@@ -16,9 +17,23 @@ namespace PRIS.WEB.Controllers
             _context = context;
         }
 
-        public IActionResult Contracts() 
+        public IActionResult Contracts(string City, string Module) 
         {
-            var data = _context.Candidates.Where(y => y.InvitedToStudy == true).Select(x =>
+            City city = _context.Cities.FirstOrDefault(x => x.CityName == City);
+            Module module = _context.Modules.FirstOrDefault(x => x.ModuleName == Module);
+
+            var candidateByCity = new List<int>();
+
+            if (city != null)
+            {
+                candidateByCity = _context.Test.Where(x => x.CityId == city.CityId).Select(x => x.TestId).ToList();
+            }
+            else
+            {
+                candidateByCity = _context.Test.Select(x => x.TestId).ToList();
+            }
+
+            var data = _context.Candidates.Where(y => candidateByCity.Contains(y.TestId)).Select(x =>
             new ListCandidateViewModel()
             {
                 CandidateID = x.CandidateID,
