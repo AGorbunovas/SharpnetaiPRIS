@@ -41,14 +41,14 @@ namespace PRIS.WEB.Controllers
 
             //if (module != null)
             //{
-            //    candidateByModule = _context.CandidateModules.Where(x => x.ModuleID == module.ModuleID).Select(x => x.Candidate.TestId).ToList();
+            //    candidateByModule = _context.CandidateModules.Where(x => x.Module.ModuleName == module.ModuleName).Select(x => x.ModuleID).ToList();
             //}
             //else
             //{
-            //    candidateByModule = _context.CandidateModules.Select(x => x.Candidate.TestId).ToList();
+            //    candidateByModule = _context.CandidateModules.Select(x => x.ModuleID).ToList();
             //}
 
-            var data = _context.Candidates.Where(y => y.InvitedToInterview == true && candidateByCity.Contains(y.TestId)/* || candidateByModule.Contains(y.TestId))*/).Select(x =>
+            var data = _context.Candidates.Where(y => y.InvitedToInterview == true && candidateByCity.Contains(y.TestId)).Select(x =>
             new ListCandidateViewModel()
             {
                 CandidateID = x.CandidateID,

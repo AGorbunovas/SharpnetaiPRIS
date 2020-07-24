@@ -18,7 +18,7 @@ namespace PRIS.WEB.Controllers
 
         public IActionResult Contracts() 
         {
-            var data = _context.Candidates.Where(y => y.InvitedToInterview == true).Select(x =>
+            var data = _context.Candidates.Where(y => y.InvitedToStudy == true).Select(x =>
             new ListCandidateViewModel()
             {
                 CandidateID = x.CandidateID,
