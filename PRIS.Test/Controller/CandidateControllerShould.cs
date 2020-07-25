@@ -7,6 +7,7 @@ using PRIS.WEB.Logic;
 using PRIS.WEB.Models;
 using PRIS.WEB.ViewModels;
 using PRIS.WEB.ViewModels.CandidateViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Xunit;
@@ -31,9 +32,10 @@ namespace PRIS.Test.Controller
         public void AddTaskResultDisplayCandidateIfCandidateExists()
         {
             //Arrange
-            Candidate candidate = new Candidate {CandidateID=1 ,FirstName = "Foo", LastName = "Bar", PhoneNumber = 11111111, Test = null };
+            Candidate candidate = new Candidate { CandidateID = 1, FirstName = "Foo", LastName = "Bar", PhoneNumber = 11111111, Test = null };
             _context.Candidates.Add(candidate);
             _context.SaveChanges();
+            AddTaskResultLimits(_context);
 
             //Act
             IActionResult result = _sut.AddTaskResult(1);
@@ -49,7 +51,7 @@ namespace PRIS.Test.Controller
         {
             //Act
             IActionResult result = _sut.AddTaskResult(1);
-            
+
             //Assert
             RedirectToActionResult viewResult = Assert.IsType<RedirectToActionResult>(result);
 
@@ -63,7 +65,7 @@ namespace PRIS.Test.Controller
         [Fact]
         public void AddTaskResultPostAddInitialTestResults()
         {
-            TaskResultViewModel taskResultViewModel = new TaskResultViewModel ();
+            TaskResultViewModel taskResultViewModel = new TaskResultViewModel();
 
             for (int i = 0; i < 10; i++)
             {
@@ -81,8 +83,8 @@ namespace PRIS.Test.Controller
             City city = new City { CityName = "Vilnius" };
             _context.Cities.Add(city);
 
-            var firstTest = new PRIS.WEB.Models.Test { City = city };
-            var secondTest = new PRIS.WEB.Models.Test { City = city };
+            var firstTest = new PRIS.WEB.Models.Test { City = city, DateOfTest = DateTime.Today };
+            var secondTest = new PRIS.WEB.Models.Test { City = city, DateOfTest = DateTime.Today.AddDays(1) };
             _context.AddRange(firstTest, secondTest);
 
             Candidate candidateFirst = new Candidate { CandidateID = 1, FirstName = "Foo", LastName = "Bar", PhoneNumber = 11111111, Test = firstTest };
@@ -94,7 +96,7 @@ namespace PRIS.Test.Controller
             IActionResult result = _sut.List("Vilnius");
             ViewResult viewResult = Assert.IsType<ViewResult>(result);
             List<ListCandidateViewModel> test = viewResult.ViewData.Model as List<ListCandidateViewModel>;
-            
+
             Assert.Equal(candidateSecond.CandidateID, test[0].CandidateID);
         }
 
@@ -105,8 +107,8 @@ namespace PRIS.Test.Controller
             City city = new City { CityName = "Vilnius" };
             _context.Cities.Add(city);
 
-            var firstTest = new PRIS.WEB.Models.Test { City = city };
-            var secondTest = new PRIS.WEB.Models.Test { City = city };
+            var firstTest = new PRIS.WEB.Models.Test { City = city, DateOfTest = DateTime.Today };
+            var secondTest = new PRIS.WEB.Models.Test { City = city, DateOfTest = DateTime.Today.AddDays(1) };
             _context.AddRange(firstTest, secondTest);
 
             Candidate candidateFirst = new Candidate { CandidateID = 1, FirstName = "Foo", LastName = "Bar", PhoneNumber = 11111111, Test = firstTest };
@@ -122,6 +124,17 @@ namespace PRIS.Test.Controller
             List<ListCandidateViewModel> test = viewResult.ViewData.Model as List<ListCandidateViewModel>;
 
             Assert.NotEqual(candidateFirst.CandidateID, test[0].CandidateID);
+        }
+
+        private void AddTaskResultLimits(ApplicationDbContext _context)
+        {
+            for (int i = 0; i < 10; i++)
+            {
+                TaskResultLimit taskResultLimit = new TaskResultLimit();
+                _context.TaskResultLimits.Add(taskResultLimit);
+                _context.SaveChanges();
+            }
+            
         }
 
 
