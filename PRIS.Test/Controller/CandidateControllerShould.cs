@@ -19,11 +19,13 @@ namespace PRIS.Test.Controller
         private ApplicationDbContext _context;
         private CandidateController _sut;
 
+        public Mock<ICandidateTestResultProcessor> MockCandidateTestResultProcessor { get; }
+
         public CandidateControllerShould()
         {
-            var MockCandidateTestResultProcessor = new Mock<ICandidateTestResultProcessor>();
+            MockCandidateTestResultProcessor = new Mock<ICandidateTestResultProcessor>();
             MockCandidateTestResultProcessor.Setup(x => x.ValidateTestResultsToTestResultLimits(It.IsAny<List<TaskResultLimit>>(), It.IsAny<TaskResultViewModel>())).Returns(value: null);
-
+            
             _context = InMemoryApplicationDbContext.GetInMemoryApplicationDbContext();
             _sut = new CandidateController(_context, MockCandidateTestResultProcessor.Object);
         }
@@ -125,6 +127,45 @@ namespace PRIS.Test.Controller
 
             Assert.NotEqual(candidateFirst.CandidateID, test[0].CandidateID);
         }
+
+        [Fact]
+        public void AddInitialCandidateTestResults()
+        {
+            //Arrange
+            CreateValidCandidateWithId1(_context);
+            TaskResultViewModel viewModel = new TaskResultViewModel { Value = new List<double> {1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0 } };
+
+            for (int i = 0; i < 10; i++)
+            {
+                TaskResultLimit taskResultLimit = new TaskResultLimit();
+                taskResultLimit.MaxValue = 5;
+                taskResultLimit.TaskGroup = null;
+                _context.TaskResultLimits.Add(taskResultLimit);
+                _context.SaveChanges();
+            }
+
+            //Act
+            IActionResult result = _sut.AddTaskResult(viewModel, 1);
+
+            //Assert
+            RedirectToActionResult viewResult = Assert.IsType<RedirectToActionResult>(result);
+            MockCandidateTestResultProcessor.Verify(x => x.SaveInitialCandidateResults(It.IsAny<TaskResultViewModel>(), It.IsAny<List<TaskResultLimit>>(), It.IsAny<ApplicationDbContext>()), Times.Once);
+
+        }
+
+        private void CreateValidCandidateWithId1(ApplicationDbContext _context)
+        {
+            //Arrange
+            City city = new City { CityName = "Vilnius" };
+            _context.Cities.Add(city);
+
+            var firstTest = new PRIS.WEB.Models.Test { City = city, DateOfTest = DateTime.Today };
+            Candidate candidateFirst = new Candidate { CandidateID = 1, FirstName = "Foo", LastName = "Bar", PhoneNumber = 11111111, Test = firstTest };
+            _context.AddRange(candidateFirst);
+            _context.SaveChanges();
+
+        }
+
 
         private void AddTaskResultLimits(ApplicationDbContext _context)
         {
