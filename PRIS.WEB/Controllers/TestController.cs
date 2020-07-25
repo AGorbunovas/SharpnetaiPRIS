@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using PRIS.WEB.Data;
 using PRIS.WEB.Data.Models;
 using PRIS.WEB.Models;
-using PRIS.WEB.ViewModels.ResultLimitViewModel;
 using PRIS.WEB.ViewModels.TestViewModels;
 using System;
 using System.Collections.Generic;
@@ -32,7 +31,7 @@ namespace PRIS.WEB.Controllers
         {
             var isNotUnique = _context.Test.Any
                 (
-                x => x.City.CityName == model.CityName && x.DateOfTest == model.DateOfTest && x.ClassYearStart == model.ClassYearStart && x.ClassYearEnd == model.ClassYearEnd
+                    x => x.City.CityName == model.CityName && x.DateOfTest == model.DateOfTest
                 );
 
             if (isNotUnique)
@@ -46,25 +45,14 @@ namespace PRIS.WEB.Controllers
                 ModelState.AddModelError(string.Empty, "Data negali būti ankstesnė negu šiandiena");
             }
 
-            var classYearCheckInteger = model.ClassYearStart.CompareTo(model.ClassYearEnd);
-            if(classYearCheckInteger == 1)
-            {
-                ModelState.AddModelError(string.Empty, "Mokslu metų pabaigos data negali būti prieš mokslu metu pradžios datą");
-            }
-
-            var classYearCheckWithDateOfTestInteger = model.DateOfTest.CompareTo(model.ClassYearStart);
-            if (classYearCheckWithDateOfTestInteger == 1)
-            {
-                ModelState.AddModelError(string.Empty, "Mokslu metu pradžios datą negali būti prieš testo datą");
-            }
-
-
             if (ModelState.IsValid)
             {
                 City city = _context.Cities.FirstOrDefault(x => x.CityName == model.CityName);
+                AcademicYear academicYear = _context.AcademicYears.Find(model.AcademicYearID);
+
                 if (city != null)
                 {
-                    Test newRecord = new Test() { City = city, DateOfTest = model.DateOfTest, ClassYearStart = model.ClassYearStart, ClassYearEnd = model.ClassYearEnd};
+                    Test newRecord = new Test() { City = city, DateOfTest = model.DateOfTest, AcademicYear = academicYear };
                     _context.Test.Add(newRecord);
                     _context.SaveChanges();
 
@@ -84,8 +72,7 @@ namespace PRIS.WEB.Controllers
                 DateOfTest = x.DateOfTest,
                 City = x.City,
                 TestId = x.TestId,
-                ClassYearStart = x.ClassYearStart,
-                ClassYearEnd = x.ClassYearEnd
+                AcademicYear = _context.AcademicYears.FirstOrDefault(a => a.AcademicYearID == x.AcademicYearID)
             }).OrderByDescending(x => x.DateOfTest)
               .ToList();
 
@@ -125,12 +112,14 @@ namespace PRIS.WEB.Controllers
                 Text = x.CityName
             }).ToList();
 
-            var viewModel = new AddTestViewModel() { Cities = data, DateOfTest = DateTime.Today, ClassYearStart = DateTime.Today, ClassYearEnd = DateTime.Today.AddMonths(10) };
+            var academicYear = _context.AcademicYears.Select(i => new SelectListItem()
+            {
+                Value = i.AcademicYearID.ToString(),
+                Text = i.AcademicYearStart.ToString("yyyy-MM-dd") + "  ||  " + i.AcademicYearEnd.ToString("yyyy-MM-dd")
+            }).ToList();
+
+            var viewModel = new AddTestViewModel() { Cities = data, DateOfTest = DateTime.Today, AcademicYears = academicYear };
             return viewModel;
         }
-    
-    
-    
-    
     }
 }

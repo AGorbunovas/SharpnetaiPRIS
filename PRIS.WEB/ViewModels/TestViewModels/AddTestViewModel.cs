@@ -1,20 +1,14 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using PRIS.WEB.Data.Models;
+using PRIS.WEB.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using PRIS.WEB.Models;
 
 namespace PRIS.WEB.ViewModels.TestViewModels
 {
     public class AddTestViewModel
     {
-        [DataType(DataType.Date)]
-        [Display(Name = "Mokslo metu pradžia")]
-        public DateTime ClassYearStart { get; set; }
-        [DataType(DataType.Date)]
-        [Display(Name = "Mokslo metu pabaiga")]
-        public DateTime ClassYearEnd { get; set; }
-
         [DataType(DataType.Date)]
         [Display(Name = "Testo data")]
         public DateTime DateOfTest { get; set; }
@@ -27,5 +21,10 @@ namespace PRIS.WEB.ViewModels.TestViewModels
         [Required(ErrorMessage = "Įveskite miestą")]
         public string CityName { get; set; }
         public int TestId { get; set; }
+
+        public AcademicYear AcademicYear { get; set; }
+        public List<SelectListItem> AcademicYears { get; set; }
+        public int AcademicYearID { get; set; }
+
     }
 }
