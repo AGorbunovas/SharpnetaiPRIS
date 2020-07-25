@@ -1,15 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Moq;
 using PRIS.WEB.Controllers;
 using PRIS.WEB.Data;
 using PRIS.WEB.Models;
 using PRIS.WEB.ViewModels.TestViewModels;
 using System;
-using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
-using System.Text;
 using Xunit;
 
 namespace PRIS.Test.Controller
@@ -43,7 +38,7 @@ namespace PRIS.Test.Controller
             City city = new City { CityName = "Vilnius" };
             _context.Cities.Add(city);
             _context.SaveChanges();
-            var viewModel = new AddTestViewModel { CityName = "Vilnius", DateOfTest = DateTime.Today, ClassYearStart = DateTime.Today, ClassYearEnd = DateTime.Today.AddMonths(10) };
+            var viewModel = new AddTestViewModel { CityName = "Vilnius", DateOfTest = DateTime.Today };
 
             //act
             IActionResult result = _sut.Test(viewModel);
@@ -77,7 +72,7 @@ namespace PRIS.Test.Controller
             City city = new City { CityName = "Vilnius" };
             _context.Cities.Add(city);
             _context.SaveChanges();
-            var viewModel = new AddTestViewModel { CityName = "Vilnius", DateOfTest = DateTime.Today, ClassYearStart = DateTime.Today, ClassYearEnd = DateTime.Today.AddMonths(10) };
+            var viewModel = new AddTestViewModel { CityName = "Vilnius", DateOfTest = DateTime.Today };
 
             //act
             _sut.Test(viewModel);
@@ -86,59 +81,6 @@ namespace PRIS.Test.Controller
             //assert
             var testCount = _context.Test.Count();
             Assert.Equal(1, testCount);
-        }
-
-
-        [Fact]
-        public void NotAddTestRecordIfDateOfTestIsYesterday()
-        {
-            // arrange
-            City city = new City { CityName = "Vilnius" };
-            _context.Cities.Add(city);
-            _context.SaveChanges();
-            var viewModel = new AddTestViewModel { CityName = "Vilnius", DateOfTest = DateTime.Today.AddDays(-1), ClassYearStart = DateTime.Today, ClassYearEnd = DateTime.Today.AddMonths(10) };
-
-            //act
-            _sut.Test(viewModel);
-
-            //assert
-            var testCount = _context.Test.Count();
-            Assert.Equal(0, testCount);
-        }
-
-        [Fact]
-        public void NotAddTestRecordIfDateOfTestIsAfterClassYearStartDate()
-        {
-            // arrange
-            City city = new City { CityName = "Vilnius" };
-            _context.Cities.Add(city);
-            _context.SaveChanges();
-            var viewModel = new AddTestViewModel { CityName = "Vilnius", DateOfTest = DateTime.Today.AddDays(1), ClassYearStart = DateTime.Today, ClassYearEnd = DateTime.Today.AddMonths(10) };
-
-            //act
-            _sut.Test(viewModel);
-
-            //assert
-            var testCount = _context.Test.Count();
-            Assert.Equal(0, testCount);
-
-        }
-
-        [Fact]
-        public void NotAddTestRecordIfClassYearStartIsAfterClassYearEnd()
-        {
-            // arrange
-            City city = new City { CityName = "Vilnius" };
-            _context.Cities.Add(city);
-            _context.SaveChanges();
-            var viewModel = new AddTestViewModel { CityName = "Vilnius", DateOfTest = DateTime.Today.AddDays(1), ClassYearStart = DateTime.Today, ClassYearEnd = DateTime.Today.AddMonths(-10) };
-
-            //act
-            _sut.Test(viewModel);
-
-            //assert
-            var testCount = _context.Test.Count();
-            Assert.Equal(0, testCount);
         }
 
     }
