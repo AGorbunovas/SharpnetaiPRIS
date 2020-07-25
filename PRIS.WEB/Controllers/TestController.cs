@@ -112,7 +112,7 @@ namespace PRIS.WEB.Controllers
                 Text = x.CityName
             }).ToList();
 
-            var academicYear = _context.AcademicYears.Select(i => new SelectListItem()
+            var academicYear = _context.AcademicYears.OrderByDescending(x => x.AcademicYearID).Select(i => new SelectListItem()
             {
                 Value = i.AcademicYearID.ToString(),
                 Text = i.AcademicYearStart.ToString("yyyy-MM-dd") + "  ||  " + i.AcademicYearEnd.ToString("yyyy-MM-dd")
