@@ -21,13 +21,9 @@
             <div class="form-actions no-color">
                 <p>
                     Miesto filtras:
-
-                    <select name="City" id="City" class="form-control mb-2">
-                        <option value=null></option>
-                        <option value="Vilnius">Vilnius</option>
-                        <option value="Kaunas">Kaunas</option>
-                    </select>
-
+                    <fieldset class="form-group">
+                        <select name="City" id="City" asp-items=ViewBag.Cities class="form-control"><option value=null>Visi</option></select>
+                    </fieldset>
                     <input type="submit" value="Ieškoti" class="btn btn-outline-dark mb-2" />
                 </p>
             </div>
@@ -35,18 +31,15 @@
     </div>
 
     <div class="col-4">
-
         <div class="form-actions no-color">
             <p>
                 Balų rėžis filtras:
-
-                <select id="ddl" name="ddl" onmousedown="this.value='';" onchange="name1(this.value);" class="form-control mb-2">
+                <select id="ddl" name="ddl" onmousedown="this.value='';" onchange="name1(this.value);" class="form-control mt-3">
 
                     @for (int i = 1; i <= Model.Count; i++)
                     {
                         <option value=@i>@i</option>
                     }
-
                 </select>
             </p>
         </div>
