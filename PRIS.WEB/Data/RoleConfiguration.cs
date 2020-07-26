@@ -21,6 +21,13 @@ namespace PRIS.WEB.Data
                     Name = "Admin",
                     NormalizedName = "ADMIN"
                 });
+
+            builder.HasData(
+                new IdentityRole
+                {
+                    Name = "User",
+                    NormalizedName = "USER"
+                });
         }
     }
 }

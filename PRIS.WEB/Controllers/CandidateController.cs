@@ -83,6 +83,12 @@ namespace PRIS.WEB.Controllers
                 InvitedToStudy = x.InvitedToStudy
             }).OrderByDescending(x => x.TestResult).ToList();
 
+            ViewBag.Cities = _context.Cities.Select(i => new SelectListItem()
+            {
+                Value = i.CityName,
+                Text = i.CityName
+            }).ToList();
+
             return View(data);
         }
 
@@ -199,7 +205,6 @@ namespace PRIS.WEB.Controllers
 
                 for (int i = 0; i < 10; i++)
                 {
-                    //TODO fix ugly code
                     model.Value.Add(0.0);
                     int TaskGroupID = currentTestResultLimits[i].TaskGroupID;
                     string TaskGroupName = _context.TaskGroups.Where(x => x.TaskGroupID == TaskGroupID).Select(x => x.TaskGroupName).FirstOrDefault();

@@ -17,10 +17,7 @@
                 @Html.DisplayNameFor(model => model.City)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ClassYearStart)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ClassYearEnd)
+                @Html.DisplayNameFor(model => model.AcademicYears)
             </th>
         </tr>
     </thead>
@@ -35,10 +32,7 @@
                 @Html.DisplayFor(modelItem => item.City.CityName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ClassYearStart)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ClassYearEnd)
+                @Html.DisplayFor(modelItem => item.AcademicYear.AcademicYearStart)  ||  @Html.DisplayFor(modelItem => item.AcademicYear.AcademicYearEnd)
             </td>
             <td>
                 <a asp-action="Delete" asp-route-id="@item.TestId" class="btn btn-sm btn-outline-danger" role="button">Trinti</a>

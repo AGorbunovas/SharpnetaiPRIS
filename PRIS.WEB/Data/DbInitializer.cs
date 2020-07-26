@@ -1,5 +1,4 @@
 ﻿using PRIS.WEB.Models;
-using System;
 using System.Linq;
 
 namespace PRIS.WEB.Data
@@ -16,7 +15,7 @@ namespace PRIS.WEB.Data
             }
 
             var cities = new City[]
-            {               
+            {
                 new City{CityName = "Vilnius"},
                 new City{CityName = "Kaunas"}
             };
@@ -36,17 +35,6 @@ namespace PRIS.WEB.Data
             foreach (Module module in modules)
             {
                 context.Modules.Add(module);
-            }
-            context.SaveChanges();
-
-            var tests = new Test[]
-            {
-                new Test { CityId = cities.Single(c=>c.CityName == "Vilnius").CityId, DateOfTest = DateTime.Parse("2020-07-30"), ClassYearStart = DateTime.Today, ClassYearEnd = DateTime.Today.AddMonths(10) }               
-            };
-
-            foreach (Test test in tests)
-            {
-                context.Test.Add(test);
             }
             context.SaveChanges();
 

@@ -25,12 +25,17 @@
         <li class="nav-item">
             <a class="nav-link text-light float-right" asp-area="" asp-controller="Settings" asp-action="Settings">NUSTATYMAI</a>
         </li>
-        @*<li class="nav-item">
-            <a class="nav-link text-light text-center float-right" asp-area="Identity" asp-page="/Account/Register">REGISTRUOTI VARTOTOJĄ</a>
-        </li>*@
-    <li class="nav-item float-left">
-        <a class="nav-link text-light" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Sveiki, @User.Identity.Name!</a>
-    </li>
+
+        @if (User.IsInRole("Admin"))
+        {
+            <li class="nav-item">
+                <a class="nav-link text-light text-center float-right" asp-area="Identity" asp-page="/Account/Register">REGISTRUOTI VARTOTOJĄ</a>
+            </li>
+        }
+
+        <li class="nav-item float-left">
+            <a class="nav-link text-light" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Sveiki, @User.Identity.Name!</a>
+        </li>
         <li class="nav-item float-left">
             <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
                 <button type="submit" class="nav-link btn btn-link" style="color: #d4858d"> <strong>ATSIJUNGTI</strong></button>

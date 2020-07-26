@@ -11,16 +11,11 @@
 
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-        <fieldset class="form-group">
-            <label asp-for="ClassYearStart"></label>
-            <input asp-for="ClassYearStart" class="form-control" />
-            <span asp-validation-for="ClassYearStart" class="text-danger"></span>
-        </fieldset>
 
         <fieldset class="form-group">
-            <label asp-for="ClassYearEnd"></label>
-            <input asp-for="ClassYearEnd" class="form-control" />
-            <span asp-validation-for="ClassYearEnd" class="text-danger"></span>
+            <label asp-for="AcademicYearID">Pasirenkamas mokslo metų laikotarpis</label>
+            <select asp-for="AcademicYearID" asp-items="Model.AcademicYears" class="form-control"></select>
+            <span asp-validation-for="AcademicYearID" class="text-danger"></span>
         </fieldset>
 
         <fieldset class="form-group">
