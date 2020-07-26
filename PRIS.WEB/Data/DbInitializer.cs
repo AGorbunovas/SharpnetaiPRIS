@@ -30,6 +30,7 @@ namespace PRIS.WEB.Data
             {
                 new Module{ModuleName = ".NET programuotojai"},
                 new Module{ModuleName = "Java programuotojai"},
+                new Module{ModuleName = "Nenurodyta"},
                 new Module{ModuleName = "Testuotojai"}
             };
             foreach (Module module in modules)
