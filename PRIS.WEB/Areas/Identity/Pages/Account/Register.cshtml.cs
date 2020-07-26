@@ -16,7 +16,7 @@ using System.Threading.Tasks;
 
 namespace PRIS.WEB.Areas.Identity.Pages.Account
 {
-    [AllowAnonymous]
+    [Authorize(Roles = "Admin")]
     public class RegisterModel : PageModel
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
