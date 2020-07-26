@@ -132,7 +132,7 @@ namespace PRIS.Test.Controller
         public void AddInitialCandidateTestResults()
         {
             //Arrange
-            CreateValidCandidateWithId1(_context);
+            CreateValidCandidate(_context);
             TaskResultViewModel viewModel = new TaskResultViewModel { Value = new List<double> {1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0 } };
 
             for (int i = 0; i < 10; i++)
@@ -153,15 +153,38 @@ namespace PRIS.Test.Controller
 
         }
 
-        private void CreateValidCandidateWithId1(ApplicationDbContext _context)
+        [Theory]
+        [InlineData("Vilnius")]
+        [InlineData("Kaunas")]
+        public void FilterListByCities(string City)
         {
             //Arrange
-            City city = new City { CityName = "Vilnius" };
-            _context.Cities.Add(city);
+            CreateValidCandidate(_context);
+
+            //Act
+            IActionResult result = _sut.List(City);
+
+            //Assert
+            ViewResult viewResult = Assert.IsType<ViewResult>(result);
+            List<ListCandidateViewModel> viewModel = viewResult.ViewData.Model as List<ListCandidateViewModel>;
+            var isFilteredCityOnly = viewModel.All(x => x.TestCity == City);
+            Assert.True(isFilteredCityOnly);
+
+        }
+
+        private void CreateValidCandidate(ApplicationDbContext _context)
+        {
+            City city = new City { CityName = "Kaunas" };
+            City cityKaunas = new City { CityName = "Vilnius" };
+            _context.Cities.AddRange(city, cityKaunas);
 
             var firstTest = new PRIS.WEB.Models.Test { City = city, DateOfTest = DateTime.Today };
+            var secondTest = new PRIS.WEB.Models.Test { City = cityKaunas, DateOfTest = DateTime.Today };
+
             Candidate candidateFirst = new Candidate { CandidateID = 1, FirstName = "Foo", LastName = "Bar", PhoneNumber = 11111111, Test = firstTest };
-            _context.AddRange(candidateFirst);
+            Candidate candidateSecond = new Candidate { CandidateID = 2, FirstName = "Foo", LastName = "Bar", PhoneNumber = 11111111, Test = secondTest };
+
+            _context.AddRange(candidateFirst, candidateSecond);
             _context.SaveChanges();
 
         }
