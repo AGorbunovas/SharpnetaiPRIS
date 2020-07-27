@@ -6,7 +6,7 @@
     Layout = "~/Views/Shared/_LayoutNavSectionForSettings.cshtml";
 }
 
-<h5>Akademija.IT mokymo programos</h5>
+<h5>Akademija.IT Klausimynas pokalbiui</h5>
 <hr />
 <br />
 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -20,10 +20,7 @@
             <thead>
                 <tr>
                     <th scope="col">
-                        Užduočių grupė
-                    </th>
-                    <th>
-                        Pokalbio klausimas
+                        Sukurti klausimynai pagal datą
                     </th>
                 </tr>
             </thead>
@@ -32,14 +29,11 @@
                 {
                     <tr>
                         <td>
-                            @Html.DisplayFor(modelItem => item.TaskGroup.TaskGroupName)
+                            @Html.DisplayFor(modelItem => item.Date) metų pokalbio klausimynas
                         </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.InterviewTaskDescription)
-                        </td>
-                        <td>
-                            <a asp-action="InterviewTaskDelete" asp-route-id="@item.InterviewTaskID" class="btn btn-sm btn-outline-danger" role="button">Trinti</a>
-                        </td>
+                        @*<td>
+                                <a asp-action="InterviewTaskDelete" asp-route-id="@item.InterviewTaskID" class="btn btn-sm btn-outline-danger" role="button">Trinti</a>
+                            </td>*@
                     </tr>
                 }
             </tbody>

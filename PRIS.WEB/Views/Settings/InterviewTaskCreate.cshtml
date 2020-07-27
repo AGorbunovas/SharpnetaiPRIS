@@ -6,23 +6,32 @@
     Layout = "~/Views/Shared/_LayoutNavSectionForSettings.cshtml";
 }
 
-<h4>Užduočių sudarymo forma</h4>
+<h4>Pokalbio klausimyno sudarymo forma</h4>
 <hr />
+<br />
 <div class="row">
-    <div class="col-md-6">
+    <div class="col-12">
         <form asp-action="InterviewTaskCreate">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="InterviewTaskDescription" class="control-label">Pokalbio klausimas</label>
-                <textarea asp-for="InterviewTaskDescription" rows="5" class="form-control"></textarea>
-                <span asp-validation-for="InterviewTaskDescription" class="text-danger"></span>
+            <div class="form-row">
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <div class="form-group">
+                    <label class="control-label">Klausimyno forma</label>
+                    <br />
+                    <span class="text-danger"></span>
+                </div>
+                <div class="row">
+                    @for (int i = 0; i < Model.InterviewTaskDescription.Count; i++)
+                    {
+                        <div class="form-group col-md-6 col-sm-12">
+                            <label asp-for="Position" class="control-label">Nr. @(i+1) </label>
+                            <textarea asp-for="InterviewTaskDescription[i]" class="form-control" rows="5"></textarea>
+                            <span asp-validation-for="@Model.InterviewTaskDescription[i]" class="text-danger"></span>
+                        </div>
+                    }
+                </div>
             </div>
             <div class="form-group">
-                <label asp-for="TaskGroupName" class="control-label">Užduočių grupė</label>
-                <select asp-for="TaskGroupName" class="form-control" asp-items="Model.TaskGroups"></select>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Išsaugoti" class="btn btn-outline-dark" />
+                <input type="submit" value="Išsaugoti" class="btn btn-primary" />
             </div>
         </form>
     </div>

@@ -33,14 +33,13 @@ namespace PRIS.WEB
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddRoles<IdentityRole>()
-            //Configuration.GetConnectionString("AzureConnection")));
-            services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.AddControllersWithViews();
             services.AddRazorPages();
 
             services.AddScoped<ICandidateTestResultProcessor, CandidateTestResultProcessor>();
+            services.AddScoped<ICandidateInterviewResultProcessor, CandidateInterviewResultProcessor>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

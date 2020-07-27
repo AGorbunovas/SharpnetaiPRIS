@@ -22,6 +22,8 @@ namespace PRIS.WEB.Data
         public DbSet<InterviewTemplate> InterviewTemplates { get; set; }
         public DbSet<AcademicYear> AcademicYears { get; set; }
         public DbSet<InterviewTemplateTask> InterviewTemplateTasks { get; set; }
+        public DbSet<InterviewResult> InterviewResults { get; set; }
+        public DbSet<InterviewQuestionsAnswers> InterviewQuestionsAnswers { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -42,6 +44,7 @@ namespace PRIS.WEB.Data
             modelBuilder.Entity<InterviewTemplate>().ToTable("InterviewTemplate");
             modelBuilder.Entity<AcademicYear>().ToTable("AcademicYear");
             modelBuilder.Entity<InterviewTemplateTask>().ToTable("InterviewTemplateTask");
+            modelBuilder.Entity<InterviewResult>().ToTable("InterviewResult");
 
             modelBuilder.Entity<CandidateModule>()
                 .HasKey(candidateModule => new { candidateModule.CandidateID, candidateModule.ModuleID });
