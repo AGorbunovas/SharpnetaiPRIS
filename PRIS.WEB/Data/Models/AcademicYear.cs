@@ -9,6 +9,7 @@ namespace PRIS.WEB.Data.Models
     public class AcademicYear
     {
         public int AcademicYearID { get; set; }
+
         [DataType(DataType.Date)]
         public DateTime AcademicYearStart { get; set; }
         [DataType(DataType.Date)]

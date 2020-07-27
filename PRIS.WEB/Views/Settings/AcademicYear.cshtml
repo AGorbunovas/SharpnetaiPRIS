@@ -20,24 +20,21 @@
             <thead>
                 <tr>
                     <th scope="col">
-                        Mokslo metų pradžia
-                    </th>
-                    <th scope="col">
-                        Mokslo metų pabaiga
+                        Mokslo metų laikotarpis
                     </th>
                 </tr>
             </thead>
             <tbody>
                 @foreach (var item in Model)
                 {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.AcademicYearPeriod)
-                    </td>
-                    <td>
-                        <a asp-action="AcademicYearDelete" asp-route-id="@item.AcademicYearID" class="btn btn-sm btn-outline-danger" role="button">Trinti</a>
-                    </td>
-                </tr>
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.AcademicYearPeriod)
+                        </td>
+                        <td>
+                            <a asp-action="AcademicYearDelete" asp-route-id="@item.AcademicYearID" class="btn btn-sm btn-outline-danger" role="button">Trinti</a>
+                        </td>
+                    </tr>
                 }
             </tbody>
         </table>

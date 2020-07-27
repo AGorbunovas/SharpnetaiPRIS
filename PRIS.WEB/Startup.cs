@@ -39,6 +39,7 @@ namespace PRIS.WEB
             services.AddRazorPages();
 
             services.AddScoped<ICandidateTestResultProcessor, CandidateTestResultProcessor>();
+            services.AddScoped<ICandidateInterviewResultProcessor, CandidateInterviewResultProcessor>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -317,7 +317,7 @@ namespace PRIS.WEB.Controllers
 
         public IActionResult TaskGroupDelete(int id)
         {
-            var testConnected = _context.InterviewTasks.Any(x => x.TaskGroup.TaskGroupID == id);
+            var testConnected = _context.TaskResultLimits.Any(x => x.TaskGroup.TaskGroupID == id);
 
             if (testConnected)
             {
@@ -343,123 +343,114 @@ namespace PRIS.WEB.Controllers
 
         #region InterviewTask
 
-        public IActionResult InterviewTask()
-        {
-            AddInterviewTaskViewModel viewModel = GetViewModelWithTaskGroupList();
-
-            return View("InterviewTaskList", viewModel);
-        }
-
         #region InterviewTask/List
 
         public IActionResult InterviewTaskList()
         {
-            IEnumerable<AddInterviewTaskViewModel> data = _context.InterviewTasks.Select(i =>
-            new AddInterviewTaskViewModel()
-            {
-                InterviewTaskDescription = i.InterviewTaskDescription,
-                TaskGroup = i.TaskGroup,
-                InterviewTaskID = i.InterviewTaskID
-            }).ToList();
+            var interviewTaskLimits = _context.InterviewTasks.OrderByDescending(i => i.Date).ToList();
+            var countOfLimitTemplateForOneTest = interviewTaskLimits.Count() / 9;
 
-            if (TempData["IsInterviewTaskUsedInCandidateTableErrorMessage"] != null)
+            List<AddInterviewTaskViewModel> viewModel = new List<AddInterviewTaskViewModel>();
+
+            for (int i = 0; i < countOfLimitTemplateForOneTest; i++)
             {
-                ModelState.AddModelError(string.Empty, TempData["IsInterviewTaskUsedInCandidateTableErrorMessage"].ToString());
+                var limitTemplate = interviewTaskLimits.GetRange(i * 9, 9).ToList();
+                var dateOfLimits = limitTemplate.Select(i => i.Date).First();
+
+                viewModel.Add(new AddInterviewTaskViewModel()
+                {
+                    InterviewTaskID = new List<int>(),
+                    InterviewTaskDescription = new List<string>(),
+                    Date = dateOfLimits
+                });
+
+                foreach (var item in limitTemplate)
+                {
+                    viewModel[i].InterviewTaskID.Add(item.InterviewTaskID);
+                    viewModel[i].InterviewTaskDescription.Add(item.InterviewTaskDescription);
+                };
             }
 
-            return View(data);
+            return View(viewModel);
         }
 
         #endregion InterviewTask/List
 
         #region InterviewTask/Create
 
+        [HttpGet]
         public IActionResult InterviewTaskCreate()
         {
-            AddInterviewTaskViewModel viewModel = GetViewModelWithTaskGroupList();
-            return View("InterviewTaskCreate", viewModel);
+            AddInterviewTaskViewModel viewModel = GetQuestionsViewModelList();
+
+            return View(viewModel);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult InterviewTaskCreate([Bind("InterviewTaskID, InterviewTaskDescription, TaskGroupName")] AddInterviewTaskViewModel addInterviewTaskViewModel)
+        public IActionResult InterviewTaskCreate(AddInterviewTaskViewModel addInterviewTaskViewModel)
         {
-            //var isNotUnique = _context.InterviewTasks.Any(t => t.TaskGroup.TaskGroupName == addInterviewTaskViewModel.TaskGroupName);
+            DateTime timeStamp = DateTime.Now;
 
-            //if (isNotUnique)
-            //{
-            //    ModelState.AddModelError(string.Empty, "Tokia užduočių grupė jau yra sukurta");
-            //}
-
-            if (ModelState.IsValid)
+            for (int i = 0; i < addInterviewTaskViewModel.InterviewTaskDescription.Count; i++)
             {
-                TaskGroup taskGroup = _context.TaskGroups.FirstOrDefault(t => t.TaskGroupName == addInterviewTaskViewModel.TaskGroupName);
-                if (taskGroup != null)
-                {
-                    InterviewTask newRecord = new InterviewTask() { TaskGroup = taskGroup, InterviewTaskDescription = addInterviewTaskViewModel.InterviewTaskDescription };
-                    _context.InterviewTasks.Add(newRecord);
-                    _context.SaveChanges();
-                }
-                //return View(viewModel);
-                return RedirectToAction("InterviewTaskList");
+                var limitTask = new InterviewTask();
+
+                limitTask.Date = timeStamp;
+                limitTask.Position = i + 1;
+                limitTask.InterviewTaskDescription = addInterviewTaskViewModel.InterviewTaskDescription[i];
+
+                _context.InterviewTasks.Add(limitTask);
+                _context.SaveChanges();
             }
 
-            AddInterviewTaskViewModel viewModel = GetViewModelWithTaskGroupList();
-            return View(viewModel);
+            return RedirectToAction("InterviewTaskList");
         }
 
         #endregion InterviewTask/Create
 
-        #region InterviewTask/Delete
+        //#region InterviewTask/Edit
 
-        public IActionResult InterviewTaskDelete(int id)
+        //public IActionResult InterviewTaskDelete(int id)
+        //{
+        //    //TODO patikrinimas jei užduotis jau yra priskirta pokalbio šablonui
+        //    //var testConnected = _context.Candidates.Any(x => x.TaskGroup.TaskGroupID == id);
+
+        //    //if (testConnected)
+        //    //{
+        //    //    TempData["IsTestUsedInInterviewTaskModuleTableErrorMessage"] = "Negalima trinti užduočių grupės, nes ji yra susieta su pokalbio užduotimis!";
+        //    //    return RedirectToAction("TaskGroup");
+        //    //}
+        //    //else
+        //    if (ModelState.IsValid)
+        //    {
+        //        var data = _context.InterviewTasks.SingleOrDefault(i => i.InterviewTaskID == id);
+        //        if (data != null)
+        //        {
+        //            _context.Remove(data);
+        //            _context.SaveChanges();
+        //        }
+        //        return RedirectToAction("InterviewTaskList");
+        //    }
+        //    return RedirectToAction("InterviewTaskList");
+        //}
+
+        //#endregion InterviewTask/Edit 
+
+        #region InterviewTask/GetQuestions
+
+        private AddInterviewTaskViewModel GetQuestionsViewModelList()
         {
-            //TODO patikrinimas jei užduotis jau yra priskirta pokalbio šablonui
-            //var testConnected = _context.Candidates.Any(x => x.TaskGroup.TaskGroupID == id);
+            var viewModel = new AddInterviewTaskViewModel();
 
-            //if (testConnected)
-            //{
-            //    TempData["IsTestUsedInInterviewTaskModuleTableErrorMessage"] = "Negalima trinti užduočių grupės, nes ji yra susieta su pokalbio užduotimis!";
-            //    return RedirectToAction("TaskGroup");
-            //}
-            //else
-            if (ModelState.IsValid)
+            for (int i = 0; i < 9; i++)
             {
-                var data = _context.InterviewTasks.SingleOrDefault(i => i.InterviewTaskID == id);
-                if (data != null)
-                {
-                    _context.Remove(data);
-                    _context.SaveChanges();
-                }
-                return RedirectToAction("InterviewTaskList");
+                viewModel.InterviewTaskDescription.Add("Įveskite klausimą");
             }
-            return RedirectToAction("InterviewTaskList");
-        }
-
-        #endregion InterviewTask/Delete
-
-        private AddInterviewTaskViewModel GetViewModelWithTaskGroupList()
-        {
-            var taskGroupsData = _context.TaskGroups.Select(x => new SelectListItem()
-            {
-                Value = x.TaskGroupName,
-                Text = x.TaskGroupName
-            }).ToList();
-
-            var viewModel = new AddInterviewTaskViewModel()
-            {
-                TaskGroups = taskGroupsData
-            };
-
             return viewModel;
         }
 
-        //=========================================================
-
-        //private bool InterviewTasksExists(int id)
-        //{
-        //    return _context.InterviewTasks.Any(e => e.InterviewTaskID == id);
-        //}
+        #endregion InterviewTask/GetQuestions
 
         #endregion InterviewTask
 

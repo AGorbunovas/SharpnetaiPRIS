@@ -12,8 +12,9 @@ namespace PRIS.WEB.Data.Models
         public int InterviewTaskID { get; set; }
         [Required]
         public string InterviewTaskDescription { get; set; }
-        
-        public int TaskGroupID { get; set; }
-        public TaskGroup TaskGroup { get; set; }
+
+        public DateTime Date { get; set; }
+        public int Position { get; set; }
+
     }
 }

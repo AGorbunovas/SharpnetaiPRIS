@@ -101,8 +101,8 @@ namespace PRIS.WEB.Controllers
                 _context.Attach(candidate);
                 candidate.InvitedToInterview = item.InvitedToInterview;
                 _context.SaveChanges();
-                TempData["CandidateInvitedToInterviewUpdated"] = "Kandidatai pokalbiui patvirtinti";
             }
+            TempData["CandidateInvitedToInterviewUpdated"] = "Kandidatai pokalbiui patvirtinti";
             return RedirectToAction("List");
         }
 
