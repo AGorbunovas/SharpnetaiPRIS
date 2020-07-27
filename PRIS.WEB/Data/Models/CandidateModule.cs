@@ -7,5 +7,6 @@
 
         public int CandidateID { get; set; }
         public Candidate Candidate { get; set; }
+        public int OrderNr { get; set; }
     }
 }
