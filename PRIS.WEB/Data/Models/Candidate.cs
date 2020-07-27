@@ -31,7 +31,7 @@ namespace PRIS.WEB.Models
         public bool InvitedToInterview { get; set; }
         public bool InvitedToStudy { get; set; }
 
-        public int ContractId { get; set; }
-        public Contract Contract { get; set; }
+        //public int ContractId { get; set; }
+        //public Contract Contract { get; set; }
     }
 }
