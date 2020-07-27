@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using PRIS.WEB.Models;
+using PRIS.WEB.Data.Models;
 
 namespace PRIS.WEB.ViewModels.CandidateViewModels
 {
@@ -21,6 +22,8 @@ namespace PRIS.WEB.ViewModels.CandidateViewModels
         public double TestResult { get; set; }
         public double MaxResult { get; set; }
         public bool InvitedToInterview { get; set; }
-        public bool InvitedToStudy { get; set; } 
+        public bool InvitedToStudy { get; set; }
+        public int AcademicYearID { get; set; }
+        public AcademicYear AcademicYear { get; set; }
     }
 }

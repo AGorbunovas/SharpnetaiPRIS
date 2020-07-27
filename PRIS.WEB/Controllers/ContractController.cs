@@ -33,7 +33,7 @@ namespace PRIS.WEB.Controllers
                 candidateByCity = _context.Test.Select(x => x.TestId).ToList();
             }
 
-            var data = _context.Candidates.Where(y => candidateByCity.Contains(y.TestId)).Select(x =>
+            var data = _context.Candidates.Where(x => candidateByCity.Contains(x.TestId) && x.Test.AcademicYearID == _context.Test.Max(t => t.AcademicYearID)).Select(x =>
             new ListCandidateViewModel()
             {
                 CandidateID = x.CandidateID,
@@ -41,6 +41,7 @@ namespace PRIS.WEB.Controllers
                 Lastname = x.LastName,
                 TestDate = x.Test.DateOfTest,
                 TestCity = x.Test.City.CityName,
+                AcademicYear = x.Test.AcademicYear,
                 TestResult = _context.TaskResult.Where(t => t.CandidateId == x.CandidateID).Sum(t => t.Value),
                 FirstModule = x.CandidateModules.Select(t => t.Module.ModuleName).FirstOrDefault(),
                 InvitedToInterview = x.InvitedToInterview,
