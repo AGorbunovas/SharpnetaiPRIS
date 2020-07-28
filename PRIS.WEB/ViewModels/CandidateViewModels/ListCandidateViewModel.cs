@@ -21,7 +21,10 @@ namespace PRIS.WEB.ViewModels.CandidateViewModels
         public string FirstModule { get; set; }
         public double TestResult { get; set; }
         public double MaxResult { get; set; }
+        public string GeneralInterviewComment { get; set; }
+        public double InterviewResult { get; set; }
         public bool InvitedToInterview { get; set; }
+        public double GeneralResult { get; set; }
         public bool InvitedToStudy { get; set; }
         public int AcademicYearID { get; set; }
         public AcademicYear AcademicYear { get; set; }

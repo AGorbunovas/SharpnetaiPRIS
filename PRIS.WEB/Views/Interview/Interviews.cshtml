@@ -84,9 +84,7 @@
                 <th>
                     Kviečiami studijuoti
                 </th>
-                <th>
-
-                </th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -105,10 +103,14 @@
                     <td>
                         @Html.DisplayFor(modelItem => modelItem[i].TestResult)
                     </td>
-                    <td></td>
                     <td>
+                        @Html.DisplayFor(modelItem => modelItem[i].InterviewResult)
                     </td>
                     <td>
+                        @Html.DisplayFor(modelItem => modelItem[i].GeneralResult)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => modelItem[i].GeneralInterviewComment)
                     </td>
                     <td>
                         @Html.HiddenFor(modelItem => modelItem[i].CandidateID)
