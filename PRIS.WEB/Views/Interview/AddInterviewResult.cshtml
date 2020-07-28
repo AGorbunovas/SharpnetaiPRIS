@@ -9,20 +9,19 @@
 
 @Model.Candidate.FirstName
 @Model.Candidate.LastName
-testo balo suvedimas
+testo balo suvedimass
 
 <form method="post" class="form-horizontal" role="form">
 
     <div class="row">
         @{int positionOfTask = 1;}
-
         @foreach (var item in Model.Comment)
         {
             <div class="col-6">
                 <fieldset class="form-group">
                     <label asp-for="Comment">Klausimas Nr.: @positionOfTask</label>
                     <b>@Model.InterviewTaskQuestions[positionOfTask - 1]</b>
-                    <td>@Html.TextArea("Comment", item, new { @class = "form-control" })</td>
+                    <div>@Html.TextArea("Comment", item, new { @class = "form-control" })</div>
                     @*<textarea placeholder=@item asp-for="Comment" type="text" class="form-control" rows="3"></textarea>*@
                     <span asp-validation-for="Comment" class="text-danger"></span>
                 </fieldset>
