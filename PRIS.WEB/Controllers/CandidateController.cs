@@ -89,12 +89,26 @@ namespace PRIS.WEB.Controllers
                 Text = i.CityName
             }).ToList();
 
+            if (TempData["NotAllCandidatesHaveTastResultsBeforeInvitingToInterview"] != null)
+            {
+                ModelState.AddModelError(string.Empty, TempData["NotAllCandidatesHaveTastResultsBeforeInvitingToInterview"].ToString());
+            }
+
             return View(data);
         }
 
         [HttpPost]
         public IActionResult List(IEnumerable<ListCandidateViewModel> model)
         {
+            foreach (var item in model)
+            {
+                if (!_context.TaskResult.Any(x => x.CandidateId == item.CandidateID) && item.InvitedToInterview == true)
+                {
+                    TempData["NotAllCandidatesHaveTastResultsBeforeInvitingToInterview"] = $"Negalima kviesti kandidatų į pokalbį, jei nėra įvesti testo balai";
+                    return RedirectToAction("List");
+                }
+            }
+
             foreach (var item in model)
             {
                 Candidate candidate = _context.Candidates.FirstOrDefault(x => x.CandidateID == item.CandidateID);
