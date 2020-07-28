@@ -51,9 +51,12 @@ namespace PRIS.WEB.Controllers
                 TestCity = x.Test.City.CityName,
                 TestResult = _context.TaskResult.Where(t => t.CandidateId == x.CandidateID).Sum(t => t.Value),
                 FirstModule = x.CandidateModules.Select(t => t.Module.ModuleName).FirstOrDefault(),
+                InterviewResult = _context.InterviewResults.Where(t => t.CandidateId == x.CandidateID).Select(t => t.Value).First(),
+                GeneralInterviewComment = _context.InterviewResults.Where(t => t.CandidateId == x.CandidateID).Select(t => t.GeneralComment).First(),
+                GeneralResult = (_context.TaskResult.Where(t => t.CandidateId == x.CandidateID).Sum(t => t.Value) + _context.InterviewResults.Where(t => t.CandidateId == x.CandidateID).Select(t => t.Value).First())/2,
                 InvitedToInterview = x.InvitedToInterview,
                 InvitedToStudy = x.InvitedToStudy
-            }).OrderByDescending(x => x.TestResult).ToList();
+            }).OrderByDescending(x => x.GeneralResult).ToList();
             return View(data);
         }
 

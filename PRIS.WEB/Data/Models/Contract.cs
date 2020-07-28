@@ -19,19 +19,5 @@ namespace PRIS.WEB.Data.Models
         public string SignedByFirstName { get; set; }
         public string SignedByLastName { get; set; }
         public bool IsContractSigned { get; set; }
-
-        [NotMapped]
-        public string SignedBy
-        {
-            get
-            {
-                SignedBy = SignedByFirstName + " " + SignedByLastName;
-                return SignedBy;
-            }
-            set
-            {
-                SignedBy = value;
-            }
-        }
     }
 }
