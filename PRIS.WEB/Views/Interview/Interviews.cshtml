@@ -20,22 +20,15 @@
     <div class="col-4">
         <form asp-action="Interviews" method="get">
             <div class="form-actions no-color">
-                <p>
-                    Miesto filtras:
-
-                    <select name="City" id="City" class="form-control mb-2">
-                        <option value=null>Visi</option>
-                        <option value="Vilnius">Vilnius</option>
-                        <option value="Kaunas">Kaunas</option>
-                    </select>
-
-                    <input type="submit" value="Filtruoti" class="btn btn-outline-dark mb-2 d-inline" />
-                </p>
+                Miesto filtras:
+                <fieldset class="form-group">
+                    <select name="City" id="City" asp-items=ViewBag.Cities class="form-control"><option value=null>Visi</option></select>
+                </fieldset>
+                <input type="submit" value="Ieškoti" class="btn btn-outline-dark mb-2" />
             </div>
         </form>
     </div>
     <div class="col-4">
-
         <div class="form-actions no-color">
             <p>
                 Kandidatų imties sutartims skaičius:
@@ -50,7 +43,6 @@
                 </select>
             </p>
         </div>
-
     </div>
 </div>
 
@@ -62,9 +54,6 @@
             <tr>
                 <th>
                     Vardas Pavardė
-                </th>
-                <th>
-                    Programa (I-as pasirinkimas)
                 </th>
                 <th>
                     Testo data, vieta
@@ -93,9 +82,6 @@
                 <tr>
                     <td>
                         @Html.DisplayFor(modelItem => modelItem[i].Firstname) @Html.DisplayFor(modelItem => modelItem[i].Lastname)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => modelItem[i].FirstModule)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => modelItem[i].TestDate) @Html.DisplayFor(modelItem => modelItem[i].TestCity)
