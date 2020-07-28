@@ -445,7 +445,7 @@ namespace PRIS.WEB.Controllers
 
             for (int i = 0; i < 9; i++)
             {
-                viewModel.InterviewTaskDescription.Add("Įveskite klausimą");
+                viewModel.InterviewTaskDescription.Add("");
             }
             return viewModel;
         }
