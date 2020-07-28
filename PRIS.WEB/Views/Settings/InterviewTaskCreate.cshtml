@@ -24,7 +24,7 @@
                     {
                         <div class="form-group col-md-6 col-sm-12">
                             <label asp-for="Position" class="control-label">Nr. @(i+1) </label>
-                            <textarea asp-for="InterviewTaskDescription[i]" class="form-control" rows="5"></textarea>
+                            <textarea asp-for="InterviewTaskDescription[i]" placeholder="Sukurkite klausimą..." class="form-control" rows="5"></textarea>
                             <span asp-validation-for="@Model.InterviewTaskDescription[i]" class="text-danger"></span>
                         </div>
                     }

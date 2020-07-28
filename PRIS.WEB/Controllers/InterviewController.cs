@@ -1,16 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Security.Cryptography.X509Certificates;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using PRIS.WEB.Data;
 using PRIS.WEB.Data.Models;
 using PRIS.WEB.Logic;
 using PRIS.WEB.Models;
 using PRIS.WEB.ViewModels;
 using PRIS.WEB.ViewModels.CandidateViewModels;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace PRIS.WEB.Controllers
 {
@@ -26,7 +24,7 @@ namespace PRIS.WEB.Controllers
             _candidateInterviewResultProcessor = candidateInterviewResultProcessor;
         }
 
-        public IActionResult Interviews(string City, string Module)
+        public IActionResult Interviews(string City)
         {
             City city = _context.Cities.FirstOrDefault(x => x.CityName == City);
 
@@ -38,7 +36,7 @@ namespace PRIS.WEB.Controllers
             }
             else
             {
-                candidateByCity = _context.Test.Where(x=> x.DateOfTest == _context.Test.Max(x => x.DateOfTest)).Select(x => x.TestId).ToList();
+                candidateByCity = _context.Test.Where(x => x.DateOfTest == _context.Test.Max(x => x.DateOfTest)).Select(x => x.TestId).ToList();
             }
 
             var data = _context.Candidates.Where(y => y.InvitedToInterview == true && candidateByCity.Contains(y.TestId)).Select(x =>
@@ -50,10 +48,19 @@ namespace PRIS.WEB.Controllers
                 TestDate = x.Test.DateOfTest,
                 TestCity = x.Test.City.CityName,
                 TestResult = _context.TaskResult.Where(t => t.CandidateId == x.CandidateID).Sum(t => t.Value),
-                FirstModule = x.CandidateModules.Select(t => t.Module.ModuleName).FirstOrDefault(),
+                InterviewResult = _context.InterviewResults.Where(t => t.CandidateId == x.CandidateID).Select(t => t.Value).FirstOrDefault(),
+                GeneralInterviewComment = _context.InterviewResults.Where(t => t.CandidateId == x.CandidateID).Select(t => t.GeneralComment).FirstOrDefault(),
+                GeneralResult = (_context.TaskResult.Where(t => t.CandidateId == x.CandidateID).Sum(t => t.Value) + _context.InterviewResults.Where(t => t.CandidateId == x.CandidateID).Select(t => t.Value).FirstOrDefault()) / 2,
                 InvitedToInterview = x.InvitedToInterview,
                 InvitedToStudy = x.InvitedToStudy
-            }).OrderByDescending(x => x.TestResult).ToList();
+            }).OrderByDescending(x => x.GeneralResult).ToList();
+
+            ViewBag.Cities = _context.Cities.Select(i => new SelectListItem()
+            {
+                Value = i.CityName,
+                Text = i.CityName
+            }).ToList();
+
             return View(data);
         }
 
@@ -69,13 +76,6 @@ namespace PRIS.WEB.Controllers
                 TempData["CandidateInvitedToStudyUpdated"] = "Jūsų pasirinkimas išsaugotas";
             }
             return RedirectToAction("Interviews");
-        }
-
-
-        public IActionResult AddInterviewData()
-        {
-            return View();
-            //return RedirectToAction("Interviews");
         }
 
         [HttpGet("Interview/AddInterviewResult/{id}")]
@@ -97,7 +97,7 @@ namespace PRIS.WEB.Controllers
                             .Where(c => c.Candidate == interviewResultModel.Candidate)
                             .Select(x => x.GeneralComment).FirstOrDefault();
                 interviewResultModel.Value = _context.InterviewResults
-                            .Where(c => c.Value == interviewResultModel.Value)
+                            .Where(c => c.Candidate == interviewResultModel.Candidate)
                             .Select(x => x.Value).FirstOrDefault();
                 interviewResultModel.Comment = _context.InterviewQuestionsAnswers
                             .Where(c => c.Candidate == interviewResultModel.Candidate)
@@ -135,51 +135,60 @@ namespace PRIS.WEB.Controllers
             var CandidateHasInterviewResults = _context.InterviewResults
                         .Any(x => x.Candidate == interviewResultViewModel.Candidate);
 
-            //if (CandidateHasInterviewResults)
-            //{
-            //    var candidateInterviewGeneralResults = _context.InterviewGeneralResults
-            //                .Where(x => x.Candidate == interviewResultViewModel.Candidate)
-            //                .ToList();
-            //    var candidate
-            //}
+            var CandidateHasInterviewQuestionsAnswers = _context.InterviewQuestionsAnswers
+                        .Any(x => x.Candidate == interviewResultViewModel.Candidate);
 
-            List<InterviewTask> currentInterviewTask = _context.InterviewTasks
+            if (CandidateHasInterviewResults && CandidateHasInterviewQuestionsAnswers)
+            {
+                var candidateInterviewResult = _context.InterviewResults
+                    .Where(x => x.Candidate == interviewResultViewModel.Candidate)
+                    .FirstOrDefault();
+                var candidateInterviewAnswersInQuestions = _context.InterviewQuestionsAnswers
+                    .Where(x => x.Candidate == interviewResultViewModel.Candidate)
+                    .ToList();                
+                interviewResultViewModel.InterviewTaskQuestions = _context.InterviewQuestionsAnswers
+                    .Where(c => c.Candidate == interviewResultViewModel.Candidate).Select(x => x.InterviewTask.InterviewTaskDescription).ToList();
+
+                var validationResultMessage = _candidateInterviewResultProcessor
+                                .ValidateInterviewResultsToTestResultLimits(candidateInterviewResult, interviewResultViewModel);
+
+                if (validationResultMessage != null)
+                {
+                    ModelState.AddModelError(string.Empty, validationResultMessage);
+                    return View(interviewResultViewModel);
+                }
+
+                _candidateInterviewResultProcessor.UpdateExistingCandidateInterviewResults(interviewResultViewModel, _context, candidateInterviewResult);
+            }
+            else
+            {
+                List<InterviewTask> currentInterviewTask = _context.InterviewTasks
                         .OrderByDescending(x => x.Date)
                         .Take(9)
                         .ToList();
 
-            var interviewResult = new InterviewResult()
-            {
-                Value = interviewResultViewModel.Value,
-                GeneralComment = interviewResultViewModel.GeneralComment,
-                Candidate = interviewResultViewModel.Candidate
-            };
+                //var validationResultMessage = _candidateInterviewResultProcessor
+                //            .ValidateInterviewResultsToTestResultLimits(currentInterviewTask, interviewResultViewModel);
 
-            _context.InterviewResults.Add(interviewResult);
-            _context.SaveChanges();
+                //if (validationResultMessage != null)
+                //{
+                //    ModelState.AddModelError(string.Empty, validationResultMessage);
+                //    return View(interviewResultViewModel);
+                //}
 
-            var CandidateHasInterviewRQuestionsAnswers = _context.InterviewQuestionsAnswers
-                        .Any(x => x.Candidate == interviewResultViewModel.Candidate);
-
-            for (int i = 0; i < interviewResultViewModel.Comment.Count; i++)
-            {
-                var interviewQuestionsAnswers = new InterviewQuestionsAnswers()
+                var interviewResult = new InterviewResult()
                 {
-                    InterviewTask = currentInterviewTask[i],
-                    Comment = interviewResultViewModel.Comment[i],
+                    Value = interviewResultViewModel.Value,
+                    GeneralComment = interviewResultViewModel.GeneralComment,
                     Candidate = interviewResultViewModel.Candidate
                 };
 
-                _context.InterviewQuestionsAnswers.Add(interviewQuestionsAnswers);
+                _context.InterviewResults.Add(interviewResult);
                 _context.SaveChanges();
+
+                //duomenys suvaiksto per interfeisa ir kontroleri
+                _candidateInterviewResultProcessor.SaveInitialCandidateInterviewResults(interviewResultViewModel, currentInterviewTask, _context);                        
             }
-
-
-
-
-            var validationResultMessage = _candidateInterviewResultProcessor
-                        .ValidateInterviewResultsToTestResultLimits(currentInterviewTask, interviewResultViewModel);
-
             return RedirectToAction(nameof(Interviews));
         }
     }
