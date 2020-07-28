@@ -49,5 +49,10 @@ namespace PRIS.WEB.Controllers
             }).OrderByDescending(x => x.TestResult).ToList();
             return View(data);
         }
+
+        public IActionResult ContractsSigned()
+        {
+            return View();
+        }
     }
 }
