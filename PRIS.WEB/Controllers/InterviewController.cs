@@ -90,7 +90,7 @@ namespace PRIS.WEB.Controllers
                             .Where(c => c.Candidate == interviewResultModel.Candidate)
                             .Select(x => x.GeneralComment).FirstOrDefault();
                 interviewResultModel.Value = _context.InterviewResults
-                            .Where(c => c.Value == interviewResultModel.Value)
+                            .Where(c => c.Candidate == interviewResultModel.Candidate)
                             .Select(x => x.Value).FirstOrDefault();
                 interviewResultModel.Comment = _context.InterviewQuestionsAnswers
                             .Where(c => c.Candidate == interviewResultModel.Candidate)

@@ -30,7 +30,7 @@ namespace PRIS.WEB.Logic
             //{
             _context.Attach(interviewResult);
             interviewResult.GeneralComment = interviewResultViewModel.GeneralComment;
-            interviewResultViewModel.Value = interviewResultViewModel.Value;
+            interviewResult.Value = interviewResultViewModel.Value;
             _context.SaveChanges();
             //}
         }
