@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using PRIS.WEB.Data;
 using PRIS.WEB.Data.Models;
 using PRIS.WEB.Logic;
@@ -24,7 +25,7 @@ namespace PRIS.WEB.Controllers
             _candidateInterviewResultProcessor = candidateInterviewResultProcessor;
         }
 
-        public IActionResult Interviews(string City, string Module)
+        public IActionResult Interviews(string City)
         {
             City city = _context.Cities.FirstOrDefault(x => x.CityName == City);
 
@@ -48,13 +49,19 @@ namespace PRIS.WEB.Controllers
                 TestDate = x.Test.DateOfTest,
                 TestCity = x.Test.City.CityName,
                 TestResult = _context.TaskResult.Where(t => t.CandidateId == x.CandidateID).Sum(t => t.Value),
-                FirstModule = x.CandidateModules.Select(t => t.Module.ModuleName).FirstOrDefault(),
-                InterviewResult = _context.InterviewResults.Where(t => t.CandidateId == x.CandidateID).Select(t => t.Value).First(),
-                GeneralInterviewComment = _context.InterviewResults.Where(t => t.CandidateId == x.CandidateID).Select(t => t.GeneralComment).First(),
-                GeneralResult = (_context.TaskResult.Where(t => t.CandidateId == x.CandidateID).Sum(t => t.Value) + _context.InterviewResults.Where(t => t.CandidateId == x.CandidateID).Select(t => t.Value).First())/2,
+                InterviewResult = _context.InterviewResults.Where(t => t.CandidateId == x.CandidateID).Select(t => t.Value).FirstOrDefault(),
+                GeneralInterviewComment = _context.InterviewResults.Where(t => t.CandidateId == x.CandidateID).Select(t => t.GeneralComment).FirstOrDefault(),
+                GeneralResult = (_context.TaskResult.Where(t => t.CandidateId == x.CandidateID).Sum(t => t.Value) + _context.InterviewResults.Where(t => t.CandidateId == x.CandidateID).Select(t => t.Value).FirstOrDefault()) / 2,
                 InvitedToInterview = x.InvitedToInterview,
                 InvitedToStudy = x.InvitedToStudy
             }).OrderByDescending(x => x.GeneralResult).ToList();
+
+            ViewBag.Cities = _context.Cities.Select(i => new SelectListItem()
+            {
+                Value = i.CityName,
+                Text = i.CityName
+            }).ToList();
+
             return View(data);
         }
 
