@@ -17,5 +17,7 @@ namespace PRIS.WEB.Data.Models
         public double MaxValue { get; set; }
         public int TaskGroupID { get; set; }
         public TaskGroup TaskGroup { get; set; }
+
+        public int AcademicYearID { get; set; }
     }
 }
