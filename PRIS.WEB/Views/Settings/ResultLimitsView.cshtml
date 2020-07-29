@@ -46,7 +46,7 @@
                 </td>
 
                 <td>
-                    @Html.DisplayFor(modelItem => item.Date)
+                    @item.Date.ToShortDateString()
                 </td>
                 @*<td>
                     <a asp-action="ResultLimitsDelete" asp-route-id="@item.TaskResultLimitId[0]" class="btn btn-sm btn-outline-danger" role="button">Trinti</a>

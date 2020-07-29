@@ -123,70 +123,70 @@ namespace PRIS.WEB.Data
             context.TaskResultLimits.AddRange(
                 new TaskResultLimit
                 {
-                    TaskGroupID = 1,
+                    TaskGroupID = taskGroups.Single(t=>t.TaskGroupName == "Kompiuteriniai pagrindai").TaskGroupID,
                     MaxValue = 1,
                     Position = 1,
                     Date = DateTime.Now
                 },   
                 new TaskResultLimit
                 {
-                    TaskGroupID = 1,
+                    TaskGroupID = taskGroups.Single(t => t.TaskGroupName == "Kompiuteriniai pagrindai").TaskGroupID,
                     MaxValue = 1,
                     Position = 2,
                     Date = DateTime.Now
                 },   
                 new TaskResultLimit
                 {
-                    TaskGroupID = 1,
+                    TaskGroupID = taskGroups.Single(t => t.TaskGroupName == "Kompiuteriniai pagrindai").TaskGroupID,
                     MaxValue = 1,
                     Position = 3,
                     Date = DateTime.Now
                 },   
                 new TaskResultLimit
                 {
-                    TaskGroupID = 1,
+                    TaskGroupID = taskGroups.Single(t => t.TaskGroupName == "Kompiuteriniai pagrindai").TaskGroupID,
                     MaxValue = 1,
                     Position = 4,
                     Date = DateTime.Now
                 },   
                 new TaskResultLimit
                 {
-                    TaskGroupID = 0,
+                    TaskGroupID = taskGroups.Single(t => t.TaskGroupName == "Loginės užduotys").TaskGroupID,
                     MaxValue = 1,
                     Position = 5,
                     Date = DateTime.Now
                 },   
                 new TaskResultLimit
                 {
-                    TaskGroupID = 0,
+                    TaskGroupID = taskGroups.Single(t => t.TaskGroupName == "Loginės užduotys").TaskGroupID,
                     MaxValue = 1,
                     Position = 6,
                     Date = DateTime.Now
                 },   
                 new TaskResultLimit
                 {
-                    TaskGroupID = 0,
+                    TaskGroupID = taskGroups.Single(t => t.TaskGroupName == "Loginės užduotys").TaskGroupID,
                     MaxValue = 1,
                     Position = 7,
                     Date = DateTime.Now
                 },   
                 new TaskResultLimit
                 {
-                    TaskGroupID = 0,
+                    TaskGroupID = taskGroups.Single(t => t.TaskGroupName == "Loginės užduotys").TaskGroupID,
                     MaxValue = 1,
                     Position = 8,
                     Date = DateTime.Now
                 },   
                 new TaskResultLimit
                 {
-                    TaskGroupID = 2,
+                    TaskGroupID = taskGroups.Single(t => t.TaskGroupName == "Programavimo pagrindai").TaskGroupID,
                     MaxValue = 2,
                     Position = 9,
                     Date = DateTime.Now
                 },   
                 new TaskResultLimit
                 {
-                    TaskGroupID = 2,
+                    TaskGroupID = taskGroups.Single(t => t.TaskGroupName == "Programavimo pagrindai").TaskGroupID,
                     MaxValue = 4,
                     Position = 10,
                     Date = DateTime.Now
@@ -199,8 +199,18 @@ namespace PRIS.WEB.Data
 
             var tests = new Test[]
             {
-                new Test { CityId = cities.Single(c=>c.CityName == "Vilnius").CityId, DateOfTest = DateTime.Now, AcademicYearID = 0 },
-                new Test { CityId = cities.Single(c=>c.CityName == "Kaunas").CityId, DateOfTest = DateTime.Now, AcademicYearID = 0 }
+                new Test
+                {
+                    CityId = cities.Single(c=>c.CityName == "Vilnius").CityId,
+                    DateOfTest = DateTime.Now,
+                    AcademicYearID = academicYears.Single(a=>a.AcademicYearID == 0).AcademicYearID
+                },
+                new Test
+                {
+                    CityId = cities.Single(c=>c.CityName == "Kaunas").CityId,
+                    DateOfTest = DateTime.Now,
+                    AcademicYearID = academicYears.Single(a=>a.AcademicYearID == 0).AcademicYearID
+                }
             };
 
             foreach (Test test in tests)
