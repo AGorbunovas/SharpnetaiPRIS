@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Moq;
 using PRIS.WEB.Controllers;
 using PRIS.WEB.Data;
@@ -28,6 +29,9 @@ namespace PRIS.Test.Controller
             
             _context = InMemoryApplicationDbContext.GetInMemoryApplicationDbContext();
             _sut = new CandidateController(_context, MockCandidateTestResultProcessor.Object);
+
+            var mockTempData = new Mock<ITempDataDictionary>();
+            _sut.TempData = mockTempData.Object;
         }
 
         [Fact]
