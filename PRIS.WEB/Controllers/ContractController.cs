@@ -53,7 +53,7 @@ namespace PRIS.WEB.Controllers
                 //ContractDate = _context.Contracts.Where(t => t.CandidateID == x.CandidateID).Select(t => t.ContractDate).FirstOrDefault(),
                 //ContractType = _context.Contracts.Where(t => t.CandidateID == x.CandidateID).Select(t => t.ContractType).FirstOrDefault(),
                 IsContractSigned = _context.Contracts.Where(t => t.CandidateID == x.CandidateID).Select(t => t.IsContractSigned).FirstOrDefault(),
-            }).OrderByDescending(x => x.IsContractSigned).ToList();
+            }).OrderByDescending(x => x.InvitedToStudy).ThenByDescending(x => x.GeneralResult).ToList();
 
             ViewBag.Cities = _context.Cities.Select(i => new SelectListItem()
             {
@@ -96,7 +96,7 @@ namespace PRIS.WEB.Controllers
                 ContractDate = x.Contract.ContractDate,
                 ContractType = x.Contract.ContractType,
                 IsContractSigned = x.Contract.IsContractSigned,
-            }).OrderByDescending(x => x.IsContractSigned).ToList();
+            }).OrderByDescending(x => x.IsContractSigned).ThenByDescending(x => x.GeneralResult).ToList();
 
             return View(data);
         }

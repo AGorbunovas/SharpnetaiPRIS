@@ -54,7 +54,7 @@ namespace PRIS.WEB.Controllers
                 GeneralResult = (_context.TaskResult.Where(t => t.CandidateId == x.CandidateID).Sum(t => t.Value) + _context.InterviewResults.Where(t => t.CandidateId == x.CandidateID).Select(t => t.Value).FirstOrDefault()) / 2,
                 InvitedToInterview = x.InvitedToInterview,
                 InvitedToStudy = x.InvitedToStudy
-            }).OrderByDescending(x => x.GeneralResult).ToList();
+            }).OrderByDescending(x => x.GeneralResult).ThenByDescending(x => x.TestResult).ToList();
 
             ViewBag.Cities = _context.Cities.Select(i => new SelectListItem()
             {
