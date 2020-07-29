@@ -29,15 +29,5 @@ namespace PRIS.Test.Controller
             //assert
             Assert.IsType<ViewResult>(result);
         }
-
-        [Fact]
-        public void DisplayTheContractsSignedView()
-        {
-            //act
-            var result = _sut.ContractsSigned();
-
-            //assert
-            Assert.IsType<ViewResult>(result);
-        }
     }
 }
