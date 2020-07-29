@@ -16,15 +16,19 @@
     </div>
 </div>
 
+<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
 <div class="row">
     <div class="col-4">
         <form asp-action="Contracts" method="get">
             <div class="form-actions no-color">
-                Miesto filtras:
-                <fieldset class="form-group">
-                    <select name="City" id="City" asp-items=ViewBag.Cities class="form-control"><option value=null>Visi</option></select>
-                </fieldset>
-                <input type="submit" value="Ieškoti" class="btn btn-outline-dark mb-2" />
+                <p>
+                    Miesto filtras:
+                    <fieldset class="form-group">
+                        <select name="City" id="City" asp-items=ViewBag.Cities class="form-control"><option value=null>Visi</option></select>
+                    </fieldset>
+                    <input type="submit" value="Ieškoti" class="btn btn-outline-dark mb-2" />
+                </p>
             </div>
             @*<div class="form-actions no-color">
                     Mokymo programos filtras:

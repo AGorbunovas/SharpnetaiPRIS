@@ -13,6 +13,7 @@
 }
 
 
+
 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
 <div class="row">
@@ -30,10 +31,10 @@
         </form>
     </div>
 
-    <div class="col-4">
+    <div class="col-5">
         <div class="form-actions no-color">
             <p>
-                Balų rėžis filtras:
+                Kandidatų imties pokalbiams skaičius:
                 <select id="ddl" name="ddl" onmousedown="this.value='';" onchange="name1(this.value);" class="form-control mt-3">
 
                     @for (int i = 1; i <= Model.Count; i++)
