@@ -219,6 +219,20 @@ namespace PRIS.WEB.Controllers
         [HttpPost]
         public IActionResult ResultLimitsCreate(TestResultLimitViewModel resultLimitModel)
         {
+            bool isFirstResultLimitForAcademicYear = _context.TaskResultLimits.Any(x => x.AcademicYearID == resultLimitModel.AcademicYearID);
+            if(isFirstResultLimitForAcademicYear)
+            {
+                var maxValueSum = _context.TaskResultLimits.Where(x => x.AcademicYearID == resultLimitModel.AcademicYearID).Take(10).Sum(x => x.MaxValue);
+                var resultMaxValueSum = resultLimitModel.MaxValue.Sum();
+                if (maxValueSum != resultMaxValueSum)
+                {
+                    ModelState.AddModelError("", "Maksimalių balų limitas nesutampa su praeitu limitu");
+                    TestResultLimitViewModel model = GetLimitViewModelWithTaskGroupList();
+                    model.MaxValue = resultLimitModel.MaxValue;
+                    return View(model);
+                }
+            }
+
             DateTime timeStamp = DateTime.Now;
 
             for (int i = 0; i < resultLimitModel.MaxValue.Count; i++)
@@ -231,6 +245,7 @@ namespace PRIS.WEB.Controllers
                 limitTask.Position = i + 1;
                 limitTask.MaxValue = resultLimitModel.MaxValue[i];
                 limitTask.TaskGroup = taskGroup;
+                limitTask.AcademicYearID = resultLimitModel.AcademicYearID;
 
                 _context.TaskResultLimits.Add(limitTask);
                 _context.SaveChanges();
@@ -255,6 +270,15 @@ namespace PRIS.WEB.Controllers
             {
                 viewModel.MaxValue.Add(0.5);
             }
+
+            var academicYears = _context.AcademicYears.OrderByDescending(x => x.AcademicYearID).Select(i => new SelectListItem()
+            {
+                Value = i.AcademicYearID.ToString(),
+                Text = i.AcademicYearStart.ToString("yyyy-MM-dd") + "  ||  " + i.AcademicYearEnd.ToString("yyyy-MM-dd")
+            }).ToList();
+
+            viewModel.AcademicYears = academicYears;
+
             return viewModel;
         }
 

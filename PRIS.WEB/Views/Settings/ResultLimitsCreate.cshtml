@@ -20,6 +20,13 @@
                     <br />
                     <span class="text-danger"></span>
                 </div>
+
+                <fieldset class="form-group">
+                    <label asp-for="AcademicYearID">Pasirenkamas mokslo metų laikotarpis</label>
+                    <select asp-for="AcademicYearID" asp-items="Model.AcademicYears" class="form-control"></select>
+                    <span asp-validation-for="AcademicYearID" class="text-danger"></span>
+                </fieldset>
+
                 <div class="row">
 
                     @for (int i = 0; i < Model.MaxValue.Count; i++)

@@ -28,6 +28,9 @@ namespace PRIS.WEB.ViewModels.ResultLimitViewModel
         public List<SelectListItem> TaskGroups { get; set; }
 
         [Required(ErrorMessage = "Pasirinkite užduočių grupę")]
-        public string[] TaskGroupName { get; set; } 
+        public string[] TaskGroupName { get; set; }
+
+        public List<SelectListItem> AcademicYears { get; set; }
+        public int AcademicYearID { get; set; }
     } 
 }
