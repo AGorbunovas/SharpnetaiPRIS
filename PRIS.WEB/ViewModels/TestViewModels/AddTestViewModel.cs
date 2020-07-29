@@ -22,6 +22,7 @@ namespace PRIS.WEB.ViewModels.TestViewModels
         public string CityName { get; set; }
         public int TestId { get; set; }
 
+        [Display(Name = "Mokslo metų laikotarpis")]
         public AcademicYear AcademicYear { get; set; }
         public List<SelectListItem> AcademicYears { get; set; }
         public int AcademicYearID { get; set; }

@@ -355,7 +355,7 @@ namespace PRIS.WEB.Controllers
             for (int i = 0; i < countOfLimitTemplateForOneTest; i++)
             {
                 var limitTemplate = interviewTaskLimits.GetRange(i * 9, 9).ToList();
-                var dateOfLimits = limitTemplate.Select(i => i.Date).First();
+                var dateOfLimits = limitTemplate.Select(i => i.Date).FirstOrDefault();
 
                 viewModel.Add(new AddInterviewTaskViewModel()
                 {

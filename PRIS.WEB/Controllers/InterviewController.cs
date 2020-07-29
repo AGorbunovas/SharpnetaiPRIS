@@ -7,6 +7,7 @@ using PRIS.WEB.Logic;
 using PRIS.WEB.Models;
 using PRIS.WEB.ViewModels;
 using PRIS.WEB.ViewModels.CandidateViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -112,9 +113,11 @@ namespace PRIS.WEB.Controllers
                 interviewResultModel.Value = _context.InterviewResults
                             .Where(c => c.Candidate == interviewResultModel.Candidate)
                             .Select(x => x.Value).FirstOrDefault();
+
                 interviewResultModel.Comment = _context.InterviewQuestionsAnswers
-                            .Where(c => c.Candidate == interviewResultModel.Candidate)
-                            .Select(x => x.Comment).ToList();
+                        .Where(c => c.Candidate == interviewResultModel.Candidate)
+                        .Select(x => x.Comment).ToList();
+                               
                 interviewResultModel.InterviewTaskQuestions = _context.InterviewQuestionsAnswers
                             .Where(c => c.Candidate == interviewResultModel.Candidate)
                             .Select(x => x.InterviewTask.InterviewTaskDescription).ToList();
@@ -127,8 +130,9 @@ namespace PRIS.WEB.Controllers
                             .ToList();
 
                 for (int i = 0; i < 9; i++)
-                {
+                {                    
                     interviewResultModel.Comment.Add("");
+                    
                     int InterviewTaskID = currentInterviewGeneralResultQuestions[i].InterviewTaskID;
                     string InterviewTaskDescription = _context.InterviewTasks
                             .Where(x => x.InterviewTaskID == InterviewTaskID)

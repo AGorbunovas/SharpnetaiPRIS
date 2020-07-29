@@ -9,40 +9,78 @@
 
 @Model.Candidate.FirstName
 @Model.Candidate.LastName
-testo balo suvedimas
+testo balo suvedimass
 
-<form method="post" class="form-horizontal" role="form">
+@if (Model.GeneralComment != null)
+{
+    <form method="post" class="form-horizontal" role="form">
 
-    <div class="row">
-        @{int positionOfTask = 1;}
+        <div class="row">
+            @{int positionOfTask = 1;}
+            @foreach (var item in Model.Comment)
+            {
+                <div class="col-6">
+                    <fieldset class="form-group">
+                        <label asp-for="Comment">Klausimas Nr.: @positionOfTask</label>
+                        <b>@Model.InterviewTaskQuestions[positionOfTask - 1]</b>
+                        <div>@Html.Label("", item, new { @class = "form-control" })</div>                        
+                        <span asp-validation-for="Comment" class="text-danger"></span>
+                    </fieldset>
+                </div>
+                positionOfTask++;
+            }
+        </div>
+        <div class="col-6">
+            <fieldset class="form-group">
+                <label asp-for="GeneralComment">Bendras komentaras</label>
+                <textarea asp-for="GeneralComment" type="text" class="form-control" required></textarea>
+                <span asp-validation-for="GeneralComment" class="text-danger"></span>
+            </fieldset>
+        </div>
+        <div class="col-6">
+            <fieldset class="form-group">
+                <label asp-for="Value">Pokalbio balas</label>
+                <input asp-for="Value" type="number" class="form-control" min="0" step="0.5" required />
+                <span asp-validation-for="Value" class="text-danger"></span>
+            </fieldset>
+        </div>
+        <input id="submitApplication" type="submit" value="Sukurti" class="btn btn-outline-dark" />
+    </form>
+}
 
-        @foreach (var item in Model.Comment)
-        {
-            <div class="col-6">
-                <fieldset class="form-group">
-                    <label asp-for="Comment">Klausimas Nr.: @positionOfTask</label>
-                    <b>@Model.InterviewTaskQuestions[positionOfTask - 1]</b>
-                    <td>@Html.TextArea("Comment", item, new { @class = "form-control" })</td>
-                    @*<textarea placeholder=@item asp-for="Comment" type="text" class="form-control" rows="3"></textarea>*@
-                    <span asp-validation-for="Comment" class="text-danger"></span>
-                </fieldset>
-            </div>
-            positionOfTask++;
-        }
-    </div>
-    <div class="col-6">
-        <fieldset class="form-group">
-            <label asp-for="GeneralComment">Bendras komentaras</label>
-            <textarea asp-for="GeneralComment" type="text" class="form-control" required></textarea>
-            <span asp-validation-for="GeneralComment" class="text-danger"></span>
-        </fieldset>
-    </div>
-    <div class="col-6">
-        <fieldset class="form-group">
-            <label asp-for="Value">Pokalbio balas</label>
-            <input asp-for="Value" type="number" class="form-control" min="0" step="0.5" required />
-            <span asp-validation-for="Value" class="text-danger"></span>
-        </fieldset>
-    </div>
-    <input id="submitApplication" type="submit" value="Sukurti" class="btn btn-outline-dark" />
-</form>
+else
+{
+    <form method="post" class="form-horizontal" role="form">
+
+        <div class="row">
+            @{int positionOfTask = 1;}
+            @foreach (var item in Model.Comment)
+            {
+                <div class="col-6">
+                    <fieldset class="form-group">
+                        <label asp-for="Comment">Klausimas Nr.: @positionOfTask</label>
+                        <b>@Model.InterviewTaskQuestions[positionOfTask - 1]</b>
+                        <div>@Html.TextArea("Comment", item, new { @class = "form-control" })</div>                        
+                        <span asp-validation-for="Comment" class="text-danger"></span>
+                    </fieldset>
+                </div>
+                positionOfTask++;
+            }
+        </div>
+        <div class="col-6">
+            <fieldset class="form-group">
+                <label asp-for="GeneralComment">Bendras komentaras</label>
+                <textarea asp-for="GeneralComment" type="text" class="form-control" required></textarea>
+                <span asp-validation-for="GeneralComment" class="text-danger"></span>
+            </fieldset>
+        </div>
+        <div class="col-6">
+            <fieldset class="form-group">
+                <label asp-for="Value">Pokalbio balas</label>
+                <input asp-for="Value" type="number" class="form-control" min="0" step="0.5" required />
+                <span asp-validation-for="Value" class="text-danger"></span>
+            </fieldset>
+        </div>
+        <input id="submitApplication" type="submit" value="Sukurti" class="btn btn-outline-dark" />
+    </form>
+}
