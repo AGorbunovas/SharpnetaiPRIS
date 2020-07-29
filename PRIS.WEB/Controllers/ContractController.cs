@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using PRIS.WEB.Data;
 using PRIS.WEB.Data.Models;
 using PRIS.WEB.Models;
+using PRIS.WEB.ViewModels.CandidateViewModels;
 using PRIS.WEB.ViewModels.ContractViewModule;
 
 namespace PRIS.WEB.Controllers
@@ -45,7 +46,7 @@ namespace PRIS.WEB.Controllers
                 candidateByModule = _context.CandidateModules.Select(x => x.CandidateID).ToList();
             }
 
-            var data = _context.Candidates.Where(x => candidateByCity.Contains(x.TestId) && candidateByModule.Contains(x.CandidateID) && x.Test.AcademicYearID == _context.Test.Max(t => t.AcademicYearID)).Select(x =>
+            var data = _context.Candidates.Where(x => candidateByCity.Contains(x.TestId) && candidateByModule.Contains(x.CandidateID) && x.Test.AcademicYearID == _context.Test.Max(t => t.AcademicYearID) && x.InvitedToInterview == true).Select(x =>
             new CandidateContractViewModel()
             {
                 CandidateID = x.CandidateID,
@@ -146,36 +147,56 @@ namespace PRIS.WEB.Controllers
                 _context.Attach(contract);
                 contract.IsContractSigned = item.IsContractSigned;
                 _context.SaveChanges();
+
+                DateTime timeStamp = DateTime.Now;
+                if (!_context.Contracts.Any(c => c.CandidateID == item.CandidateID))
+                {
+                    if (!item.IsContractSigned)
+                    {
+                        var contractToDelete = _context.Contracts.Where(x => x.CandidateID == item.CandidateID).FirstOrDefault();
+                        _context.Contracts.Remove(contractToDelete);
+                        _context.SaveChanges();
+                    };
+                    var candidateContract = new Contract()
+                    {
+                        CandidateID = item.CandidateID,
+                        IsContractSigned = item.IsContractSigned,
+                        ContractDate = timeStamp,
+                        ContractType = item.ContractType
+                    };
+                    _context.Contracts.Add(candidateContract);
+                    _context.SaveChanges();
+                }
                 TempData["CandidateInvitedToStudyInContractsUpdated"] = "Jūsų pasirinkimas išsaugotas";
                 return RedirectToAction("ContractsSigned");
             }
             return RedirectToAction("ContractsSigned");
         }
 
+        //[HttpPost]
+        //public IActionResult ContractsSigned(CandidateContractViewModel contractModel)
+        //{
+        //    DateTime timeStamp = DateTime.Now;
+        //    if (!_context.Contracts.Any(c => c.CandidateID == contractModel.CandidateID))
+        //    {
+        //        if (!contractModel.IsContractSigned)
+        //        {
+        //            var contractToDelete = _context.Contracts.Where(x => x.CandidateID == contractModel.CandidateID).FirstOrDefault();
+        //            _context.Contracts.Remove(contractToDelete);
+        //            _context.SaveChanges();
+        //        };
+        //        var candidateContract = new Contract()
+        //        {
+        //            CandidateID = contractModel.CandidateID,
+        //            IsContractSigned = contractModel.IsContractSigned,
+        //            ContractDate = timeStamp,
+        //            ContractType = contractModel.ContractType
+        //        };
+        //        _context.Contracts.Add(candidateContract);
+        //        _context.SaveChanges();
+        //    }
+        //    return RedirectToAction("ContractsSigned");
+        //}
 
-        [HttpPost]
-        public IActionResult ContractsSigned(CandidateContractViewModel contractModel)
-        {
-            DateTime timeStamp = DateTime.Now;
-            if (!_context.Contracts.Any(c => c.CandidateID == contractModel.CandidateID))
-            {
-                if (!contractModel.IsContractSigned)
-                {
-                    var contractToDelete = _context.Contracts.Where(x => x.CandidateID == contractModel.CandidateID).FirstOrDefault();
-                    _context.Contracts.Remove(contractToDelete);
-                    _context.SaveChanges();
-                };
-                var candidateContract = new Contract()
-                {
-                    CandidateID = contractModel.CandidateID,
-                    IsContractSigned = contractModel.IsContractSigned,
-                    ContractDate = timeStamp,
-                    ContractType = contractModel.ContractType
-                };
-                _context.Contracts.Add(candidateContract);
-                _context.SaveChanges();
-            }
-            return RedirectToAction("ContractsSigned");
-        }
     }
 }
