@@ -5,6 +5,7 @@
     Layout = "~/Views/Shared/_LayoutNavSectionForContract.cshtml";
 }
 
+<div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
 <div class="row">
     <div class="col">
@@ -16,7 +17,6 @@
                         <select name="City" id="City" asp-items=ViewBag.Cities class="form-control"><option value=null>Visi</option></select>
                     </fieldset>
                 </div>
-                @*<p>&#09;</p>*@
                 <div class="d-inline-block">
                     <p>Mokymo programos filtras:</p>
                     <fieldset class="form-group">
@@ -29,19 +29,19 @@
     </div>
 </div>
 
-<div class="row">
-    <div class="col-4">
-        <div class="form-actions no-color mt-2">
-            Kandidatų imties pasirašiusiems skaičius:
-            <select id="ddl" name="ddl" onmousedown="this.value='';" onchange="name2(this.value);" class="form-control mt-3">
-                @for (int i = 1; i <= Model.Count; i++)
-                {
-                    <option value=@i>@i</option>
-                }
-            </select>
+@*<div class="row">
+        <div class="col-4">
+            <div class="form-actions no-color mt-2">
+                Kandidatų imties pasirašiusiems skaičius:
+                <select id="ddl" name="ddl" onmousedown="this.value='';" onchange="name2(this.value);" class="form-control mt-3">
+                    @for (int i = 1; i <= Model.Count; i++)
+                    {
+                        <option value=@i>@i</option>
+                    }
+                </select>
+            </div>
         </div>
-    </div>
-</div>
+    </div>*@
 
 <form method="post" class="form-horizontal" role="form">
     <input id="submitApplication" type="submit" value="Patvirtinti pasirašiusiuosius sutartis" class="btn btn-outline-dark my-2" />

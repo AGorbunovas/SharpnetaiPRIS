@@ -60,7 +60,7 @@ namespace PRIS.WEB.Controllers
                 GeneralResult = (_context.TaskResult.Where(t => t.CandidateId == x.CandidateID).Sum(t => t.Value) + _context.InterviewResults.Where(t => t.CandidateId == x.CandidateID).Select(t => t.Value).FirstOrDefault()) / 2,
                 GeneralInterviewComment = _context.InterviewResults.Where(t => t.CandidateId == x.CandidateID).Select(t => t.GeneralComment).FirstOrDefault(),
                 InvitedToStudy = x.InvitedToStudy,
-                IsContractSigned = _context.Contracts.Where(t => t.CandidateID == x.CandidateID).Select(t => t.IsContractSigned).FirstOrDefault(),
+                IsContractSigned = x.IsContractSigned,
             }).OrderByDescending(x => x.InvitedToStudy).ThenByDescending(x => x.GeneralResult).ToList();
 
             ViewBag.Cities = _context.Cities.Select(i => new SelectListItem()
@@ -124,7 +124,7 @@ namespace PRIS.WEB.Controllers
                 CandidateID = x.CandidateID,
                 Firstname = x.FirstName,
                 Lastname = x.LastName,
-                FirstModule = x.CandidateModules.Select(t => t.Module.ModuleName).FirstOrDefault(),
+                FirstModule = x.CandidateModules.OrderBy(t => t.OrderNr).Select(t => t.Module.ModuleName).FirstOrDefault(),
                 TestDate = x.Test.DateOfTest,
                 TestCity = x.Test.City.CityName,
                 GeneralResult = (_context.TaskResult.Where(t => t.CandidateId == x.CandidateID).Sum(t => t.Value) + _context.InterviewResults.Where(t => t.CandidateId == x.CandidateID).Select(t => t.Value).FirstOrDefault()) / 2,
@@ -132,7 +132,7 @@ namespace PRIS.WEB.Controllers
                 AcademicYear = x.Test.AcademicYear.AcademicYearStart.ToString("yyyy-MM-dd") + "  ||  " + x.Test.AcademicYear.AcademicYearEnd.ToString("yyyy-MM-dd"),
                 ContractDate = x.Contract.ContractDate,
                 ContractType = x.Contract.ContractType,
-                IsContractSigned = x.Contract.IsContractSigned,
+                IsContractSigned = x.IsContractSigned,
             }).OrderByDescending(x => x.IsContractSigned).ThenByDescending(x => x.GeneralResult).ToList();
 
             return View(data);
@@ -143,32 +143,37 @@ namespace PRIS.WEB.Controllers
         {
             foreach (var item in contractModel)
             {
-                Contract contract = _context.Contracts.FirstOrDefault(x => x.CandidateID == item.CandidateID);
-                _context.Attach(contract);
-                contract.IsContractSigned = item.IsContractSigned;
+                Candidate candidate = _context.Candidates.FirstOrDefault(x => x.CandidateID == item.CandidateID);
+                _context.Attach(candidate);
+                candidate.IsContractSigned = item.IsContractSigned;
                 _context.SaveChanges();
+                TempData["CandidateInvitedToStudyInContractsUpdated"] = "Jūsų pasirinkimas išsaugotas";
+            }
+
+            foreach (var item in contractModel)
+            {
+                if (!item.IsContractSigned)
+                {
+                    if (_context.Contracts.Any(c => c.CandidateID == item.CandidateID))
+                    {
+                        Contract contractToDelete = _context.Contracts.FirstOrDefault(x => x.CandidateID == item.CandidateID);
+                        _context.Contracts.Remove(contractToDelete);
+                        _context.SaveChanges();
+                    }
+                };
 
                 DateTime timeStamp = DateTime.Now;
                 if (!_context.Contracts.Any(c => c.CandidateID == item.CandidateID))
                 {
-                    if (!item.IsContractSigned)
-                    {
-                        var contractToDelete = _context.Contracts.Where(x => x.CandidateID == item.CandidateID).FirstOrDefault();
-                        _context.Contracts.Remove(contractToDelete);
-                        _context.SaveChanges();
-                    };
                     var candidateContract = new Contract()
                     {
                         CandidateID = item.CandidateID,
-                        IsContractSigned = item.IsContractSigned,
                         ContractDate = timeStamp,
                         ContractType = item.ContractType
                     };
                     _context.Contracts.Add(candidateContract);
                     _context.SaveChanges();
                 }
-                TempData["CandidateInvitedToStudyInContractsUpdated"] = "Jūsų pasirinkimas išsaugotas";
-                return RedirectToAction("ContractsSigned");
             }
             return RedirectToAction("ContractsSigned");
         }

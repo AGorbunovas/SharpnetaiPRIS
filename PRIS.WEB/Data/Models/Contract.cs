@@ -19,7 +19,6 @@ namespace PRIS.WEB.Data.Models
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime ContractDate { get; set; }
         public ContractType ContractType { get; set; }
-        public bool IsContractSigned { get; set; }
         public int CandidateID { get; set; }
         public Candidate Candidate { get; set; }
 
