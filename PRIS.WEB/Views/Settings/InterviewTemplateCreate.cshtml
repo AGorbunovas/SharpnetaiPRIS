@@ -1,13 +1,13 @@
-﻿@model PRIS.WEB.ViewModels.InterviewTemplateViewModel.AddInterviewTemplateViewModel
+﻿@*@model PRIS.WEB.ViewModels.InterviewTemplateViewModel.AddInterviewTemplateViewModel
 
 @{
     ViewData["Title"] = "InterviewTemplateCreate";
     ViewData["ActivePage"] = PRIS.WEB.Views.Shared.ManageCollumnNavPages.InterviewTemplateList;
     Layout = "~/Views/Shared/_LayoutNavSectionForSettings.cshtml";
-}
+}*@
 
 @*<form asp-action="InterviewTemplateCreate" method="post" class="form-horizontal" role="form">*@
-<form asp-action="InterviewTemplateCreate">
+@*<form asp-action="InterviewTemplateCreate">
 
     <div asp-validation-summary="All" class="text-danger"></div>
 
@@ -26,10 +26,10 @@
             <select asp-for="@Model.SelectedInterviewTasks[i]" asp-items="@Model.InterviewTasks" class="form-control"></select>
         }
         <span asp-validation-for="SelectedInterviewTasks" class="text-danger"></span>
-    </fieldset>
+    </fieldset>*@
 
     @*<input type="submit" value="Išsaugoti" class="btn btn-primary" />*@
-    @if (Model.InterviewTemplateID > 0)
+    @*@if (Model.InterviewTemplateID > 0)
     {
         <input id="submitApplication" type="submit" value="Redaguoti formą" class="btn btn-outline-dark" />
     }
@@ -37,4 +37,4 @@
     {
         <input id="submitApplication" type="submit" value="Sukurti naują formą" class="btn btn-outline-dark" />
     }
-</form>
+</form>*@
