@@ -37,7 +37,7 @@ namespace PRIS.WEB.Controllers
                   Comment = x.Comment,
                   Email = x.Email,
                   Gender = x.Gender,
-                  SelectedModuleIds = x.CandidateModules.Select(t => (int?)t.ModuleID).ToArray(),
+                  SelectedModuleIds = x.CandidateModules.OrderBy(t=>t.OrderNr).Select(t => (int?)t.ModuleID).ToArray(),
                   Phone = x.PhoneNumber,
                   TestId = x.TestId
               }).Single();
@@ -76,7 +76,7 @@ namespace PRIS.WEB.Controllers
                 Lastname = x.LastName,
                 TestDate = x.Test.DateOfTest,
                 TestCity = x.Test.City.CityName,
-                FirstModule = x.CandidateModules.Select(t => t.Module.ModuleName).FirstOrDefault(),
+                FirstModule = x.CandidateModules.OrderBy(t => t.OrderNr).Select(t => t.Module.ModuleName).FirstOrDefault(),
                 TestResult = _context.TaskResult.Where(t => t.CandidateId == x.CandidateID).Sum(t => t.Value),
                 MaxResult = _context.TaskResult.Where(t => t.CandidateId == x.CandidateID).Sum(t => t.TaskResultLimit.MaxValue),
                 InvitedToInterview = x.InvitedToInterview,
@@ -89,12 +89,26 @@ namespace PRIS.WEB.Controllers
                 Text = i.CityName
             }).ToList();
 
+            if (TempData["NotAllCandidatesHaveTastResultsBeforeInvitingToInterview"] != null)
+            {
+                ModelState.AddModelError(string.Empty, TempData["NotAllCandidatesHaveTastResultsBeforeInvitingToInterview"].ToString());
+            }
+
             return View(data);
         }
 
         [HttpPost]
         public IActionResult List(IEnumerable<ListCandidateViewModel> model)
         {
+            foreach (var item in model)
+            {
+                if (!_context.TaskResult.Any(x => x.CandidateId == item.CandidateID) && item.InvitedToInterview == true)
+                {
+                    TempData["NotAllCandidatesHaveTastResultsBeforeInvitingToInterview"] = $"Negalima kviesti kandidatų į pokalbį, jei nėra įvesti testo balai";
+                    return RedirectToAction("List");
+                }
+            }
+
             foreach (var item in model)
             {
                 Candidate candidate = _context.Candidates.FirstOrDefault(x => x.CandidateID == item.CandidateID);
@@ -126,12 +140,25 @@ namespace PRIS.WEB.Controllers
                 record.Comment = model.Comment;
                 record.TestId = model.TestId.Value;
 
-                var removeModules = record.CandidateModules.Where(t => !model.SelectedModuleIds.Contains(t.ModuleID)).ToArray();
-                _context.CandidateModules.RemoveRange(removeModules);
+                var selectedModules = model.SelectedModuleIds.Distinct().ToArray();
 
-                var newModules = model.SelectedModuleIds.Where(t => t.HasValue).Where(t => !record.CandidateModules.Select(tt => tt.ModuleID).Contains(t.Value))
+                var removeModules = record.CandidateModules.Where(t => !selectedModules.Contains(t.ModuleID)).ToArray();
+                foreach (var removeModule in removeModules)
+                    record.CandidateModules.Remove(removeModule);
+
+                var newModules = selectedModules.Where(t => t.HasValue).Where(t => !record.CandidateModules.Select(tt => tt.ModuleID).Contains(t.Value))
                     .Select(x => new CandidateModule() { CandidateID = id, ModuleID = x.Value }).ToArray();
-                _context.CandidateModules.AddRange(newModules);
+                foreach (var newModule in newModules)
+                    record.CandidateModules.Add(newModule);
+
+                for (var i = 0; i < selectedModules.Length; i++)
+                {
+                    var module = record.CandidateModules.Where(t => t.ModuleID == model.SelectedModuleIds[i]).FirstOrDefault();
+                    if (module != null)
+                    {
+                        module.OrderNr = i;
+                    }
+                }
 
                 _context.SaveChanges();
                 return RedirectToAction("List");
@@ -169,7 +196,7 @@ namespace PRIS.WEB.Controllers
                     PhoneNumber = model.Phone.Value,
                     Comment = model.Comment,
                     TestId = model.TestId.Value,
-                    CandidateModules = model.SelectedModuleIds.Where(t => t.HasValue).Distinct().Select(t => new CandidateModule() { ModuleID = t.Value }).ToList()
+                    CandidateModules = model.SelectedModuleIds.Where(t => t.HasValue).Distinct().Select((t, i) => new CandidateModule() { OrderNr = i, ModuleID = t.Value }).ToList()
                 };
                 _context.Candidates.Add(newRecord);
                 _context.SaveChanges();
