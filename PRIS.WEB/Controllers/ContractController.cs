@@ -26,7 +26,6 @@ namespace PRIS.WEB.Controllers
             Module module = _context.Modules.FirstOrDefault(x => x.ModuleName == Module);
 
             var candidateByCity = new List<int>();
-
             if (city != null)
             {
                 candidateByCity = _context.Test.Where(x => x.CityId == city.CityId).Select(x => x.TestId).ToList();
@@ -36,13 +35,23 @@ namespace PRIS.WEB.Controllers
                 candidateByCity = _context.Test.Select(x => x.TestId).ToList();
             }
 
-            var data = _context.Candidates.Where(x => candidateByCity.Contains(x.TestId) && x.Test.AcademicYearID == _context.Test.Max(t => t.AcademicYearID)).Select(x =>
+            var candidateByModule = new List<int>();
+            if (module != null)
+            {
+                candidateByModule = _context.CandidateModules.Where(x => x.OrderNr == 0 && x.ModuleID == module.ModuleID).Select(x => x.CandidateID).ToList();
+            }
+            else
+            {
+                candidateByModule = _context.CandidateModules.Select(x => x.CandidateID).ToList();
+            }
+
+            var data = _context.Candidates.Where(x => candidateByCity.Contains(x.TestId) && candidateByModule.Contains(x.CandidateID) && x.Test.AcademicYearID == _context.Test.Max(t => t.AcademicYearID)).Select(x =>
             new CandidateContractViewModel()
             {
                 CandidateID = x.CandidateID,
                 Firstname = x.FirstName,
                 Lastname = x.LastName,
-                FirstModule = x.CandidateModules.Select(t => t.Module.ModuleName).FirstOrDefault(),
+                FirstModule = x.CandidateModules.OrderBy(t => t.OrderNr).Select(t => t.Module.ModuleName).FirstOrDefault(),
                 TestDate = x.Test.DateOfTest,
                 TestCity = x.Test.City.CityName,
                 TestResult = _context.TaskResult.Where(t => t.CandidateId == x.CandidateID).Sum(t => t.Value),
@@ -50,8 +59,6 @@ namespace PRIS.WEB.Controllers
                 GeneralResult = (_context.TaskResult.Where(t => t.CandidateId == x.CandidateID).Sum(t => t.Value) + _context.InterviewResults.Where(t => t.CandidateId == x.CandidateID).Select(t => t.Value).FirstOrDefault()) / 2,
                 GeneralInterviewComment = _context.InterviewResults.Where(t => t.CandidateId == x.CandidateID).Select(t => t.GeneralComment).FirstOrDefault(),
                 InvitedToStudy = x.InvitedToStudy,
-                //ContractDate = _context.Contracts.Where(t => t.CandidateID == x.CandidateID).Select(t => t.ContractDate).FirstOrDefault(),
-                //ContractType = _context.Contracts.Where(t => t.CandidateID == x.CandidateID).Select(t => t.ContractType).FirstOrDefault(),
                 IsContractSigned = _context.Contracts.Where(t => t.CandidateID == x.CandidateID).Select(t => t.IsContractSigned).FirstOrDefault(),
             }).OrderByDescending(x => x.InvitedToStudy).ThenByDescending(x => x.GeneralResult).ToList();
 
@@ -61,13 +68,19 @@ namespace PRIS.WEB.Controllers
                 Text = i.CityName
             }).ToList();
 
+            ViewBag.Modules = _context.Modules.Select(i => new SelectListItem()
+            {
+                Value = i.ModuleName,
+                Text = i.ModuleName
+            }).ToList();
+
             return View(data);
         }
 
         [HttpPost]
-        public IActionResult Contracts(IEnumerable<CandidateContractViewModel> model)
+        public IActionResult Contracts(IEnumerable<CandidateContractViewModel> contractModel)
         {
-            foreach (var item in model)
+            foreach (var item in contractModel)
             {
                 Candidate candidate = _context.Candidates.FirstOrDefault(x => x.CandidateID == item.CandidateID);
                 _context.Attach(candidate);
@@ -78,10 +91,33 @@ namespace PRIS.WEB.Controllers
             return RedirectToAction("Contracts");
         }
 
-        [HttpGet]
-        public IActionResult ContractsSigned()
+
+        public IActionResult ContractsSigned(string City, string Module)
         {
-            var data = _context.Candidates.Where(x => x.InvitedToStudy == true && x.Test.AcademicYearID == _context.Test.Max(t => t.AcademicYearID)).Select(x =>
+            City city = _context.Cities.FirstOrDefault(x => x.CityName == City);
+            Module module = _context.Modules.FirstOrDefault(x => x.ModuleName == Module);
+
+            var candidateByCity = new List<int>();
+            if (city != null)
+            {
+                candidateByCity = _context.Test.Where(x => x.CityId == city.CityId).Select(x => x.TestId).ToList();
+            }
+            else
+            {
+                candidateByCity = _context.Test.Select(x => x.TestId).ToList();
+            }
+
+            var candidateByModule = new List<int>();
+            if (module != null)
+            {
+                candidateByModule = _context.CandidateModules.Where(x => x.OrderNr == 0 && x.ModuleID == module.ModuleID).Select(x => x.CandidateID).ToList();
+            }
+            else
+            {
+                candidateByModule = _context.CandidateModules.Select(x => x.CandidateID).ToList();
+            }
+
+            var data = _context.Candidates.Where(x => candidateByCity.Contains(x.TestId) && candidateByModule.Contains(x.CandidateID) && x.Test.AcademicYearID == _context.Test.Max(t => t.AcademicYearID) && x.InvitedToStudy == true).Select(x =>
             new CandidateContractViewModel()
             {
                 CandidateID = x.CandidateID,
@@ -102,11 +138,33 @@ namespace PRIS.WEB.Controllers
         }
 
         [HttpPost]
-        public IActionResult ContractsSigned(int id, CandidateContractViewModel contractModel)
+        public IActionResult ContractsSigned(IEnumerable<CandidateContractViewModel> contractModel)
+        {
+            foreach (var item in contractModel)
+            {
+                Contract contract = _context.Contracts.FirstOrDefault(x => x.CandidateID == item.CandidateID);
+                _context.Attach(contract);
+                contract.IsContractSigned = item.IsContractSigned;
+                _context.SaveChanges();
+                TempData["CandidateInvitedToStudyInContractsUpdated"] = "Jūsų pasirinkimas išsaugotas";
+                return RedirectToAction("ContractsSigned");
+            }
+            return RedirectToAction("ContractsSigned");
+        }
+
+
+        [HttpPost]
+        public IActionResult ContractsSigned(CandidateContractViewModel contractModel)
         {
             DateTime timeStamp = DateTime.Now;
-            if (!_context.Contracts.Any(c => c.CandidateID == id))
+            if (!_context.Contracts.Any(c => c.CandidateID == contractModel.CandidateID))
             {
+                if (!contractModel.IsContractSigned)
+                {
+                    var contractToDelete = _context.Contracts.Where(x => x.CandidateID == contractModel.CandidateID).FirstOrDefault();
+                    _context.Contracts.Remove(contractToDelete);
+                    _context.SaveChanges();
+                };
                 var candidateContract = new Contract()
                 {
                     CandidateID = contractModel.CandidateID,
@@ -116,18 +174,6 @@ namespace PRIS.WEB.Controllers
                 };
                 _context.Contracts.Add(candidateContract);
                 _context.SaveChanges();
-            }
-
-            IEnumerable<CandidateContractViewModel> contractModelEnumerable = (IEnumerable<CandidateContractViewModel>)contractModel;
-
-            foreach (var item in contractModelEnumerable)
-            {
-                Contract contract = _context.Contracts.FirstOrDefault(x => x.CandidateID == item.CandidateID);
-                _context.Attach(contract);
-                contract.IsContractSigned = item.IsContractSigned;
-                _context.SaveChanges();
-                TempData["CandidateInvitedToInterviewUpdated"] = "Jūsų pasirinkimas išsaugotas";
-                return RedirectToAction("ContractsSigned");
             }
             return RedirectToAction("ContractsSigned");
         }

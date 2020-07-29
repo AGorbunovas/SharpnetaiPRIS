@@ -17,7 +17,7 @@
 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
 <div class="row">
-    <div class="col-4">
+    <div class="col-5">
         <form asp-action="List" method="get">
             <div class="form-actions no-color">
                 <p>
@@ -25,32 +25,30 @@
                     <fieldset class="form-group">
                         <select name="City" id="City" asp-items=ViewBag.Cities class="form-control"><option value=null>Visi</option></select>
                     </fieldset>
-                    <input type="submit" value="Ieškoti" class="btn btn-outline-dark mb-2" />
+                    <input type="submit" value="Rodyti" class="btn btn-outline-dark d-block my-1" />
                 </p>
             </div>
         </form>
     </div>
+</div>
 
+<div class="row">
     <div class="col-5">
-        <div class="form-actions no-color">
-            <p>
-                Kandidatų imties pokalbiams skaičius:
-                <select id="ddl" name="ddl" onmousedown="this.value='';" onchange="name1(this.value);" class="form-control mt-3">
+        <div class="form-actions no-color mt-2">
+            Kandidatų imties pokalbiams skaičius:
+            <select id="ddl" name="ddl" onmousedown="this.value='';" onchange="name1(this.value);" class="form-control mt-3">
 
-                    @for (int i = 1; i <= Model.Count; i++)
-                    {
-                        <option value=@i>@i</option>
-                    }
-                </select>
-            </p>
+                @for (int i = 1; i <= Model.Count; i++)
+                {
+                    <option value=@i>@i</option>
+                }
+            </select>
         </div>
-
     </div>
-
 </div>
 
 <form method="post" class="form-horizontal" role="form">
-    <input id="submitApplication" type="submit" value="Patvirtinti kandidatus pokalbiui" class="btn btn-outline-dark mb-2" />
+    <input id="submitApplication" type="submit" value="Patvirtinti kandidatus pokalbiui" class="btn btn-outline-dark my-2" />
     <table class="table">
         <thead>
             <tr>
