@@ -9,6 +9,16 @@ namespace PRIS.WEB.Logic
     {
         public void SaveInitialCandidateInterviewResults(InterviewResultViewModel interviewResultViewModel, List<InterviewTask> currentInterviewTasks, ApplicationDbContext _context)
         {
+            var interviewResult = new InterviewResult()
+            {
+                Value = interviewResultViewModel.Value,
+                GeneralComment = interviewResultViewModel.GeneralComment,
+                Candidate = interviewResultViewModel.Candidate
+            };
+
+            _context.InterviewResults.Add(interviewResult);
+            _context.SaveChanges();
+
             for (int i = 0; i < interviewResultViewModel.Comment.Count; i++)
             {
                 var interviewQuestionsAnswers = new InterviewQuestionsAnswers()
@@ -42,6 +52,11 @@ namespace PRIS.WEB.Logic
             if (interviewResultViewModel.GeneralComment == null)
             {
                 message = $"Pagrindinis komentaras negali būti tuščias";
+            }
+
+            if (interviewResultViewModel.Value > 10)
+            {
+                message = $"Pokalbio balas negali būti didesnis negu 10";
             }
 
             return message;
