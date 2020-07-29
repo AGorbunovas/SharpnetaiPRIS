@@ -145,7 +145,7 @@ namespace PRIS.WEB.Controllers
                     .FirstOrDefault();
                 var candidateInterviewAnswersInQuestions = _context.InterviewQuestionsAnswers
                     .Where(x => x.Candidate == interviewResultViewModel.Candidate)
-                    .ToList();                
+                    .ToList();
                 interviewResultViewModel.InterviewTaskQuestions = _context.InterviewQuestionsAnswers
                     .Where(c => c.Candidate == interviewResultViewModel.Candidate).Select(x => x.InterviewTask.InterviewTaskDescription).ToList();
 
@@ -187,7 +187,7 @@ namespace PRIS.WEB.Controllers
                 _context.SaveChanges();
 
                 //duomenys suvaiksto per interfeisa ir kontroleri
-                _candidateInterviewResultProcessor.SaveInitialCandidateInterviewResults(interviewResultViewModel, currentInterviewTask, _context);                        
+                _candidateInterviewResultProcessor.SaveInitialCandidateInterviewResults(interviewResultViewModel, currentInterviewTask, _context);
             }
             return RedirectToAction(nameof(Interviews));
         }

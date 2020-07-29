@@ -189,6 +189,7 @@ namespace PRIS.WEB.Controllers
 
             if (candidate == null || candidate.InvitedToInterview == true)
             {
+
                 return RedirectToAction("List");
             }
 
@@ -236,13 +237,11 @@ namespace PRIS.WEB.Controllers
                 }
 
                 _candidateTestResultProcessor.UpdateExistingCandidateResults(model, _context, candidateTaskResults);
-
             }
             else
             {
                 List<TaskResultLimit> currentTestResultLimits = _context.TaskResultLimits.OrderByDescending(x => x.Date).Take(10).ToList();
                 model.TaskGroupName = _context.TaskResultLimits.OrderByDescending(x => x.Date).Select(x => x.TaskGroup.TaskGroupName.ToString()).Take(10).ToList();
-
 
                 var validationResultMessage = _candidateTestResultProcessor.ValidateTestResultsToTestResultLimits(currentTestResultLimits, model);
 

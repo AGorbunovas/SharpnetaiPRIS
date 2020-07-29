@@ -17,7 +17,6 @@ namespace PRIS.WEB.ViewModels.CandidateViewModels
         public string TestCity { get; set; }
         public int? Result { get; set; } 
         public int? ResultPrc { get; set; }
-        public bool IsInterview { get; set; }
         public string FirstModule { get; set; }
         public double TestResult { get; set; }
         public double MaxResult { get; set; }

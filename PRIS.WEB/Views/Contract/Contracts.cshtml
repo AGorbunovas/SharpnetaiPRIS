@@ -1,94 +1,128 @@
-﻿@model IList<PRIS.WEB.ViewModels.CandidateViewModels.ListCandidateViewModel>
+﻿@model IList<PRIS.WEB.ViewModels.ContractViewModule.CandidateContractViewModel>
 
 @{
-    ViewData["Title"] = "Contracts";
+    ViewData["Title"] = "Sutartys";
     Layout = "~/Views/Shared/_LayoutNavSectionForContract.cshtml";
 }
 
+<div class="row">
+    <div class="col-4">
+        @if (TempData["CandidateInvitedToStudyInContractsUpdated"] != null)
+        {
+            <div class="alert alert-success" role="alert">
+                @TempData["CandidateInvitedToStudyInContractsUpdated"].ToString()
+            </div>
+        }
+    </div>
+</div>
+
+<div class="row">
     <div class="col-4">
         <form asp-action="Contracts" method="get">
             <div class="form-actions no-color">
-                <p>
-                    Miesto filtras:
-
-                    <select name="City" id="City" class="form-control mb-2">
-                        <option value=null>Visi</option>
-                        <option value="Vilnius">Vilnius</option>
-                        <option value="Kaunas">Kaunas</option>
-                    </select>
-
-                    <input type="submit" value="Filtruoti" class="btn btn-outline-dark mb-2 d-inline" />
-                </p>
+                Miesto filtras:
+                <fieldset class="form-group">
+                    <select name="City" id="City" asp-items=ViewBag.Cities class="form-control"><option value=null>Visi</option></select>
+                </fieldset>
+                <input type="submit" value="Ieškoti" class="btn btn-outline-dark mb-2" />
             </div>
+            @*<div class="form-actions no-color">
+                    Mokymo programos filtras:
+                    <select name="City" id="City" class="form-control mb-2">
+                        <option value=null>Visos</option>
+                        <option value="Vilnius"></option>
+                        <option value="Kaunas"></option>
+                    </select>
+                    <input type="submit" value="Filtruoti" class="btn btn-outline-dark mb-2 d-inline" />
+                </div>*@
         </form>
     </div>
+</div>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                Vardas Pavardė
-            </th>
-            <th>
-                Programa (I-as pasirinkimas)
-            </th>
-            <th>
-                Testo data, vieta
-            </th>
-            <th>
-                Bendras balas
-            </th>
-            <th>
-                Komentaras
-            </th>
-            <th>
-                Kviečiami studijuoti
-            </th>
-            <th>
-                Sutarties data
-            </th>
-            @*<th>
-                    Mokslo metai
-                </th>*@
-            <th>
-                Pasirašė sutartį
-            </th>
-            <th>
-                Valstybės finansuojama / nefinansuojama
-            </th>
-            <th>
-
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        @for (int i = 0; i < Model.Count(); i++)
-        {
+<form method="post" class="form-horizontal" role="form">
+    <input id="submitApplication" type="submit" value="Patvirtinti kandidatus sutartims" class="btn btn-outline-dark mb-2" />
+    <table class="table">
+        <thead>
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => modelItem[i].Firstname) @Html.DisplayFor(modelItem => modelItem[i].Lastname)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => modelItem[i].FirstModule)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => modelItem[i].TestDate) @Html.DisplayFor(modelItem => modelItem[i].TestCity)
-                </td>
-                <td></td>
-                <td></td>
-                <td>
-                    @Html.HiddenFor(modelItem => modelItem[i].CandidateID)
-                    @Html.CheckBoxFor(modelItem => modelItem[i].InvitedToStudy)
-                </td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td>
-                    @*<a asp-action="View" asp-route-id="@item.CandidateID">Peržiūrėti</a>*@
-                    @*<a asp-action="EditCandidate" asp-route-id="@item.CandidateID">Redaguoti</a>
-                    <a asp-action="Delete" asp-route-id="@item.CandidateID">Trinti</a>*@
-                </td>
+                <th>
+                    Vardas Pavardė
+                </th>
+                <th>
+                    Programa (I-as pasirinkimas)
+                </th>
+                <th>
+                    Testo data, vieta
+                </th>
+                <th>
+                    Testo balas
+                </th>
+                <th>
+                    Pokalbio balas
+                </th>
+                <th>
+                    Bendras balas
+                </th>
+                <th>
+                    Komentaras
+                </th>
+                <th>
+                    Kviesti studijuoti
+                </th>
+                <th></th>
             </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < Model.Count(); i++)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => modelItem[i].Firstname) @Html.DisplayFor(modelItem => modelItem[i].Lastname)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => modelItem[i].FirstModule)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => modelItem[i].TestDate) @Html.DisplayFor(modelItem => modelItem[i].TestCity)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => modelItem[i].TestResult)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => modelItem[i].InterviewResult)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => modelItem[i].GeneralResult)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => modelItem[i].GeneralInterviewComment)
+                    </td>
+                    <td>
+                        @Html.HiddenFor(modelItem => modelItem[i].CandidateID)
+                        @Html.CheckBoxFor(modelItem => modelItem[i].InvitedToStudy, new { id = i })
+                    </td>
+                    <td>
+                        @if (Model[i].InvitedToStudy == true)
+                        {
+                            <text>Kandidatas patvirtintas</text>
+                        }
+                        else
+                        {
+                            <a asp-action="Candidate" asp-route-id="@Model[i].CandidateID">Kandidato duomenys</a>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</form>
+
+<script>
+    function name2(last) {
+        var i;
+        for (i = 0; i < last; i++) {
+            document.getElementById(i).checked = true;
         }
-    </tbody>
-</table>
+    }
+</script>
+
+

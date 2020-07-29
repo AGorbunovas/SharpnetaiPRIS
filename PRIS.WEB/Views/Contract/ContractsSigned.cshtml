@@ -1,0 +1,125 @@
+﻿@model IList<PRIS.WEB.ViewModels.ContractViewModule.CandidateContractViewModel>
+
+@{
+    ViewData["Title"] = "Pasirašę sutartis";
+    Layout = "~/Views/Shared/_LayoutNavSectionForContract.cshtml";
+}
+
+
+<div class="row">
+    <div class="col-4">
+        <form asp-action="ContractsSigned" method="get">
+            <div class="form-actions no-color">
+                Miesto filtras:
+                <fieldset class="form-group">
+                    <select name="City" id="City" asp-items=ViewBag.Cities class="form-control"><option value=null>Visi</option></select>
+                </fieldset>
+                <input type="submit" value="Ieškoti" class="btn btn-outline-dark mb-2" />
+            </div>
+            @*<div class="form-actions no-color">
+                    Mokymo programos filtras:
+                    <select name="City" id="City" class="form-control mb-2">
+                        <option value=null>Visos</option>
+                        <option value="Vilnius"></option>
+                        <option value="Kaunas"></option>
+                    </select>
+                    <input type="submit" value="Filtruoti" class="btn btn-outline-dark mb-2 d-inline" />
+                </div>*@
+        </form>
+    </div>
+</div>
+
+<form method="post" class="form-horizontal" role="form">
+    <input id="submitApplication" type="submit" value="Patvirtinti pasirašiusiuosius sutartis" class="btn btn-outline-dark mb-2" />
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Vardas Pavardė
+                </th>
+                <th>
+                    Programa (I-as pasirinkimas)
+                </th>
+                <th>
+                    Testo data, vieta
+                </th>
+                <th>
+                    Bendras balas
+                </th>
+                <th>
+                    Komentaras
+                </th>
+                <th>
+                    Mokslo metai
+                </th>
+                <th>
+                    Sutarties data
+                </th>
+                <th>
+                    Sutartis pasirašyta
+                </th>
+                <th>
+                    Valstybės finansuojama / nefinansuojama
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < Model.Count(); i++)
+            {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => modelItem[i].Firstname) @Html.DisplayFor(modelItem => modelItem[i].Lastname)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => modelItem[i].FirstModule)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => modelItem[i].TestDate) @Html.DisplayFor(modelItem => modelItem[i].TestCity)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => modelItem[i].GeneralResult)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => modelItem[i].GeneralInterviewComment)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => modelItem[i].AcademicYear)
+                </td>
+                <td>
+                    @if (Model[i].IsContractSigned == true)
+                    {
+                        @Html.DisplayFor(modelItem => modelItem[i].ContractDate)
+                    }
+                </td>
+                <td>
+                    @Html.HiddenFor(modelItem => modelItem[i].CandidateID)
+                    @Html.CheckBoxFor(modelItem => modelItem[i].IsContractSigned, new { id = i })
+                </td>
+                <td>
+                    @if (Model[i].IsContractSigned == true)
+                    {
+                        @Html.DisplayFor(modelItem => modelItem[i].ContractType)
+                    }
+                    else
+                    {
+                        <select asp-for="@Model[i].ContractType" class="form-control" asp-items="Html.GetEnumSelectList<ContractType>()">
+                            <option></option>
+                        </select>
+                    }
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</form>
+
+<script>
+    function name1(last) {
+        var i;
+        for (i = 0; i < last; i++) {
+            document.getElementById(i).checked = true;
+        }
+    }
+</script>
+
+

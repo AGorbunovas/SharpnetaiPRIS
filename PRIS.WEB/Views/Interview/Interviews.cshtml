@@ -33,13 +33,12 @@
             <p>
                 Kandidatų imties sutartims skaičius:
 
-                <select id="ddl" name="ddl" onmousedown="this.value='';" onchange="name2(this.value);" class="form-control mb-2">
+                <select id="ddl" name="ddl" onmousedown="this.value='';" onchange="name2(this.value);" class="form-control mt-3">
 
                     @for (int i = 1; i <= Model.Count; i++)
                     {
                         <option value=@i>@i</option>
                     }
-
                 </select>
             </p>
         </div>
@@ -48,7 +47,7 @@
 
 
 <form method="post" class="form-horizontal" role="form">
-    <p><input type="submit" value="Patvirtinti kandidatus sutartims" class="btn btn-outline-dark" /></p>
+    <input type="submit" value="Patvirtinti preliminarius kandidatus sutartims" class="btn btn-outline-dark mb-2" />
     <table class="table">
         <thead>
             <tr>
