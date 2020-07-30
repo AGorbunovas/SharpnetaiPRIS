@@ -111,20 +111,30 @@
                     </td>
                     <td>
                         @Html.HiddenFor(modelItem => modelItem[i].CandidateID)
-                        @Html.CheckBoxFor(modelItem => modelItem[i].InvitedToStudy, new { id = i })
-                    </td>
-                    <td>
+
                         @if (Model[i].InvitedToStudy == true)
                         {
-                            <text>Kandidatas patvirtintas</text>
+
+                            @Html.CheckBox("chkBoxReadOnly", true, new { disabled = "disabled" })
+                            @Html.HiddenFor(modelItem => modelItem[i].InvitedToStudy)
                         }
                         else
                         {
-                            <a asp-action="AddInterviewResult" asp-route-id="@Model[i].CandidateID">Pokalbio duomenys</a>
+                            @Html.CheckBoxFor(modelItem => modelItem[i].InvitedToStudy, new { id = i })
                         }
                     </td>
-                </tr>
-            }
+                        <td>
+                            @if (Model[i].InvitedToStudy == true)
+                            {
+                                <text>Kandidatas patvirtintas</text>
+                            }
+                            else
+                            {
+                                <a asp-action="AddInterviewResult" asp-route-id="@Model[i].CandidateID">Pokalbio duomenys</a>
+                            }
+                        </td>
+                    </tr>
+                }
         </tbody>
     </table>
 </form>
@@ -137,4 +147,3 @@
         }
     }
 </script>
-
