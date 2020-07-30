@@ -12,71 +12,71 @@
 }
 
 
-    <form method="post" class="form-horizontal" role="form">
+<form method="post" class="form-horizontal" role="form">
 
-        <div asp-validation-summary="All" class="text-danger"></div>
+    <div asp-validation-summary="All" class="text-danger"></div>
 
-        <fieldset class="form-group">
-            <label asp-for="TestId"></label>
-            <select asp-for="TestId" asp-items="Model.Tests" class="form-control"></select>
-            <span asp-validation-for="TestId" class="text-danger"></span>
-        </fieldset>
+    <fieldset class="form-group">
+        <label asp-for="TestId"></label>
+        <select asp-for="TestId" asp-items="Model.Tests" class="form-control"></select>
+        <span asp-validation-for="TestId" class="text-danger"></span>
+    </fieldset>
 
-        <fieldset class="form-group">
-            <label asp-for="Firstname"></label>
-            <input asp-for="Firstname" class="form-control" />
-            <span @*asp-validation-for="Firstname"*@ class="text-danger"></span>
-        </fieldset>
+    <fieldset class="form-group">
+        <label asp-for="Firstname"></label>
+        <input asp-for="Firstname" class="form-control" />
+        <span @*asp-validation-for="Firstname"*@ class="text-danger"></span>
+    </fieldset>
 
-        <fieldset class="form-group">
-            <label asp-for="Lastname"></label>
-            <input asp-for="Lastname" class="form-control" />
-            <span @*asp-validation-for="Lastname"*@ class="text-danger"></span>
-        </fieldset>
+    <fieldset class="form-group">
+        <label asp-for="Lastname"></label>
+        <input asp-for="Lastname" class="form-control" />
+        <span @*asp-validation-for="Lastname"*@ class="text-danger"></span>
+    </fieldset>
 
-        <fieldset class="form-group">
-            <label asp-for="Email"></label>
-            <input asp-for="Email" class="form-control" placeholder="vardas@pastas.lt"/>
-            <span @*asp-validation-for="Email"*@ class="text-danger"></span>
-        </fieldset>
+    <fieldset class="form-group">
+        <label asp-for="Email"></label>
+        <input asp-for="Email" class="form-control" placeholder="vardas@pastas.lt" />
+        <span @*asp-validation-for="Email"*@ class="text-danger"></span>
+    </fieldset>
 
-        <fieldset class="form-group">
-            <label asp-for="Phone"></label>
-            <input asp-for="Phone" class="form-control" placeholder="86xxxxxxx"/>
-            <span @*asp-validation-for="Phone"*@ class="text-danger"></span>
-        </fieldset>
+    <fieldset class="form-group">
+        <label asp-for="Phone"></label>
+        <input asp-for="Phone" class="form-control" placeholder="86xxxxxxx" />
+        <span @*asp-validation-for="Phone"*@ class="text-danger"></span>
+    </fieldset>
 
-        <fieldset class="form-group">
-            <label asp-for="Gender"></label>
-            <br />
-            <input type="radio" id="male" asp-for="Gender" value="Vyras">
-            <label for="male">Vyras</label><br>
-            <input type="radio" id="female" asp-for="Gender" value="Moteris">
-            <label for="female">Moteris</label><br>
-        </fieldset>
+    <fieldset class="form-group">
+        <label asp-for="Gender"></label>
+        <br />
+        <input type="radio" id="male" asp-for="Gender" value="Vyras">
+        <label for="male">Vyras</label><br>
+        <input type="radio" id="female" asp-for="Gender" value="Moteris">
+        <label for="female">Moteris</label><br>
+    </fieldset>
 
-        <fieldset class="form-group">
-            <label asp-for="SelectedModuleIds"></label>
-            <br />
-            @for (int i = 0; i < Model.SelectedModuleIds.Length; i++)
-            {
-                <label>@(i + 1)</label>
-                <select asp-for="@Model.SelectedModuleIds[i]" asp-items="@Model.Modules" class="form-control"></select>
-            }
-            <span asp-validation-for="SelectedModuleIds" class="text-danger"></span>
-        </fieldset>
-
-        <fieldset class="form-group">
-            <label asp-for="Comment"></label>
-            <textarea asp-for="Comment" class="form-control"></textarea>
-        </fieldset>
-
-        @if (Model.CandidateID > 0)
+    <fieldset class="form-group">
+        <label asp-for="SelectedModuleIds"></label>
+        <br />
+        @for (int i = 0; i < Model.SelectedModuleIds.Length; i++)
         {
-            <input id="submitApplication" type="submit" value="Redaguoti kandidatą" class="btn btn-outline-dark" />
+            <label>@(i + 1)</label>
+            <select asp-for="@Model.SelectedModuleIds[i]" asp-items="@Model.Modules" class="form-control"></select>
         }
-        else
-        {
-            <input id="submitApplication" type="submit" value="Sukurti nauja kandidatą" class="btn btn-outline-dark" />
-        }
-    </form>
+        <span asp-validation-for="SelectedModuleIds" class="text-danger"></span>
+    </fieldset>
+
+    <fieldset class="form-group">
+        <label asp-for="Comment"></label>
+        <textarea asp-for="Comment" class="form-control"></textarea>
+    </fieldset>
+
+    @if (Model.CandidateID > 0)
+    {
+        <input id="submitApplication" type="submit" value="Redaguoti kandidatą" class="btn btn-outline-dark" />
+    }
+    else
+    {
+        <input id="submitApplication" type="submit" value="Sukurti nauja kandidatą" class="btn btn-outline-dark" />
+    }
+</form>

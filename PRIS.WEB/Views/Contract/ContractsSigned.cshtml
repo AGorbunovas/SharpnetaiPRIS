@@ -116,7 +116,9 @@
                         }
                         else
                         {
-                            <select asp-for="@Model[i].ContractType" class="form-control" asp-items="Html.GetEnumSelectList<ContractType>()">
+                            @*@Html.DropDownListFor(modelItem => modelItem[i].ContractType, EnumHelper.GetSelectList(typeof(ContractType)), "")*@
+                            
+                            <select asp-for="@Model[i].ContractType" class="form-control" asp-items="@Html.GetEnumSelectList<ContractType>()">
                                 <option></option>
                             </select>
                         }

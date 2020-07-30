@@ -39,6 +39,7 @@ namespace PRIS.WEB.Controllers
                   Gender = x.Gender,
                   SelectedModuleIds = x.CandidateModules.OrderBy(t=>t.OrderNr).Select(t => (int?)t.ModuleID).ToArray(),
                   Phone = x.PhoneNumber,
+                  InvitedToStudy = x.InvitedToStudy,
                   TestId = x.TestId
               }).Single();
 
@@ -139,6 +140,7 @@ namespace PRIS.WEB.Controllers
                 record.PhoneNumber = model.Phone.Value;
                 record.Comment = model.Comment;
                 record.TestId = model.TestId.Value;
+                record.InvitedToStudy = model.InvitedToStudy;
 
                 var selectedModules = model.SelectedModuleIds.Distinct().ToArray();
 
@@ -196,6 +198,7 @@ namespace PRIS.WEB.Controllers
                     PhoneNumber = model.Phone.Value,
                     Comment = model.Comment,
                     TestId = model.TestId.Value,
+                    InvitedToStudy = model.InvitedToStudy,
                     CandidateModules = model.SelectedModuleIds.Where(t => t.HasValue).Distinct().Select((t, i) => new CandidateModule() { OrderNr = i, ModuleID = t.Value }).ToList()
                 };
                 _context.Candidates.Add(newRecord);

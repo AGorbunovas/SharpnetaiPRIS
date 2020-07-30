@@ -23,28 +23,8 @@ namespace PRIS.WEB.Controllers
 
         public IActionResult Contracts(string City, string Module)
         {
-            City city = _context.Cities.FirstOrDefault(x => x.CityName == City);
-            Module module = _context.Modules.FirstOrDefault(x => x.ModuleName == Module);
-
-            var candidateByCity = new List<int>();
-            if (city != null)
-            {
-                candidateByCity = _context.Test.Where(x => x.CityId == city.CityId).Select(x => x.TestId).ToList();
-            }
-            else
-            {
-                candidateByCity = _context.Test.Select(x => x.TestId).ToList();
-            }
-
-            var candidateByModule = new List<int>();
-            if (module != null)
-            {
-                candidateByModule = _context.CandidateModules.Where(x => x.OrderNr == 0 && x.ModuleID == module.ModuleID).Select(x => x.CandidateID).ToList();
-            }
-            else
-            {
-                candidateByModule = _context.CandidateModules.Select(x => x.CandidateID).ToList();
-            }
+            var candidateByCity = FilterCandidateByCity(City);
+            var candidateByModule = FilterCandidateByModule(Module);
 
             var data = _context.Candidates.Where(x => candidateByCity.Contains(x.TestId) && candidateByModule.Contains(x.CandidateID) && x.Test.AcademicYearID == _context.Test.Max(t => t.AcademicYearID) && x.InvitedToInterview == true).Select(x =>
             new CandidateContractViewModel()
@@ -92,31 +72,10 @@ namespace PRIS.WEB.Controllers
             return RedirectToAction("Contracts");
         }
 
-
         public IActionResult ContractsSigned(string City, string Module)
         {
-            City city = _context.Cities.FirstOrDefault(x => x.CityName == City);
-            Module module = _context.Modules.FirstOrDefault(x => x.ModuleName == Module);
-
-            var candidateByCity = new List<int>();
-            if (city != null)
-            {
-                candidateByCity = _context.Test.Where(x => x.CityId == city.CityId).Select(x => x.TestId).ToList();
-            }
-            else
-            {
-                candidateByCity = _context.Test.Select(x => x.TestId).ToList();
-            }
-
-            var candidateByModule = new List<int>();
-            if (module != null)
-            {
-                candidateByModule = _context.CandidateModules.Where(x => x.OrderNr == 0 && x.ModuleID == module.ModuleID).Select(x => x.CandidateID).ToList();
-            }
-            else
-            {
-                candidateByModule = _context.CandidateModules.Select(x => x.CandidateID).ToList();
-            }
+            var candidateByCity = FilterCandidateByCity(City);
+            var candidateByModule = FilterCandidateByModule(Module);
 
             var data = _context.Candidates.Where(x => candidateByCity.Contains(x.TestId) && candidateByModule.Contains(x.CandidateID) && x.Test.AcademicYearID == _context.Test.Max(t => t.AcademicYearID) && x.InvitedToStudy == true).Select(x =>
             new CandidateContractViewModel()
@@ -135,6 +94,18 @@ namespace PRIS.WEB.Controllers
                 IsContractSigned = x.IsContractSigned,
             }).OrderByDescending(x => x.IsContractSigned).ThenByDescending(x => x.GeneralResult).ToList();
 
+            ViewBag.Cities = _context.Cities.Select(i => new SelectListItem()
+            {
+                Value = i.CityName,
+                Text = i.CityName
+            }).ToList();
+
+            ViewBag.Modules = _context.Modules.Select(i => new SelectListItem()
+            {
+                Value = i.ModuleName,
+                Text = i.ModuleName
+            }).ToList();
+
             return View(data);
         }
 
@@ -152,7 +123,7 @@ namespace PRIS.WEB.Controllers
 
             foreach (var item in contractModel)
             {
-                if (!item.IsContractSigned)
+                if (item.IsContractSigned == false)
                 {
                     if (_context.Contracts.Any(c => c.CandidateID == item.CandidateID))
                     {
@@ -160,48 +131,55 @@ namespace PRIS.WEB.Controllers
                         _context.Contracts.Remove(contractToDelete);
                         _context.SaveChanges();
                     }
-                };
-
-                DateTime timeStamp = DateTime.Now;
-                if (!_context.Contracts.Any(c => c.CandidateID == item.CandidateID))
+                } else
                 {
-                    var candidateContract = new Contract()
+                    DateTime timeStamp = DateTime.Now;
+                    if (_context.Contracts.Any(c => c.CandidateID == item.CandidateID) == false)
                     {
-                        CandidateID = item.CandidateID,
-                        ContractDate = timeStamp,
-                        ContractType = item.ContractType
-                    };
-                    _context.Contracts.Add(candidateContract);
-                    _context.SaveChanges();
+                        var candidateContract = new Contract()
+                        {
+                            CandidateID = item.CandidateID,
+                            ContractDate = timeStamp,
+                            ContractType = item.ContractType
+                        };
+                        _context.Contracts.Add(candidateContract);
+                        _context.SaveChanges();
+                    }
                 }
             }
             return RedirectToAction("ContractsSigned");
         }
 
-        //[HttpPost]
-        //public IActionResult ContractsSigned(CandidateContractViewModel contractModel)
-        //{
-        //    DateTime timeStamp = DateTime.Now;
-        //    if (!_context.Contracts.Any(c => c.CandidateID == contractModel.CandidateID))
-        //    {
-        //        if (!contractModel.IsContractSigned)
-        //        {
-        //            var contractToDelete = _context.Contracts.Where(x => x.CandidateID == contractModel.CandidateID).FirstOrDefault();
-        //            _context.Contracts.Remove(contractToDelete);
-        //            _context.SaveChanges();
-        //        };
-        //        var candidateContract = new Contract()
-        //        {
-        //            CandidateID = contractModel.CandidateID,
-        //            IsContractSigned = contractModel.IsContractSigned,
-        //            ContractDate = timeStamp,
-        //            ContractType = contractModel.ContractType
-        //        };
-        //        _context.Contracts.Add(candidateContract);
-        //        _context.SaveChanges();
-        //    }
-        //    return RedirectToAction("ContractsSigned");
-        //}
+        private List<int> FilterCandidateByCity(string City)
+        {
+            City city = _context.Cities.FirstOrDefault(x => x.CityName == City);
 
+            var candidateByCity = new List<int>();
+            if (city != null)
+            {
+                candidateByCity = _context.Test.Where(x => x.CityId == city.CityId).Select(x => x.TestId).ToList();
+            }
+            else
+            {
+                candidateByCity = _context.Test.Select(x => x.TestId).ToList();
+            }
+            return candidateByCity;
+        }
+
+        private List<int> FilterCandidateByModule(string Module)
+        {
+            Module module = _context.Modules.FirstOrDefault(x => x.ModuleName == Module);
+
+            var candidateByModule = new List<int>();
+            if (module != null)
+            {
+                candidateByModule = _context.CandidateModules.Where(x => x.OrderNr == 0 && x.ModuleID == module.ModuleID).Select(x => x.CandidateID).ToList();
+            }
+            else
+            {
+                candidateByModule = _context.CandidateModules.Select(x => x.CandidateID).ToList();
+            }
+            return candidateByModule;
+        }
     }
 }

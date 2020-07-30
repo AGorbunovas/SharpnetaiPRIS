@@ -117,14 +117,7 @@
                         @Html.CheckBoxFor(modelItem => modelItem[i].InvitedToStudy, new { id = i })
                     </td>
                     <td>
-                        @if (Model[i].InvitedToStudy == true)
-                        {
-                            <text>Kandidatas patvirtintas</text>
-                        }
-                        else
-                        {
                             <a asp-controller="Candidate" asp-action="EditCandidate" asp-route-id="@Model[i].CandidateID">Kandidato duomenys</a>
-                        }
                     </td>
                 </tr>
             }
