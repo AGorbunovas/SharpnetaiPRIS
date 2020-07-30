@@ -487,10 +487,10 @@ namespace PRIS.WEB.Controllers
                 AcademicYearEnd = i.AcademicYearEnd
             }).ToList();
 
-            //if (TempData["IsTestUsedInAcademicYearTableErrorMessage"] != null)
-            //{
-            //    ModelState.AddModelError(string.Empty, TempData["IsTestUsedInAcademicYearTableErrorMessage"].ToString());
-            //}
+            if (TempData["AcademicYearUsed"] != null)
+            {
+                ModelState.AddModelError(string.Empty, TempData["AcademicYearUsed"].ToString());
+            }
 
             return View(data);
         }
@@ -546,6 +546,15 @@ namespace PRIS.WEB.Controllers
             //    return RedirectToAction("TaskGroup");
             //}
             //else
+
+            bool isAcademicYearUsed = _context.Test.Any(x => x.AcademicYearID == id);
+
+            if (isAcademicYearUsed)
+            {
+                TempData["AcademicYearUsed"] = "Negalima trinti, mokslo metai yra naudojami";
+                return RedirectToAction("AcademicYear");
+            }
+
             if (ModelState.IsValid)
             {
                 var data = _context.AcademicYears.SingleOrDefault(i => i.AcademicYearID == id);
