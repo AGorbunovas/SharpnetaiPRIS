@@ -1,6 +1,7 @@
 ﻿using PRIS.WEB.Data.Models;
 using PRIS.WEB.Models;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace PRIS.WEB.Data
@@ -29,9 +30,9 @@ namespace PRIS.WEB.Data
             context.SaveChanges();
 
             var cities = new City[]
-            {
-                new City{CityName = "Vilnius"},
-                new City{CityName = "Kaunas"}
+            {                
+                new City{CityName = "Kaunas"},
+                new City{CityName = "Vilnius"}
             };
             foreach (City city in cities)
             {
@@ -64,153 +65,173 @@ namespace PRIS.WEB.Data
 
             context.InterviewTasks.AddRange(
                 new InterviewTask
-            {
-                InterviewTaskDescription = "Pirmas klausimas",
-                Date = DateTime.Parse("2020-07-01"),
-                Position = 1
-            },
+                {
+                    //InterviewTaskDescription = "Ketvirtas klausimas",
+                    InterviewTaskDescription = "Ką norėtų veikti baigęs IT akademiją?",
+                    Date = DateTime.Parse("2020-07-01"),
+                    Position = 4
+                },
                 new InterviewTask
-            {
-                InterviewTaskDescription = "Antras klausimas",
-                Date = DateTime.Parse("2020-07-01"),
-                Position = 2
-            },
+                {
+                    //InterviewTaskDescription = "Trecias klausimas",
+                    InterviewTaskDescription = "Ko tikisi iš IT akademijos?",
+                    Date = DateTime.Parse("2020-07-01"),
+                    Position = 3
+                },
                 new InterviewTask
-            {
-                InterviewTaskDescription = "Trecias klausimas",
-                Date = DateTime.Parse("2020-07-01"),
-                Position = 3
-            },
+                {
+                    //InterviewTaskDescription = "Antras klausimas",
+                    InterviewTaskDescription = "Kokios IT veiklos sritys labiausiai domina?",
+                    Date = DateTime.Parse("2020-07-01"),
+                    Position = 2
+                },
                 new InterviewTask
-            {
-                InterviewTaskDescription = "Ketvirtas klausimas",
-                Date = DateTime.Parse("2020-07-01"),
-                Position = 4
-            },
+                {
+                    //InterviewTaskDescription = "Pirmas klausimas",
+                    InterviewTaskDescription = "Ar dirba/studijuoja? Jei planuoja tą tęsti ir mokymosi metu – kiek norės skirti laiko kitoms veikloms, ir kaip tikisi suderinti (studijas/ darbą ir mokslus akademijoje)?",
+                    Date = DateTime.Parse("2020-07-01"),
+                    Position = 1
+                },
                 new InterviewTask
-            {
-                InterviewTaskDescription = "Penktas klausimas",
-                Date = DateTime.Parse("2020-07-01"),
-                Position = 5
-            },
+                {
+                    //InterviewTaskDescription = "Penktas klausimas",
+                    InterviewTaskDescription = "Kas motyvuoja tapti testuotoju/-a? Kodėl nori testuoti programas?",
+                    Date = DateTime.Parse("2020-07-01"),
+                    Position = 5
+                },
                 new InterviewTask
-            {
-                InterviewTaskDescription = "Šeštas klausimas",
-                Date = DateTime.Parse("2020-07-01"),
-                Position = 6
-            },
+                {
+                    //InterviewTaskDescription = "Šeštas klausimas",
+                    InterviewTaskDescription = "Kaip domisi IT? Skaito knygas/forumus?",
+                    Date = DateTime.Parse("2020-07-01"),
+                    Position = 6
+                },
                 new InterviewTask
-            {
-                InterviewTaskDescription = "Septintas klausimas",
-                Date = DateTime.Parse("2020-07-01"),
-                Position = 7
-            },
+                {
+                    //InterviewTaskDescription = "Septintas klausimas",
+                    InterviewTaskDescription = "Ar kažką kūrė ar testavo savarankiškai? Žaidimus/puslapius/programėles?",
+                    Date = DateTime.Parse("2020-07-01"),
+                    Position = 7
+                },
                 new InterviewTask
-            {
-                InterviewTaskDescription = "Aštuntas klausimas",
-                Date = DateTime.Parse("2020-07-01"),
-                Position = 8
-            },
+                {
+                    //InterviewTaskDescription = "Aštuntas klausimas",
+                    InterviewTaskDescription = "Ar mokėsi mokykloje informatiką? Koks lygis? (optional)",
+                    Date = DateTime.Parse("2020-07-01"),
+                    Position = 8
+                },
                 new InterviewTask
-            {
-                InterviewTaskDescription = "Devintas klausimas",
-                Date = DateTime.Parse("2020-07-01"),
-                Position = 9
-            }
+                {
+                    //InterviewTaskDescription = "Devintas klausimas",
+                    InterviewTaskDescription = "When was the last time you used English - speaking, writing, reading?",
+                    Date = DateTime.Parse("2020-07-01"),
+                    Position = 9
+                }
             );
             context.SaveChanges();
 
-            context.TaskResultLimits.AddRange(
+            var taskResultLimit = new TaskResultLimit[]
+            {
                 new TaskResultLimit
                 {
-                    TaskGroupID = taskGroups.Single(t=>t.TaskGroupName == "Kompiuteriniai pagrindai").TaskGroupID,
-                    MaxValue = 1,
-                    Position = 1,
-                    Date = DateTime.Now
-
-                },   
-                new TaskResultLimit
-                {
-                    TaskGroupID = taskGroups.Single(t => t.TaskGroupName == "Kompiuteriniai pagrindai").TaskGroupID,
-                    MaxValue = 1,
-                    Position = 2,
-                    Date = DateTime.Now
-                },   
-                new TaskResultLimit
-                {
-                    TaskGroupID = taskGroups.Single(t => t.TaskGroupName == "Kompiuteriniai pagrindai").TaskGroupID,
-                    MaxValue = 1,
-                    Position = 3,
-                    Date = DateTime.Now
-                },   
-                new TaskResultLimit
-                {
-                    TaskGroupID = taskGroups.Single(t => t.TaskGroupName == "Kompiuteriniai pagrindai").TaskGroupID,
-                    MaxValue = 1,
-                    Position = 4,
-                    Date = DateTime.Now
-                },   
-                new TaskResultLimit
-                {
-                    TaskGroupID = taskGroups.Single(t => t.TaskGroupName == "Loginės užduotys").TaskGroupID,
-                    MaxValue = 1,
-                    Position = 5,
-                    Date = DateTime.Now
-                },   
-                new TaskResultLimit
-                {
-                    TaskGroupID = taskGroups.Single(t => t.TaskGroupName == "Loginės užduotys").TaskGroupID,
-                    MaxValue = 1,
-                    Position = 6,
-                    Date = DateTime.Now
-                },   
-                new TaskResultLimit
-                {
-                    TaskGroupID = taskGroups.Single(t => t.TaskGroupName == "Loginės užduotys").TaskGroupID,
-                    MaxValue = 1,
-                    Position = 7,
-                    Date = DateTime.Now
-                },   
-                new TaskResultLimit
-                {
-                    TaskGroupID = taskGroups.Single(t => t.TaskGroupName == "Loginės užduotys").TaskGroupID,
-                    MaxValue = 1,
-                    Position = 8,
-                    Date = DateTime.Now
-                },   
-                new TaskResultLimit
-                {
-                    TaskGroupID = taskGroups.Single(t => t.TaskGroupName == "Programavimo pagrindai").TaskGroupID,
-                    MaxValue = 2,
-                    Position = 9,
-                    Date = DateTime.Now
-                },   
-                new TaskResultLimit
-                {
+                    //TaskResultLimitId = 10,
                     TaskGroupID = taskGroups.Single(t => t.TaskGroupName == "Programavimo pagrindai").TaskGroupID,
                     MaxValue = 4,
                     Position = 10,
                     Date = DateTime.Now
-                }        
-            );
+                },
+                new TaskResultLimit
+                {
+                    //TaskResultLimitId = 9,
+                    TaskGroupID = taskGroups.Single(t => t.TaskGroupName == "Programavimo pagrindai").TaskGroupID,
+                    MaxValue = 2,
+                    Position = 9,
+                    Date = DateTime.Now
+                },
+                new TaskResultLimit
+                {
+                    //TaskResultLimitId = 8,
+                    TaskGroupID = taskGroups.Single(t => t.TaskGroupName == "Loginės užduotys").TaskGroupID,
+                    MaxValue = 1,
+                    Position = 8,
+                    Date = DateTime.Now
+                },
+                new TaskResultLimit
+                {
+                    //TaskResultLimitId = 7,
+                    TaskGroupID = taskGroups.Single(t => t.TaskGroupName == "Loginės užduotys").TaskGroupID,
+                    MaxValue = 1,
+                    Position = 7,
+                    Date = DateTime.Now
+                },
+                new TaskResultLimit
+                {
+                    //TaskResultLimitId = 6,
+                    TaskGroupID = taskGroups.Single(t => t.TaskGroupName == "Loginės užduotys").TaskGroupID,
+                    MaxValue = 1,
+                    Position = 6,
+                    Date = DateTime.Now
+                },
+                new TaskResultLimit
+                {
+                    //TaskResultLimitId = 5,
+                    TaskGroupID = taskGroups.Single(t => t.TaskGroupName == "Loginės užduotys").TaskGroupID,
+                    MaxValue = 1,
+                    Position = 5,
+                    Date = DateTime.Now
+                },
+                new TaskResultLimit
+                {
+                    //TaskResultLimitId = 4,
+                    TaskGroupID = taskGroups.Single(t => t.TaskGroupName == "Kompiuteriniai pagrindai").TaskGroupID,
+                    MaxValue = 1,
+                    Position = 4,
+                    Date = DateTime.Now
+                },
+                new TaskResultLimit
+                {
+                    //TaskResultLimitId = 3,
+                    TaskGroupID = taskGroups.Single(t => t.TaskGroupName == "Kompiuteriniai pagrindai").TaskGroupID,
+                    MaxValue = 1,
+                    Position = 3,
+                    Date = DateTime.Now
+                },
+                new TaskResultLimit
+                {
+                    //TaskResultLimitId = 2,
+                    TaskGroupID = taskGroups.Single(t => t.TaskGroupName == "Kompiuteriniai pagrindai").TaskGroupID,
+                    MaxValue = 1,
+                    Position = 2,
+                    Date = DateTime.Now
+                },
+                new TaskResultLimit
+                {
+                    //TaskResultLimitId = 1,
+                    TaskGroupID = taskGroups.Single(t=>t.TaskGroupName == "Kompiuteriniai pagrindai").TaskGroupID,
+                    MaxValue = 1,
+                    Position = 1,
+                    Date = DateTime.Now
+                },
+            };
+            foreach (TaskResultLimit limits in taskResultLimit)
+            {
+                context.TaskResultLimits.Add(limits);
+            }
             context.SaveChanges();
-
-
-            //TODO need corrections for Candidate, Test and InterviewTask
 
             var tests = new Test[]
             {
                 new Test
                 {
                     CityId = cities.Single(c=>c.CityName == "Vilnius").CityId,
-                    DateOfTest = DateTime.Now,
-                    AcademicYearID = academicYears.Single(a=>a.AcademicYearID == 0).AcademicYearID
+                    DateOfTest = DateTime.Parse("2020-08-10"),
+                    AcademicYearID = academicYears.Single(a=>a.AcademicYearID == 1).AcademicYearID
                 },
                 new Test
                 {
                     CityId = cities.Single(c=>c.CityName == "Kaunas").CityId,
-                    DateOfTest = DateTime.Now,
-                    AcademicYearID = academicYears.Single(a=>a.AcademicYearID == 0).AcademicYearID
+                    DateOfTest = DateTime.Parse("2020-08-10"),
+                    AcademicYearID = academicYears.Single(a=>a.AcademicYearID == 1).AcademicYearID
                 }
             };
 
@@ -220,12 +241,121 @@ namespace PRIS.WEB.Data
             }
             context.SaveChanges();
 
+
+            //TODO need corrections for Candidate
+
+
+
             var candidates = new Candidate[]
             {
-                new Candidate{FirstName = "Vardas", LastName = "Pavardenis", Email = "vardas@meilas.com", PhoneNumber = 860012345, TestId = 0, Gender = "Male"},
-                new Candidate{FirstName = "Antanas", LastName = "Anatanaitis", Email = "antanas@antanas.com", PhoneNumber = 860012345, TestId = 0, Gender = "Male"},
-                new Candidate{FirstName = "Ona", LastName = "Petrutė", Email = "ona@ona.com", PhoneNumber = 860012345, TestId = 1, Gender = "Female"},
-                new Candidate{FirstName = "Kurpis", LastName = "Kurpaitis", Email = "kurpis@kurpis.com", PhoneNumber = 860012345, TestId = 1, Gender = "Male"}
+                new Candidate
+                {
+                    FirstName = "Tomas", 
+                    LastName = "Tomulevičius", 
+                    Email = "tomas@tomas.com", 
+                    PhoneNumber = 860012345,
+                    Gender = "Male",
+                    TestId = tests.Single(t => t.TestId == 2).TestId
+                },
+                new Candidate
+                {
+                    FirstName = "Ona",
+                    LastName = "Petrutė",
+                    Email = "ona@ona.com",
+                    PhoneNumber = 860012345,
+                    Gender = "Female",
+                    TestId = tests.Single(t => t.TestId == 1).TestId
+                },
+                new Candidate
+                {
+                    FirstName = "Kęstas",
+                    LastName = "Puteikis",
+                    Email = "kestas@kestas.com",
+                    PhoneNumber = 860012345,
+                    Gender = "Male",
+                    TestId = tests.Single(t => t.TestId == 2).TestId
+                },
+                new Candidate
+                {
+                    FirstName = "Petras",
+                    LastName = "Petrauskas",
+                    Email = "petras@petras.com",
+                    PhoneNumber = 860012345,
+                    Gender = "Male",
+                    TestId = tests.Single(t => t.TestId == 2).TestId
+                },
+                new Candidate
+                {
+                    FirstName = "Rimas",
+                    LastName = "Buldeikis",
+                    Email = "rimas@rimas.com",
+                    PhoneNumber = 860012345,
+                    Gender = "Male",
+                    TestId = tests.Single(t => t.TestId == 1).TestId
+                },
+                new Candidate
+                {
+                    FirstName = "Rita",
+                    LastName = "Petrulytė",
+                    Email = "rita@rita.com",
+                    PhoneNumber = 860012345,
+                    Gender = "Female",
+                    TestId = tests.Single(t => t.TestId == 2).TestId
+                },
+                new Candidate
+                {
+                    FirstName = "Eimantas",
+                    LastName = "Rudikis",
+                    Email = "eimantas@eimantas.com",
+                    PhoneNumber = 860012345,
+                    //Gender = "Male",
+                    TestId = tests.Single(t => t.TestId == 1).TestId
+                },
+                new Candidate
+                {
+                    FirstName = "Lina",
+                    LastName = "Krulienė",
+                    Email = "lina@lina.com",
+                    PhoneNumber = 860012345,
+                    Gender = "Female",
+                    TestId = tests.Single(t => t.TestId == 2).TestId
+                },
+                new Candidate
+                {
+                    FirstName = "Linas",
+                    LastName = "Kauliauskas",
+                    Email = "linas@linas.com",
+                    PhoneNumber = 860012345,
+                    Gender = "Male",
+                    TestId = tests.Single(t => t.TestId == 2).TestId
+                },
+                new Candidate
+                {
+                    FirstName = "Rytis",
+                    LastName = "Bendorius",
+                    Email = "rytis@rytis.com",
+                    PhoneNumber = 860012345,
+                    Gender = "Male",
+                    TestId = tests.Single(t => t.TestId == 1).TestId
+                },
+                new Candidate
+                {
+                    FirstName = "Ąžuolas",
+                    LastName = "Kvedaras",
+                    Email = "vardas@meilas.com",
+                    PhoneNumber = 860012345,
+                    Gender = "Male",
+                    TestId = tests.Single(t => t.TestId == 1).TestId
+                },
+                new Candidate
+                {
+                    FirstName = "Marytė",
+                    LastName = "Rasaitė",
+                    Email = "marytė@marytė.com",
+                    PhoneNumber = 860012345,
+                    //Gender = "Female",
+                    TestId = tests.Single(t => t.TestId == 1).TestId
+                },
             };
             foreach (Candidate candidate in candidates)
             {
@@ -235,13 +365,110 @@ namespace PRIS.WEB.Data
 
             var candidateModules = new CandidateModule[]
             {
-                new CandidateModule{CandidateID = 0,ModuleID = 0},
-                new CandidateModule{CandidateID = 0,ModuleID = 3},
-                new CandidateModule{CandidateID = 1,ModuleID = 2},
-                new CandidateModule{CandidateID = 2,ModuleID = 1},
-                new CandidateModule{CandidateID = 3,ModuleID = 0},
-                new CandidateModule{CandidateID = 3,ModuleID = 3},
-                new CandidateModule{CandidateID = 3,ModuleID = 1}
+                new CandidateModule
+                {
+                    CandidateID = 1,
+                    ModuleID = 1
+                    //Nenurodyta
+                },
+                new CandidateModule
+                {
+                    CandidateID = 2,
+                    ModuleID = 2
+                    //Java
+                }, new CandidateModule
+                {
+                    CandidateID = 2,
+                    ModuleID = 3
+                    //.Net programuotojai
+                },
+                new CandidateModule
+                {
+                    CandidateID = 2,
+                    ModuleID = 4
+                    //Testuotojai
+                },
+                new CandidateModule
+                {
+                    CandidateID = 3,
+                    ModuleID = 2
+                    //Java
+                }, new CandidateModule
+                {
+                    CandidateID = 3,
+                    ModuleID = 3
+                    //.Net programuotojai
+                },
+                new CandidateModule
+                {
+                    CandidateID = 4,
+                    ModuleID = 1
+                },
+                new CandidateModule
+                {
+                    CandidateID = 5,
+                    ModuleID = 4
+                },
+                new CandidateModule
+                {
+                    CandidateID = 5,
+                    ModuleID = 3
+                },
+                new CandidateModule
+                {
+                    CandidateID = 6,
+                    ModuleID = 3
+                },
+                new CandidateModule
+                {
+                    CandidateID = 7,
+                    ModuleID = 4
+                },
+                new CandidateModule
+                {
+                    CandidateID = 8,
+                    ModuleID = 2
+                },
+                new CandidateModule
+                {
+                    CandidateID = 8,
+                    ModuleID = 3
+                },
+                new CandidateModule
+                {
+                    CandidateID = 9,
+                    ModuleID = 3
+                },
+                new CandidateModule
+                {
+                    CandidateID = 9,
+                    ModuleID = 2
+                },
+                new CandidateModule
+                {
+                    CandidateID = 10,
+                    ModuleID = 4
+                },
+                new CandidateModule
+                {
+                    CandidateID = 11,
+                    ModuleID = 3
+                },
+                new CandidateModule
+                {
+                    CandidateID = 12,
+                    ModuleID = 2
+                },
+                new CandidateModule
+                {
+                    CandidateID = 12,
+                    ModuleID = 4
+                },
+                new CandidateModule
+                {
+                    CandidateID = 12,
+                    ModuleID = 3
+                }
             };
             foreach (CandidateModule candidateModule in candidateModules)
             {
