@@ -241,11 +241,6 @@ namespace PRIS.WEB.Data
             }
             context.SaveChanges();
 
-
-            //TODO need corrections for Candidate
-
-
-
             var candidates = new Candidate[]
             {
                 new Candidate
