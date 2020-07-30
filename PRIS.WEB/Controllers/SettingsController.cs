@@ -508,12 +508,17 @@ namespace PRIS.WEB.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult AcademicYearCreate([Bind("AcademicYearStart, AcademicYearEnd")] AddAcademicYearViewModel addAcademicYearViewModel)
         {
-            //var isNotUnique = _context.InterviewTasks.Any(t => t.TaskGroup.TaskGroupName == addInterviewTaskViewModel.TaskGroupName);
+            var dateCheckInteger = DateTime.Today.CompareTo(addAcademicYearViewModel.AcademicYearStart.Date);
+            if (dateCheckInteger == 1)
+            {
+                ModelState.AddModelError(string.Empty, "Data negali būti ankstesnė negu šiandiena");
+            }
 
-            //if (isNotUnique)
-            //{
-            //    ModelState.AddModelError(string.Empty, "Tokia užduočių grupė jau yra sukurta");
-            //}
+            var academicYearEndCheckInteger = addAcademicYearViewModel.AcademicYearStart.CompareTo(addAcademicYearViewModel.AcademicYearEnd);
+            if (academicYearEndCheckInteger == 1)
+            {
+                ModelState.AddModelError(string.Empty, "Mokslo metų pabaigos data negali būti ankstesnė, nei mokslo metų pradžios data");
+            }
 
             if (ModelState.IsValid)
             {                
@@ -537,16 +542,6 @@ namespace PRIS.WEB.Controllers
 
         public IActionResult AcademicYearDelete(int id)
         {
-            //TODO patikrinimas jei užduotis jau yra priskirta pokalbio šablonui
-            //var testConnected = _context.Candidates.Any(x => x.TaskGroup.TaskGroupID == id);
-
-            //if (testConnected)
-            //{
-            //    TempData["IsTestUsedInAcademicYearTableErrorMessage"] = "Negalima trinti užduočių grupės, nes ji yra susieta su pokalbio užduotimis!";
-            //    return RedirectToAction("TaskGroup");
-            //}
-            //else
-
             bool isAcademicYearUsed = _context.Test.Any(x => x.AcademicYearID == id);
 
             if (isAcademicYearUsed)
@@ -569,22 +564,6 @@ namespace PRIS.WEB.Controllers
         }
 
         #endregion AcademicYear/Delete
-
-        //private AddInterviewTaskViewModel GetViewModelWithTaskGroupList()
-        //{
-        //    var taskGroupsData = _context.TaskGroups.Select(x => new SelectListItem()
-        //    {
-        //        Value = x.TaskGroupName,
-        //        Text = x.TaskGroupName
-        //    }).ToList();
-
-        //    var viewModel = new AddInterviewTaskViewModel()
-        //    {
-        //        TaskGroups = taskGroupsData
-        //    };
-
-        //    return viewModel;
-        //}
 
         #endregion AcademicYear
         
