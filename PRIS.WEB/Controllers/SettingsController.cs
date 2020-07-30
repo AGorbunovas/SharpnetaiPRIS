@@ -291,9 +291,9 @@ namespace PRIS.WEB.Controllers
 
         public IActionResult TaskGroup()
         {
-            if (TempData["IsTestUsedInTaskGroupModuleTableErrorMessage"] != null)
+            if (TempData["IsTestUsedInInterviewTaskResultLimitTableErrorMessage"] != null)
             {
-                ModelState.AddModelError(string.Empty, TempData["IsTestUsedInTaskGroupModuleTableErrorMessage"].ToString());
+                ModelState.AddModelError(string.Empty, TempData["IsTestUsedInInterviewTaskResultLimitTableErrorMessage"].ToString());
             }
             return View("TaskGroup", _context.TaskGroups.OrderBy(m => m.TaskGroupName).ToList());
         }
@@ -340,7 +340,7 @@ namespace PRIS.WEB.Controllers
 
             if (testConnected)
             {
-                TempData["IsTestUsedInInterviewTaskModuleTableErrorMessage"] = "Negalima trinti užduočių grupės, nes ji yra susieta su pokalbio užduotimis!";
+                TempData["IsTestUsedInInterviewTaskResultLimitTableErrorMessage"] = "Negalima trinti užduočių grupės, nes ji yra susieta su pokalbio užduotimis!";
                 return RedirectToAction("TaskGroup");
             }
             else if (ModelState.IsValid)
