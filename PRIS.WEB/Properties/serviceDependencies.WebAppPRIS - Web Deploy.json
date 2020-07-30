@@ -1,14 +1,14 @@
 {
   "dependencies": {
+    "mssql2": {
+      "type": "mssql.onprem",
+      "connectionId": "DefaultConnection",
+      "secretStore": "AzureAppSettings"
+    },
     "mssql1": {
       "resourceId": null,
       "type": "mssql.onprem",
       "connectionId": "AzureConnection",
-      "secretStore": "AzureAppSettings"
-    },
-    "mssql2": {
-      "type": "mssql.onprem",
-      "connectionId": "DefaultConnection",
       "secretStore": "AzureAppSettings"
     }
   }

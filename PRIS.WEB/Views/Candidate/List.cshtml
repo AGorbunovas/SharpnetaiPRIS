@@ -110,7 +110,17 @@
                     </td>
                     <td>
                         @Html.HiddenFor(it => it[i].CandidateID)
-                        @Html.CheckBoxFor(it => it[i].InvitedToInterview, new { id = i })
+
+                        @if (Model[i].InvitedToInterview == true)
+                        {
+
+                            @Html.CheckBox("chkBoxReadOnly", true, new { disabled = "disabled" })
+                            @Html.HiddenFor(modelItem => modelItem[i].InvitedToInterview)
+                        }
+                        else
+                        {
+                            @Html.CheckBoxFor(modelItem => modelItem[i].InvitedToInterview, new { id = i })
+                        }
                     </td>
                     <td>
                         <a asp-action="EditCandidate" asp-route-id="@Model[i].CandidateID">Redaguoti</a>
