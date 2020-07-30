@@ -138,7 +138,8 @@ namespace PRIS.WEB.Data
                     TaskGroupID = taskGroups.Single(t => t.TaskGroupName == "Programavimo pagrindai").TaskGroupID,
                     MaxValue = 4,
                     Position = 10,
-                    Date = DateTime.Now
+                    Date = DateTime.Now,
+                    AcademicYearID = 1
                 },
                 new TaskResultLimit
                 {
@@ -146,7 +147,8 @@ namespace PRIS.WEB.Data
                     TaskGroupID = taskGroups.Single(t => t.TaskGroupName == "Programavimo pagrindai").TaskGroupID,
                     MaxValue = 2,
                     Position = 9,
-                    Date = DateTime.Now
+                    Date = DateTime.Now,
+                    AcademicYearID = 1
                 },
                 new TaskResultLimit
                 {
@@ -154,7 +156,8 @@ namespace PRIS.WEB.Data
                     TaskGroupID = taskGroups.Single(t => t.TaskGroupName == "Loginės užduotys").TaskGroupID,
                     MaxValue = 1,
                     Position = 8,
-                    Date = DateTime.Now
+                    Date = DateTime.Now,
+                    AcademicYearID = 1
                 },
                 new TaskResultLimit
                 {
@@ -162,7 +165,8 @@ namespace PRIS.WEB.Data
                     TaskGroupID = taskGroups.Single(t => t.TaskGroupName == "Loginės užduotys").TaskGroupID,
                     MaxValue = 1,
                     Position = 7,
-                    Date = DateTime.Now
+                    Date = DateTime.Now,
+                    AcademicYearID = 1
                 },
                 new TaskResultLimit
                 {
@@ -170,7 +174,8 @@ namespace PRIS.WEB.Data
                     TaskGroupID = taskGroups.Single(t => t.TaskGroupName == "Loginės užduotys").TaskGroupID,
                     MaxValue = 1,
                     Position = 6,
-                    Date = DateTime.Now
+                    Date = DateTime.Now,
+                    AcademicYearID = 1
                 },
                 new TaskResultLimit
                 {
@@ -178,7 +183,8 @@ namespace PRIS.WEB.Data
                     TaskGroupID = taskGroups.Single(t => t.TaskGroupName == "Loginės užduotys").TaskGroupID,
                     MaxValue = 1,
                     Position = 5,
-                    Date = DateTime.Now
+                    Date = DateTime.Now,
+                    AcademicYearID = 1
                 },
                 new TaskResultLimit
                 {
@@ -186,7 +192,8 @@ namespace PRIS.WEB.Data
                     TaskGroupID = taskGroups.Single(t => t.TaskGroupName == "Kompiuteriniai pagrindai").TaskGroupID,
                     MaxValue = 1,
                     Position = 4,
-                    Date = DateTime.Now
+                    Date = DateTime.Now,
+                    AcademicYearID = 1
                 },
                 new TaskResultLimit
                 {
@@ -194,7 +201,8 @@ namespace PRIS.WEB.Data
                     TaskGroupID = taskGroups.Single(t => t.TaskGroupName == "Kompiuteriniai pagrindai").TaskGroupID,
                     MaxValue = 1,
                     Position = 3,
-                    Date = DateTime.Now
+                    Date = DateTime.Now,
+                    AcademicYearID = 1
                 },
                 new TaskResultLimit
                 {
@@ -202,7 +210,8 @@ namespace PRIS.WEB.Data
                     TaskGroupID = taskGroups.Single(t => t.TaskGroupName == "Kompiuteriniai pagrindai").TaskGroupID,
                     MaxValue = 1,
                     Position = 2,
-                    Date = DateTime.Now
+                    Date = DateTime.Now,
+                    AcademicYearID = 1
                 },
                 new TaskResultLimit
                 {
@@ -210,7 +219,8 @@ namespace PRIS.WEB.Data
                     TaskGroupID = taskGroups.Single(t=>t.TaskGroupName == "Kompiuteriniai pagrindai").TaskGroupID,
                     MaxValue = 1,
                     Position = 1,
-                    Date = DateTime.Now
+                    Date = DateTime.Now,
+                    AcademicYearID = 1
                 },
             };
             foreach (TaskResultLimit limits in taskResultLimit)
