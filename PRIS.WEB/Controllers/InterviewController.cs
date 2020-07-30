@@ -184,28 +184,6 @@ namespace PRIS.WEB.Controllers
                         .Take(9)
                         .ToList();
 
-                //var currentInterviewResults = _context.InterviewResults.Where(x => x.Candidate == interviewResultViewModel.Candidate).FirstOrDefault();
-
-                //var validationResultMessage = _candidateInterviewResultProcessor
-                //            .ValidateInterviewResultsToTestResultLimits(currentInterviewResults, interviewResultViewModel);
-
-                //if (validationResultMessage != null)
-                //{
-                //    ModelState.AddModelError(string.Empty, validationResultMessage);
-                //    return View(interviewResultViewModel);
-                //}
-
-                //var interviewResult = new InterviewResult()
-                //{
-                //    Value = interviewResultViewModel.Value,
-                //    GeneralComment = interviewResultViewModel.GeneralComment,
-                //    Candidate = interviewResultViewModel.Candidate
-                //};
-
-                //_context.InterviewResults.Add(interviewResult);
-                //_context.SaveChanges();
-
-                //duomenys suvaiksto per interfeisa ir kontroleri
                 _candidateInterviewResultProcessor.SaveInitialCandidateInterviewResults(interviewResultViewModel, currentInterviewTask, _context);
             }
             return RedirectToAction(nameof(Interviews));
