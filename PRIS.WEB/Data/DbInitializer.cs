@@ -373,106 +373,126 @@ namespace PRIS.WEB.Data
                 new CandidateModule
                 {
                     CandidateID = 1,
-                    ModuleID = 1
+                    ModuleID = 1,
+                    OrderNr = 0
                     //Nenurodyta
                 },
                 new CandidateModule
                 {
                     CandidateID = 2,
-                    ModuleID = 2
+                    ModuleID = 2,
+                    OrderNr = 0
                     //Java
                 }, new CandidateModule
                 {
                     CandidateID = 2,
-                    ModuleID = 3
+                    ModuleID = 3,
+                    OrderNr = 1
                     //.Net programuotojai
                 },
                 new CandidateModule
                 {
                     CandidateID = 2,
-                    ModuleID = 4
+                    ModuleID = 4,
+                    OrderNr = 2
                     //Testuotojai
                 },
                 new CandidateModule
                 {
                     CandidateID = 3,
-                    ModuleID = 2
+                    ModuleID = 2,
+                    OrderNr = 0
                     //Java
                 }, new CandidateModule
                 {
                     CandidateID = 3,
-                    ModuleID = 3
+                    ModuleID = 3,
+                    OrderNr = 1
                     //.Net programuotojai
                 },
                 new CandidateModule
                 {
                     CandidateID = 4,
-                    ModuleID = 1
+                    ModuleID = 1,
+                    OrderNr = 0
                 },
                 new CandidateModule
                 {
                     CandidateID = 5,
-                    ModuleID = 4
+                    ModuleID = 4,
+                    OrderNr = 0
                 },
                 new CandidateModule
                 {
                     CandidateID = 5,
-                    ModuleID = 3
+                    ModuleID = 3,
+                    OrderNr = 1
                 },
                 new CandidateModule
                 {
                     CandidateID = 6,
-                    ModuleID = 3
+                    ModuleID = 3,
+                    OrderNr = 0
                 },
                 new CandidateModule
                 {
                     CandidateID = 7,
-                    ModuleID = 4
+                    ModuleID = 4,
+                    OrderNr = 0
                 },
                 new CandidateModule
                 {
                     CandidateID = 8,
-                    ModuleID = 2
+                    ModuleID = 2,
+                    OrderNr = 0
                 },
                 new CandidateModule
                 {
                     CandidateID = 8,
-                    ModuleID = 3
+                    ModuleID = 3,
+                    OrderNr = 1
                 },
                 new CandidateModule
                 {
                     CandidateID = 9,
-                    ModuleID = 3
+                    ModuleID = 3,
+                    OrderNr = 0
                 },
                 new CandidateModule
                 {
                     CandidateID = 9,
-                    ModuleID = 2
+                    ModuleID = 2,
+                    OrderNr = 1
                 },
                 new CandidateModule
                 {
                     CandidateID = 10,
-                    ModuleID = 4
+                    ModuleID = 4,
+                    OrderNr = 0
                 },
                 new CandidateModule
                 {
                     CandidateID = 11,
-                    ModuleID = 3
+                    ModuleID = 3,
+                    OrderNr = 0
                 },
                 new CandidateModule
                 {
                     CandidateID = 12,
-                    ModuleID = 2
+                    ModuleID = 2,
+                    OrderNr = 0
                 },
                 new CandidateModule
                 {
                     CandidateID = 12,
-                    ModuleID = 4
+                    ModuleID = 4,
+                    OrderNr = 1
                 },
                 new CandidateModule
                 {
                     CandidateID = 12,
-                    ModuleID = 3
+                    ModuleID = 3,
+                    OrderNr = 2
                 }
             };
             foreach (CandidateModule candidateModule in candidateModules)
