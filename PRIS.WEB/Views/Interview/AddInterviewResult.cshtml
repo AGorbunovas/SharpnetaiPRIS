@@ -1,108 +1,108 @@
 ﻿@model PRIS.WEB.ViewModels.InterviewResultViewModel
 
-@{
-    ViewData["Title"] = "Interviews";
-    Layout = "~/Views/Shared/_LayoutNavSectionForInterview.cshtml";
-}
+    @{
+        ViewData["Title"] = "Interviews";
+        Layout = "~/Views/Shared/_LayoutNavSectionForInterview.cshtml";
+    }
 
-<div asp-validation-summary="All" class="text-danger"></div>
-<br>
-<h4>
-    <small class="text-muted"> Kandidatė(-as)</small>
-    <b>
-        @Model.Candidate.FirstName
-        @Model.Candidate.LastName
-    </b>
-</h4>
-<br>
-<br>
-<h3>
-    Pokalbio klausimynas
-</h3>
-<br>
-<hr>
-<br>
-@if (Model.GeneralComment != null)
-{
-    <form method="post" class="form-horizontal" role="form">
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <br>
+    <h4>
+        <small class="text-muted"> Kandidatė(-as)</small>
+        <b>
+            @Model.Candidate.FirstName
+            @Model.Candidate.LastName
+        </b>
+    </h4>
+    <br>
+    <br>
+    <h3>
+        Pokalbio klausimynas
+    </h3>
+    <br>
+    <hr>
+    <br>
+    @if (Model.GeneralComment != null)
+    {
+        <form method="post" class="form-horizontal" role="form">
 
-        @{int positionOfTask = 1;}
-        @foreach (var item in Model.Comment)
-        {
+            @{int positionOfTask = 1;}
+            @foreach (var item in Model.Comment)
+            {
+                <div class="col-auto">
+                    <fieldset class="form-group">
+                        <h5>
+                            <small class="text-muted"> <label asp-for="Comment">Klausimas Nr.: @positionOfTask</label></small>
+                            <br>
+                            <b>@Model.InterviewTaskQuestions[positionOfTask - 1]</b>
+                        </h5>
+                        <div>@Html.Label("Komentaro nėra", item, new { @class = "form-control" })</div>
+                        <span asp-validation-for="Comment" class="text-danger"></span>
+                    </fieldset>
+                </div>
+                positionOfTask++;
+            }
+
             <div class="col-auto">
                 <fieldset class="form-group">
-                    <h5>
-                        <small class="text-muted"> <label asp-for="Comment">Klausimas Nr.: @positionOfTask</label></small>
-                        <br>
-                        <b>@Model.InterviewTaskQuestions[positionOfTask - 1]</b>
-                    </h5>
-                    <div>@Html.Label("Komentaro nėra", item, new { @class = "form-control" })</div>
-                    <span asp-validation-for="Comment" class="text-danger"></span>
+                    <label asp-for="GeneralComment"><h4>Bendras komentaras</h4></label>
+                    <textarea asp-for="GeneralComment" type="text" class="form-control" rows="6" required></textarea>
+                    <b class="text-danger">*</b>
+                    <span asp-validation-for="GeneralComment" class="text-danger">Galimas bendro komentaro redagavimas!</span>
                 </fieldset>
             </div>
-            positionOfTask++;
-        }
+            <div class="col-6">
+                <fieldset class="form-group">
+                    <label asp-for="Value"><h4>Pokalbio balas</h4></label>
+                    <div class="col-md-6 mb-3 align-items-lg-start">
+                        <input asp-for="Value" type="number" class="form-control mb-lg-2" min="1" max="10" step="0.5" aria-describedby="inputGroup-sizing-default" required />
+                    </div>
+                    <b class="text-danger">*</b>
+                    <span asp-validation-for="Value" class="text-danger">Balo ribos nuo 1 iki 10</span>
+                </fieldset>
+            </div>
+            <input id="submitApplication" type="submit" value="Išsaugoti" class="btn btn-outline-dark" />
+        </form>
+    }
 
-        <div class="col-auto">
-            <fieldset class="form-group">
-                <label asp-for="GeneralComment"><h4>Bendras komentaras</h4></label>
-                <textarea asp-for="GeneralComment" type="text" class="form-control" rows="6" required></textarea>
-                <b class="text-danger">*</b>
-                <span asp-validation-for="GeneralComment" class="text-danger">Galimas bendro komentaro redagavimas!</span>
-            </fieldset>
-        </div>
-        <div class="col-6">
-            <fieldset class="form-group">
-                <label asp-for="Value"><h4>Pokalbio balas</h4></label>
-                <div class="col-md-6 mb-3 align-items-lg-start">
-                    <input asp-for="Value" type="number" class="form-control mb-lg-2" min="1" max="10" step="0.5" aria-describedby="inputGroup-sizing-default" required />
+    else
+    {
+        <form method="post" class="form-horizontal" role="form">
+
+            @{int positionOfTask = 1;}
+            @foreach (var item in Model.Comment)
+            {
+                <div class="col-auto">
+                    <fieldset class="form-group">
+                        <h5>
+                            <small class="text-muted"> <label asp-for="Comment">Klausimas Nr.: @positionOfTask</label></small>
+                            <br>
+                            <b>@Model.InterviewTaskQuestions[positionOfTask - 1]</b>
+                        </h5>
+                        <div>@Html.TextArea("Comment", item, new { @class = "form-control" })</div>
+                        <span asp-validation-for="Comment" class="text-danger"></span>
+                    </fieldset>
                 </div>
-                <b class="text-danger">*</b>
-                <span asp-validation-for="Value" class="text-danger">Balo ribos nuo 1 iki 10</span>
-            </fieldset>
-        </div>
-        <input id="submitApplication" type="submit" value="Išsaugoti" class="btn btn-outline-dark" />
-    </form>
-}
-
-else
-{
-    <form method="post" class="form-horizontal" role="form">
-
-        @{int positionOfTask = 1;}
-        @foreach (var item in Model.Comment)
-        {
+                positionOfTask++;
+            }
             <div class="col-auto">
                 <fieldset class="form-group">
-                    <h5>
-                        <small class="text-muted"> <label asp-for="Comment">Klausimas Nr.: @positionOfTask</label></small>
-                        <br>
-                        <b>@Model.InterviewTaskQuestions[positionOfTask - 1]</b>
-                    </h5>
-                    <div>@Html.TextArea("Įveskite komentarą", item, new { @class = "form-control" })</div>
-                    <span asp-validation-for="Comment" class="text-danger"></span>
+                    <label asp-for="GeneralComment"><h4>Bendras komentaras</h4></label>
+                    <textarea asp-for="GeneralComment" type="text" class="form-control" rows="6" required></textarea>
+                    <b class="text-danger">*</b>
+                    <span asp-validation-for="GeneralComment" class="text-danger">Šis laukas yra privalomas!</span>
                 </fieldset>
             </div>
-            positionOfTask++;
-        }
-        <div class="col-auto">
-            <fieldset class="form-group">
-                <label asp-for="GeneralComment"><h4>Bendras komentaras</h4></label>
-                <textarea asp-for="GeneralComment" type="text" class="form-control" rows="6" required></textarea>
-                <b class="text-danger">*</b>
-                <span asp-validation-for="GeneralComment" class="text-danger">Šis laukas yra privalomas!</span>
-            </fieldset>
-        </div>
-        <div class="col-6">
-            <fieldset class="form-group">
-                <label asp-for="Value"><h4>Pokalbio balas</h4></label>
-                <div class="col-md-6 mb-3 align-items-lg-start">
-                    <input asp-for="Value" type="number" class="form-control mb-lg-2" min="1" max="10" step="0.5" aria-describedby="inputGroup-sizing-default" required />
-                </div>
-                <b class="text-danger">*</b>
-                <span asp-validation-for="Value" class="text-danger">Balo ribos nuo 1 iki 10</span>
-            </fieldset>
-        </div>
-        <input id="submitApplication" type="submit" value="Sukurti" class="btn btn-outline-dark" />
-    </form>
-}
+            <div class="col-6">
+                <fieldset class="form-group">
+                    <label asp-for="Value"><h4>Pokalbio balas</h4></label>
+                    <div class="col-md-6 mb-3 align-items-lg-start">
+                        <input asp-for="Value" type="number" class="form-control mb-lg-2" min="1" max="10" step="0.5" aria-describedby="inputGroup-sizing-default" required />
+                    </div>
+                    <b class="text-danger">*</b>
+                    <span asp-validation-for="Value" class="text-danger">Balo ribos nuo 1 iki 10</span>
+                </fieldset>
+            </div>
+            <input id="submitApplication" type="submit" value="Sukurti" class="btn btn-outline-dark" />
+        </form>
+    }

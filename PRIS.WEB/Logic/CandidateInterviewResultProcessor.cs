@@ -32,17 +32,13 @@ namespace PRIS.WEB.Logic
                 _context.SaveChanges();
             }
         }
-
-        //public void UpdateExistingCandidateInterviewResults(InterviewResultViewModel interviewResultViewModel, ApplicationDbContext _context, InterviewResult interviewResult, List<InterviewQuestionsAnswers> candidateInterviewCommentsInAnswers)
+                
         public void UpdateExistingCandidateInterviewResults(InterviewResultViewModel interviewResultViewModel, ApplicationDbContext _context, InterviewResult interviewResult)
         {
-            //for (int i = 0; i < interviewResultViewModel.Comment.Count; i++)
-            //{
             _context.Attach(interviewResult);
             interviewResult.GeneralComment = interviewResultViewModel.GeneralComment;
             interviewResult.Value = interviewResultViewModel.Value;
             _context.SaveChanges();
-            //}
         }
 
         public string ValidateInterviewResultsToTestResultLimits(InterviewResult interviewResult, InterviewResultViewModel interviewResultViewModel)
