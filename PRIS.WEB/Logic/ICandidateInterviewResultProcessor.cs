@@ -10,8 +10,7 @@ namespace PRIS.WEB.Logic
 {
     public interface ICandidateInterviewResultProcessor
     {
-        string ValidateInterviewResultsToTestResultLimits(InterviewResult interviewResult, InterviewResultViewModel interviewResultViewModel);
-        //void UpdateExistingCandidateInterviewResults(InterviewResultViewModel interviewResultViewModel, ApplicationDbContext _context, InterviewResult interviewResult, List<InterviewQuestionsAnswers> candidateInterviewCommentsInAnswers);
+        string ValidateInterviewResultsToTestResultLimits(InterviewResult interviewResult, InterviewResultViewModel interviewResultViewModel);        
         void UpdateExistingCandidateInterviewResults(InterviewResultViewModel interviewResultViewModel, ApplicationDbContext _context, InterviewResult interviewResult);
         void SaveInitialCandidateInterviewResults(InterviewResultViewModel interviewResultViewModel, List<InterviewTask> currentInterviewTasks, ApplicationDbContext _context);
     }

@@ -16,8 +16,6 @@ namespace PRIS.WEB.ViewModels.InterviewTaskViewModel
         [Required(ErrorMessage = "Įveskite pokalbio klausimą")]
         public List<string> InterviewTaskDescription { get; set; } = new List<string>();
 
-        //public string[] InterviewTaskDescription { get; set; }
-
         public DateTime Date { get; set; }
     }
 }
