@@ -1,7 +1,6 @@
 ﻿using PRIS.WEB.Data.Models;
 using PRIS.WEB.Models;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace PRIS.WEB.Data
@@ -30,7 +29,7 @@ namespace PRIS.WEB.Data
             context.SaveChanges();
 
             var cities = new City[]
-            {                
+            {
                 new City{CityName = "Kaunas"},
                 new City{CityName = "Vilnius"}
             };
@@ -255,9 +254,9 @@ namespace PRIS.WEB.Data
             {
                 new Candidate
                 {
-                    FirstName = "Tomas", 
-                    LastName = "Tomulevičius", 
-                    Email = "tomas@tomas.com", 
+                    FirstName = "Tomas",
+                    LastName = "Tomulevičius",
+                    Email = "tomas@tomas.com",
                     PhoneNumber = 860012345,
                     Gender = "Male",
                     TestId = tests.Single(t => t.TestId == 2).TestId
@@ -498,6 +497,284 @@ namespace PRIS.WEB.Data
             foreach (CandidateModule candidateModule in candidateModules)
             {
                 context.CandidateModules.Add(candidateModule);
+            }
+            context.SaveChanges();
+
+            //Kandidato testo rezultatų užpildymas
+            var taskResults = new TaskResult[]
+            {
+                //Candidate 3
+                new TaskResult
+                {
+                    Value = 3.5,
+                    TaskResultLimitId = taskResultLimit.Single(t => t.TaskResultLimitId == 9).TaskResultLimitId,
+                    CandidateId = 3
+                },
+                new TaskResult
+                {
+                    Value = 2,
+                    TaskResultLimitId = taskResultLimit.Single(t => t.TaskResultLimitId == 8).TaskResultLimitId,
+                    CandidateId = 3
+                },
+                new TaskResult
+                {
+                    Value = 1,
+                    TaskResultLimitId = taskResultLimit.Single(t => t.TaskResultLimitId == 3).TaskResultLimitId,
+                    CandidateId = 3
+                },
+                new TaskResult
+                {
+                    Value = 0.5,
+                    TaskResultLimitId = taskResultLimit.Single(t => t.TaskResultLimitId == 2).TaskResultLimitId,
+                    CandidateId = 3
+                },
+                new TaskResult
+                {
+                    Value = 0.5,
+                    TaskResultLimitId = taskResultLimit.Single(t => t.TaskResultLimitId == 1).TaskResultLimitId,
+                    CandidateId = 3
+                },
+                new TaskResult
+                {
+                    Value = 1,
+                    TaskResultLimitId = taskResultLimit.Single(t => t.TaskResultLimitId == 10).TaskResultLimitId,
+                    CandidateId = 3
+                },
+                new TaskResult
+                {
+                    Value = 0.5,
+                    TaskResultLimitId = taskResultLimit.Single(t => t.TaskResultLimitId == 7).TaskResultLimitId,
+                    CandidateId = 3
+                },
+                new TaskResult
+                {
+                    Value = 0.5,
+                    TaskResultLimitId = taskResultLimit.Single(t => t.TaskResultLimitId == 6).TaskResultLimitId,
+                    CandidateId = 3
+                },
+                new TaskResult
+                {
+                    Value = 0.5,
+                    TaskResultLimitId = taskResultLimit.Single(t => t.TaskResultLimitId == 5).TaskResultLimitId,
+                    CandidateId = 3
+                },
+                new TaskResult
+                {
+                    Value = 1,
+                    TaskResultLimitId = taskResultLimit.Single(t => t.TaskResultLimitId == 4).TaskResultLimitId,
+                    CandidateId = 3
+                },
+                //Candidate 6
+                new TaskResult
+                {
+                    Value = 3,
+                    TaskResultLimitId = taskResultLimit.Single(t => t.TaskResultLimitId == 9).TaskResultLimitId,
+                    CandidateId = 6
+                },
+                new TaskResult
+                {
+                    Value = 2,
+                    TaskResultLimitId = taskResultLimit.Single(t => t.TaskResultLimitId == 8).TaskResultLimitId,
+                    CandidateId = 6
+                },
+                new TaskResult
+                {
+                    Value = 1,
+                    TaskResultLimitId = taskResultLimit.Single(t => t.TaskResultLimitId == 7).TaskResultLimitId,
+                    CandidateId = 6
+                },
+                new TaskResult
+                {
+                    Value = 1,
+                    TaskResultLimitId = taskResultLimit.Single(t => t.TaskResultLimitId == 6).TaskResultLimitId,
+                    CandidateId = 6
+                },
+                new TaskResult
+                {
+                    Value = 1,
+                    TaskResultLimitId = taskResultLimit.Single(t => t.TaskResultLimitId == 5).TaskResultLimitId,
+                    CandidateId = 6
+                },
+                new TaskResult
+                {
+                    Value = 1,
+                    TaskResultLimitId = taskResultLimit.Single(t => t.TaskResultLimitId == 4).TaskResultLimitId,
+                    CandidateId = 6
+                },
+                new TaskResult
+                {
+                    Value = 1,
+                    TaskResultLimitId = taskResultLimit.Single(t => t.TaskResultLimitId == 3).TaskResultLimitId,
+                    CandidateId = 6
+                },
+                new TaskResult
+                {
+                    Value = 1,
+                    TaskResultLimitId = taskResultLimit.Single(t => t.TaskResultLimitId == 2).TaskResultLimitId,
+                    CandidateId = 6
+                },
+                new TaskResult
+                {
+                    Value = 1,
+                    TaskResultLimitId = taskResultLimit.Single(t => t.TaskResultLimitId == 1).TaskResultLimitId,
+                    CandidateId = 6
+                },
+                new TaskResult
+                {
+                    Value = 1,
+                    TaskResultLimitId = taskResultLimit.Single(t => t.TaskResultLimitId == 10).TaskResultLimitId,
+                    CandidateId = 6
+                },
+            };
+
+            foreach (TaskResult taskResult in taskResults)
+            {
+                context.TaskResult.Add(taskResult);
+            }
+            context.SaveChanges();
+
+            //Kandidato pokalbio rezultatų užpildymas
+            var interviewResults = new InterviewResult[]
+           {
+                new InterviewResult
+                {
+                    GeneralComment = "Pasirodė gerai. Galima imti.",
+                    Value = 8,
+                    CandidateId = 1
+                },
+                new InterviewResult
+                {
+                    GeneralComment = "Pasirodė nelabai. ???",
+                    Value = 3,
+                    CandidateId = 3
+                }
+           };
+
+            foreach (InterviewResult interviewResult in interviewResults)
+            {
+                context.InterviewResults.Add(interviewResult);
+            }
+            context.SaveChanges();
+
+            //Kandidato pokalbio klausimyno rezultatų užpildymas
+            var interviewQuestionsAnswers = new InterviewQuestionsAnswers[]
+           {
+               //Rytis Bendorius
+                new InterviewQuestionsAnswers
+                {
+                    CandidateID = 1,
+                    Comment = "Good.",
+                    InterviewTaskID = context.InterviewTasks.Single(i=>i.InterviewTaskID == 1).InterviewTaskID
+                },
+                new InterviewQuestionsAnswers
+                {
+                    CandidateID = 1,
+                    Comment = "Taip",
+                    InterviewTaskID = context.InterviewTasks.Single(i=>i.InterviewTaskID == 8).InterviewTaskID
+                },
+                new InterviewQuestionsAnswers
+                {
+                    CandidateID = 1,
+                    Comment = "Ne",
+                    InterviewTaskID = context.InterviewTasks.Single(i=>i.InterviewTaskID == 7).InterviewTaskID
+                },
+                new InterviewQuestionsAnswers
+                {
+                    CandidateID = 1,
+                    Comment = "",
+                    InterviewTaskID = context.InterviewTasks.Single(i=>i.InterviewTaskID == 6).InterviewTaskID
+                },
+                new InterviewQuestionsAnswers
+                {
+                    CandidateID = 1,
+                    Comment = "",
+                    InterviewTaskID = context.InterviewTasks.Single(i=>i.InterviewTaskID == 5).InterviewTaskID
+                },
+                new InterviewQuestionsAnswers
+                {
+                    CandidateID = 1,
+                    Comment = "Dirbti programuotoju",
+                    InterviewTaskID = context.InterviewTasks.Single(i=>i.InterviewTaskID == 4).InterviewTaskID
+                },
+                new InterviewQuestionsAnswers
+                {
+                    CandidateID = 1,
+                    Comment = "Žinių",
+                    InterviewTaskID = context.InterviewTasks.Single(i=>i.InterviewTaskID == 3).InterviewTaskID
+                },
+                new InterviewQuestionsAnswers
+                {
+                    CandidateID = 1,
+                    Comment = "Programavimas",
+                    InterviewTaskID = context.InterviewTasks.Single(i=>i.InterviewTaskID == 2).InterviewTaskID
+                },
+                new InterviewQuestionsAnswers
+                {
+                    CandidateID = 1,
+                    Comment = "Dirba pusę etato. ",
+                    InterviewTaskID = context.InterviewTasks.Single(i=>i.InterviewTaskID == 1).InterviewTaskID
+                },
+
+                //Lina Krulienė
+                new InterviewQuestionsAnswers
+                {
+                    CandidateID = 3,
+                    Comment = "A long time ago...",
+                    InterviewTaskID = context.InterviewTasks.Single(i=>i.InterviewTaskID == 9).InterviewTaskID
+                },
+                new InterviewQuestionsAnswers
+                {
+                    CandidateID = 3,
+                    Comment = "Bijojau kaip velnio.",
+                    InterviewTaskID = context.InterviewTasks.Single(i=>i.InterviewTaskID == 8).InterviewTaskID
+                },
+                new InterviewQuestionsAnswers
+                {
+                    CandidateID = 3,
+                    Comment = "Taip",
+                    InterviewTaskID = context.InterviewTasks.Single(i=>i.InterviewTaskID == 7).InterviewTaskID
+                },
+                new InterviewQuestionsAnswers
+                {
+                    CandidateID = 3,
+                    Comment = "Pokemonai",
+                    InterviewTaskID = context.InterviewTasks.Single(i=>i.InterviewTaskID == 6).InterviewTaskID
+                },
+                new InterviewQuestionsAnswers
+                {
+                    CandidateID = 3,
+                    Comment = "Galima į valias prisižaisti žaidimų",
+                    InterviewTaskID = context.InterviewTasks.Single(i=>i.InterviewTaskID == 5).InterviewTaskID
+                },
+                new InterviewQuestionsAnswers
+                {
+                    CandidateID = 3,
+                    Comment = "Gaudyti testus",
+                    InterviewTaskID = context.InterviewTasks.Single(i=>i.InterviewTaskID == 4).InterviewTaskID
+                },
+                new InterviewQuestionsAnswers
+                {
+                    CandidateID = 3,
+                    Comment = "Išmokins gerai testuoti žaidimus",
+                    InterviewTaskID = context.InterviewTasks.Single(i=>i.InterviewTaskID == 3).InterviewTaskID
+                },
+                new InterviewQuestionsAnswers
+                {
+                    CandidateID = 3,
+                    Comment = "Žaidimai",
+                    InterviewTaskID = context.InterviewTasks.Single(i=>i.InterviewTaskID == 2).InterviewTaskID
+                },
+                new InterviewQuestionsAnswers
+                {
+                    CandidateID = 3,
+                    Comment = "Kelios kėdės geriu nei viena",
+                    InterviewTaskID = context.InterviewTasks.Single(i=>i.InterviewTaskID == 1).InterviewTaskID
+                }
+           };
+
+            foreach (InterviewQuestionsAnswers interviewQuestionAnswer in interviewQuestionsAnswers)
+            {
+                context.InterviewQuestionsAnswers.Add(interviewQuestionAnswer);
             }
             context.SaveChanges();
         }
