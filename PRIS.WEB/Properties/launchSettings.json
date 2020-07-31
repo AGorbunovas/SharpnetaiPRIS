@@ -1,9 +1,9 @@
-﻿{
+{
   "iisSettings": {
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://localhost:50105",
+      "applicationUrl": "http://localhost:4554",
       "sslPort": 44323
     }
   },
@@ -18,27 +18,10 @@
     "PRIS.WEB": {
       "commandName": "Project",
       "launchBrowser": true,
-      "applicationUrl": "https://localhost:5001;http://localhost:5000",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
-      }
+      },
+      "applicationUrl": "https://localhost:5001;http://localhost:5000"
     }
-  },
-  //"profiles": {
-  //  "IIS Express": {
-  //    "commandName": "IISExpress",
-  //    "launchBrowser": true,
-  //    "environmentVariables": {
-  //      "ASPNETCORE_ENVIRONMENT": "Production"
-  //    }
-  //  },
-  //  "PRIS.WEB": {
-  //    "commandName": "Project",
-  //    "launchBrowser": true,
-  //    "applicationUrl": "https://localhost:5001;http://localhost:5000",
-  //    "environmentVariables": {
-  //      "ASPNETCORE_ENVIRONMENT": "Production"
-  //    }
-  //  }
-  //}
+  }
 }

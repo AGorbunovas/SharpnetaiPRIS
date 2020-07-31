@@ -45,6 +45,12 @@ namespace PRIS.WEB.Controllers
                 ModelState.AddModelError(string.Empty, "Data negali būti ankstesnė negu šiandiena");
             }
 
+            //var dateOfTestCheckWithAcademicYearStartDayInteger = model.AcademicYear.AcademicYearStart.CompareTo(model.DateOfTest);
+            //if (dateOfTestCheckWithAcademicYearStartDayInteger == 1)
+            //{
+            //    ModelState.AddModelError(string.Empty, "Testo įvykis turi būti anksčiau nei prasideda mokslo metai");
+            //}
+
             if (ModelState.IsValid)
             {
                 City city = _context.Cities.FirstOrDefault(x => x.CityName == model.CityName);

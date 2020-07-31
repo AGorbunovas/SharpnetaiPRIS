@@ -26,25 +26,29 @@
     <fieldset class="form-group">
         <label asp-for="Firstname"></label>
         <input asp-for="Firstname" class="form-control" />
-        <span @*asp-validation-for="Firstname"*@ class="text-danger"></span>
+        <b class="text-danger">*</b>
+        <span asp-validation-for="Firstname" class="text-danger">Šis laukas yra privalomas!</span>
     </fieldset>
 
     <fieldset class="form-group">
         <label asp-for="Lastname"></label>
         <input asp-for="Lastname" class="form-control" />
-        <span @*asp-validation-for="Lastname"*@ class="text-danger"></span>
+        <b class="text-danger">*</b>
+        <span asp-validation-for="Lastname" class="text-danger">Šis laukas yra privalomas!</span>
     </fieldset>
 
     <fieldset class="form-group">
         <label asp-for="Email"></label>
         <input asp-for="Email" class="form-control" placeholder="vardas@pastas.lt" />
-        <span @*asp-validation-for="Email"*@ class="text-danger"></span>
+        <b class="text-danger">*</b>
+        <span asp-validation-for="Email" class="text-danger">Šis laukas yra privalomas!</span>
     </fieldset>
 
     <fieldset class="form-group">
         <label asp-for="Phone"></label>
         <input asp-for="Phone" class="form-control" placeholder="86xxxxxxx" />
-        <span @*asp-validation-for="Phone"*@ class="text-danger"></span>
+        <b class="text-danger">*</b>
+        <span asp-validation-for="Phone" class="text-danger">Šis laukas yra privalomas!</span>
     </fieldset>
 
     <fieldset class="form-group">
