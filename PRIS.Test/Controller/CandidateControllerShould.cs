@@ -62,7 +62,7 @@ namespace PRIS.Test.Controller
             RedirectToActionResult viewResult = Assert.IsType<RedirectToActionResult>(result);
 
             var ActionName = viewResult.ActionName;
-            Assert.Equal("List", ActionName);
+            Assert.Equal("CandidateList", ActionName);
 
             var candidateExists = _context.Candidates.FirstOrDefault(x => x.CandidateID == 1);
             Assert.Null(candidateExists);
@@ -99,7 +99,7 @@ namespace PRIS.Test.Controller
             _context.SaveChanges();
 
             //Act
-            IActionResult result = _sut.List("Vilnius");
+            IActionResult result = _sut.CandidateList("Vilnius");
             ViewResult viewResult = Assert.IsType<ViewResult>(result);
             List<ListCandidateViewModel> test = viewResult.ViewData.Model as List<ListCandidateViewModel>;
 
@@ -123,7 +123,7 @@ namespace PRIS.Test.Controller
             _context.SaveChanges();
 
             //Act
-            IActionResult result = _sut.List("Vilnius");
+            IActionResult result = _sut.CandidateList("Vilnius");
 
             //Assert
             ViewResult viewResult = Assert.IsType<ViewResult>(result);
@@ -166,7 +166,7 @@ namespace PRIS.Test.Controller
             CreateValidCandidate(_context);
 
             //Act
-            IActionResult result = _sut.List(City);
+            IActionResult result = _sut.CandidateList(City);
 
             //Assert
             ViewResult viewResult = Assert.IsType<ViewResult>(result);

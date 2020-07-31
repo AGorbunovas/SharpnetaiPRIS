@@ -1,15 +1,18 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Extensions.Hosting.Internal;
 using PRIS.WEB.Data;
 using PRIS.WEB.Data.Models;
 using PRIS.WEB.Models;
-using PRIS.WEB.ViewModels.CandidateViewModels;
 using PRIS.WEB.ViewModels.ContractViewModule;
+using System.Web;
+using CsvHelper;
+using System.Collections;
+using System.Text;
 
 namespace PRIS.WEB.Controllers
 {
@@ -131,7 +134,8 @@ namespace PRIS.WEB.Controllers
                         _context.Contracts.Remove(contractToDelete);
                         _context.SaveChanges();
                     }
-                } else
+                }
+                else
                 {
                     DateTime timeStamp = DateTime.Now;
                     if (_context.Contracts.Any(c => c.CandidateID == item.CandidateID) == false)
@@ -181,5 +185,6 @@ namespace PRIS.WEB.Controllers
             }
             return candidateByModule;
         }
+
     }
 }

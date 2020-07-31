@@ -18,7 +18,10 @@ namespace PRIS.WEB.Views.Shared
         public static string InterviewTaskList => "InterviewTaskList";
         public static string AcademicYear => "AcademicYear";
         public static string Interview => "Interview";
-        public static string Contract => "Contract";
+        public static string Contracts => "Contracts";
+        public static string ContractsSigned => "ContractsSigned";
+        public static string Candidate => "Candidate";
+        public static string CandidateList => "CandidateList";
 
 
         public static string CityNavClass(ViewContext viewContext) => PageNavClass(viewContext, City);
@@ -30,7 +33,10 @@ namespace PRIS.WEB.Views.Shared
         public static string InterviewTaskNavClass(ViewContext viewContext) => PageNavClass(viewContext, InterviewTaskList);
         public static string AcademicYearNavClass(ViewContext viewContext) => PageNavClass(viewContext, AcademicYear);
         public static string InterviewNavClass(ViewContext viewContext) => PageNavClass(viewContext, Interview);
-        public static string ContractNavClass(ViewContext viewContext) => PageNavClass(viewContext, Contract);
+        public static string ContractNavClass(ViewContext viewContext) => PageNavClass(viewContext, Contracts);
+        public static string ContractsSignedNavClass(ViewContext viewContext) => PageNavClass(viewContext, ContractsSigned);
+        public static string CandidateNavClass(ViewContext viewContext) => PageNavClass(viewContext, Candidate);
+        public static string CandidateListNavClass(ViewContext viewContext) => PageNavClass(viewContext, CandidateList);
 
         private static string PageNavClass(ViewContext viewContext, string page)
         {

@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewData["Title"] = "_LayoutNavSectionForContract";
+    ViewData["Title"] = "Sutartys";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -9,10 +9,8 @@
     <div class="row">
         <div class="col-md-3">
             <ul class="nav nav-pills flex-column">
-                <li class="nav-item"><a class="nav-link @PRIS.WEB.Views.Shared.ManageCollumnNavPages.ContractNavClass(ViewContext)" id="Contract" href="/Contract/Contracts">Kandidatų parinkimas</a></li>
-            </ul>
-            <ul class="nav nav-pills flex-column">
-                <li class="nav-item"><a class="nav-link @PRIS.WEB.Views.Shared.ManageCollumnNavPages.ContractNavClass(ViewContext)" id="ContractSigned" href="/Contract/ContractsSigned">Sutarčių pasirašymas</a></li>
+                <li class="nav-item"><a class="nav-link @PRIS.WEB.Views.Shared.ManageCollumnNavPages.ContractNavClass(ViewContext)" id="Contracts" href="/Contract/Contracts">Kandidatų parinkimas</a></li>
+                <li class="nav-item"><a class="nav-link @PRIS.WEB.Views.Shared.ManageCollumnNavPages.ContractsSignedNavClass(ViewContext)" id="ContractsSigned" href="/Contract/ContractsSigned">Sutarčių pasirašymas</a></li>
             </ul>
         </div>
         <div class="col-md-9">

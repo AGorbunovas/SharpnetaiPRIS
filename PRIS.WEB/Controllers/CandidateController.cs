@@ -55,7 +55,7 @@ namespace PRIS.WEB.Controllers
             return View("Candidate", viewModel);
         }
 
-        public IActionResult List(string City)
+        public IActionResult CandidateList(string City) 
         {
             var newestTest = new List<int>();
 
@@ -99,14 +99,14 @@ namespace PRIS.WEB.Controllers
         }
 
         [HttpPost]
-        public IActionResult List(IEnumerable<ListCandidateViewModel> model)
+        public IActionResult CandidateList(IEnumerable<ListCandidateViewModel> model)
         {
             foreach (var item in model)
             {
                 if (!_context.TaskResult.Any(x => x.CandidateId == item.CandidateID) && item.InvitedToInterview == true)
                 {
                     TempData["NotAllCandidatesHaveTastResultsBeforeInvitingToInterview"] = $"Negalima kviesti kandidatų į pokalbį, jei nėra įvesti testo balai";
-                    return RedirectToAction("List");
+                    return RedirectToAction("CandidateList");
                 }
             }
 
@@ -118,7 +118,7 @@ namespace PRIS.WEB.Controllers
                 _context.SaveChanges();
             }
             TempData["CandidateInvitedToInterviewUpdated"] = "Kandidatai pokalbiui patvirtinti";
-            return RedirectToAction("List");
+            return RedirectToAction("CandidateList");
         }
 
         [HttpPost("Candidate/Edit/{id}")]
@@ -163,7 +163,7 @@ namespace PRIS.WEB.Controllers
                 }
 
                 _context.SaveChanges();
-                return RedirectToAction("List");
+                return RedirectToAction("CandidateList");
             }
 
             AddCandidateViewModel viewModel = GetViewModelWithModulesList(model);
@@ -204,7 +204,7 @@ namespace PRIS.WEB.Controllers
                 _context.Candidates.Add(newRecord);
                 _context.SaveChanges();
 
-                return RedirectToAction("List");
+                return RedirectToAction("CandidateList");
             }
 
             return View(viewModel);
@@ -220,7 +220,7 @@ namespace PRIS.WEB.Controllers
             if (candidate == null || candidate.InvitedToInterview == true)
             {
 
-                return RedirectToAction("List");
+                return RedirectToAction("CandidateList");
             }
 
             model.Candidate = candidate;
@@ -285,7 +285,7 @@ namespace PRIS.WEB.Controllers
                 _candidateTestResultProcessor.SaveInitialCandidateResults(model, currentTestResultLimits, _context);
             }
 
-            return RedirectToAction("List");
+            return RedirectToAction("CandidateList");
         }
 
 

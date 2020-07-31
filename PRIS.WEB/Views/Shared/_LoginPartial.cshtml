@@ -1,4 +1,5 @@
-﻿@using Microsoft.AspNetCore.Identity
+﻿@using Microsoft.AspNetCore.Identity;
+
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
 
@@ -8,22 +9,22 @@
 
     <ul class="navbar-nav navbar-expand-md">
         <li class="nav-item">
-            <a class="nav-link text-light float-right" asp-area="" asp-controller="Home" asp-action="Index">PRADŽIA</a>
+            <a class="nav-link text-light float-right" asp-controller="Home" asp-action="Index">PRADŽIA</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link text-light float-right" asp-area="" asp-controller="Test" asp-action="Test">TESTAS</a>
+            <a class="nav-link text-light float-right" asp-controller="Test" asp-action="List">TESTAS</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link text-light float-right" asp-area="" asp-controller="Candidate" asp-action="List">KANDIDATAI</a>
+            <a class="nav-link text-light float-right" asp-controller="Candidate" asp-action="CandidateList">KANDIDATAI</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link text-light float-right" asp-area="" asp-controller="Interview" asp-action="Interviews">POKALBIAI</a>
+            <a class="nav-link text-light float-right" asp-controller="Interview" asp-action="Interviews">POKALBIAI</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link text-light float-right" asp-area="" asp-controller="Contract" asp-action="Contracts">SUTARTYS</a>
+            <a class="nav-link text-light float-right" asp-controller="Contract" asp-action="Contracts">SUTARTYS</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link text-light float-right" asp-area="" asp-controller="Settings" asp-action="Settings">NUSTATYMAI</a>
+            <a class="nav-link text-light float-right" asp-controller="Settings" asp-action="Settings">NUSTATYMAI</a>
         </li>
 
         @if (User.IsInRole("Admin"))

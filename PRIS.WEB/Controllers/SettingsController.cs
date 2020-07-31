@@ -20,12 +20,10 @@ namespace PRIS.WEB.Controllers
     [Authorize]
     public class SettingsController : Controller
     {
-        private readonly ILogger<SettingsController> _logger;
         private readonly ApplicationDbContext _context;
 
-        public SettingsController(ILogger<SettingsController> logger, ApplicationDbContext context)
+        public SettingsController(ApplicationDbContext context)
         {
-            _logger = logger;
             _context = context;
         }
 
